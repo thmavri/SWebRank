@@ -78,7 +78,7 @@ public class Main {
             List<Double> LSHrankSettings=null;
             
             //-----------------output directory-----------------
-            String output_parent_directory="//home//themis//outputs_phd_test//";
+            String output_parent_directory="//home//themis//outputs_phd_test_db//";
             //------(string)directory is going to be used later-----
             String output_child_directory;
             //-------we get all the paths of the txt (input) files from the input directory-------
