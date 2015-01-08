@@ -346,496 +346,483 @@ public class Search_analysis {
                         //System.out.println("I am back into search analysis");
                         if(htm.checkconn(links_total[j])){
                             nlinks=htm.getnlinks(links_total[j]);
+                            cell   = rowA.createCell(5);
+                            cell.setCellValue(nlinks[0]);
                             stmt = conn.prepareStatement("INSERT INTO STATS(number_links) VALUES(?)");
                             stmt.setInt(1,nlinks[0]);
                             stmt.executeUpdate();
+                            cell   = rowA.createCell(6);
+                            cell.setCellValue(nlinks[0]-nlinks[1]);
                             stmt = conn.prepareStatement("INSERT INTO STATS(external_links) VALUES(?)");
                             stmt.setInt(1,nlinks[0]-nlinks[1]);
                             stmt.executeUpdate();
+                            cell   = rowA.createCell(7);
+                            cell.setCellValue(nlinks[1]);
                             stmt = conn.prepareStatement("INSERT INTO STATS(internal_links) VALUES(?)");
                             stmt.setInt(1,nlinks[1]);
                             stmt.executeUpdate();
-                            stmt = conn.prepareStatement("INSERT INTO STATS(number_links) VALUES(?)");
-                            stmt.setInt(1,nlinks[0]);
-                            stmt.executeUpdate();
                             boolean flags_new=htm.gethtmlstats(links_total[j]);
+                            int ntriples=striple.getsindicestats(links_total[j]);
+                            cell   = rowA.createCell(4);
+                            cell.setCellValue(ntriples);
+                            stmt = conn.prepareStatement("INSERT INTO STATS(total_semantic_triples) VALUES(?)");
+                            stmt.setInt(1,ntriples);
+                            stmt.executeUpdate();
+                            if(striple.namespaces[0]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/vocab/bio/0.1/) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[1]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/dc/elements/1.1/) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[2]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/coo/n) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[3]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://web.resource.org/cc/) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[4]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://diligentarguont.ontoware.org/2005/10/arguonto) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[5]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://usefulinc.com/ns/doap) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[6]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://xmlns.com/foaf/0.1/) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[7]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/goodrelations/) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[8]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/muto/core) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[9]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://webns.net/mvcb/) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[10]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/ontology/mo/) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[11]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/innovation/ns) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[12]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://openguid.net/rdf) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[13]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://www.slamka.cz/ontologies/diagnostika.owl) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[14]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/ontology/po/) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[15]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/net/provenance/ns) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[16]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/rss/1.0/modules/syndication) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[17]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://rdfs.org/sioc/ns) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+
+                            if(striple.namespaces[18]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://madskills.com/public/xml/rss/module/trackback/) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+
+                            if(striple.namespaces[19]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://rdfs.org/ns/void) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+
+                            if(striple.namespaces[20]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://www.fzi.de/2008/wise/) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+
+                            if(striple.namespaces[21]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://xmlns.com/wot/0.1) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+
+                            if(striple.namespaces[22]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://www.w3.org/1999/02/22-rdf-syntax-ns) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+
+                            if(striple.namespaces[23]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(rdf-schema) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+
+                            if(striple.namespaces[24]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(XMLschema) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+
+                            if(striple.namespaces[25]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(OWL) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+
+                            if(striple.namespaces[26]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/dc/terms/) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+
+                            if(striple.namespaces[27]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(VCARD) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+
+                            if(striple.namespaces[28]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://www.geonames.org/ontology) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[29]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://search.yahoo.com/searchmonkey/commerce/) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[30]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://search.yahoo.com/searchmonkey/media/) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[31]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://cb.semsol.org/ns#) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[32]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://blogs.yandex.ru/schema/foaf/) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[33]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://www.w3.org/2003/01/geo/wgs84_pos#) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[34]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://rdfs.org/sioc/ns#) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[35]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://rdfs.org/sioc/types#) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[36]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://smw.ontoware.org/2005/smw#) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[37]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/rss/1.0/) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[38]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://www.w3.org/2004/12/q/contentlabel#) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            if(striple.namespaces[39]=true){
+                                stmt = conn.prepareStatement("INSERT INTO STATS(http://www.w3.org/2004/12/q/contentlabel#) VALUES(?)");
+                                stmt.setBoolean(1,true);
+                                stmt.executeUpdate();
+                            }
+                            cell   = rowA.createCell(17);
+                            cell.setCellValue(j);
+                            stmt = conn.prepareStatement("INSERT INTO STATS(search_engine) VALUES(?)");
+                            stmt.setInt(1,j);
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(18);
+                            cell.setCellValue(quer);
+                            stmt = conn.prepareStatement("INSERT INTO STATS(query) VALUES(?)");
+                            stmt.setString(1,quer);
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(19);
+                            cell.setCellValue(LSHrankSettings.get(1));
+                            stmt = conn.prepareStatement("INSERT INTO STATS(nTopics) VALUES(?)");
+                            stmt.setInt(1,LSHrankSettings.get(1).intValue());
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(20);
+                            cell.setCellValue(alpha);
+                            stmt = conn.prepareStatement("INSERT INTO STATS(alpha) VALUES(?)");
+                            stmt.setDouble(1,alpha);
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(21);
+                            cell.setCellValue(LSHrankSettings.get(0));
+                            stmt = conn.prepareStatement("INSERT INTO STATS(beta) VALUES(?)");
+                            stmt.setDouble(1,LSHrankSettings.get(0));
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(22);
+                            cell.setCellValue(LSHrankSettings.get(2));
+                            stmt = conn.prepareStatement("INSERT INTO STATS(niters) VALUES(?)");
+                            stmt.setInt(1,LSHrankSettings.get(2).intValue());
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(23);
+                            cell.setCellValue(LSHrankSettings.get(3));
+                            stmt = conn.prepareStatement("INSERT INTO STATS(prob_threshold) VALUES(?)");
+                            stmt.setDouble(1,LSHrankSettings.get(3));
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(24);
+                            cell.setCellValue(mozMetrics.get(0));
+                            stmt = conn.prepareStatement("INSERT INTO STATS(moz) VALUES(?)");
+                            stmt.setBoolean(1,mozMetrics.get(0));
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(25);
+                            cell.setCellValue(top_count_moz);
+                            stmt = conn.prepareStatement("INSERT INTO STATS(top_count_moz) VALUES(?)");
+                            stmt.setInt(1,top_count_moz);
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(26);
+                            cell.setCellValue(moz_threshold);
+                            stmt = conn.prepareStatement("INSERT INTO STATS(moz_threshold) VALUES(?)");
+                            stmt.setDouble(1,moz_threshold);
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(27);
+                            cell.setCellValue(moz_threshold_option);
+                            stmt = conn.prepareStatement("INSERT INTO STATS(moz_threshold_option) VALUES(?)");
+                            stmt.setBoolean(1,moz_threshold_option);
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(28);
+                            cell.setCellValue(top_visible);
+                            stmt = conn.prepareStatement("INSERT INTO STATS(top_visible) VALUES(?)");
+                            stmt.setInt(1,top_visible);
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(29);
+                            cell.setCellValue(mozMetrics.get(1));
+                            stmt = conn.prepareStatement("INSERT INTO STATS(Domain_Authority) VALUES(?)");
+                            stmt.setBoolean(1,mozMetrics.get(1));
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(30);
+                            cell.setCellValue(mozMetrics.get(2));
+                            stmt = conn.prepareStatement("INSERT INTO STATS(External_MozRank) VALUES(?)");
+                            stmt.setBoolean(1,mozMetrics.get(2));
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(31);
+                            cell.setCellValue(mozMetrics.get(3));
+                             stmt = conn.prepareStatement("INSERT INTO STATS(MozRank) VALUES(?)");
+                            stmt.setBoolean(1,mozMetrics.get(3));
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(32);
+                            cell.setCellValue(mozMetrics.get(4));
+                             stmt = conn.prepareStatement("INSERT INTO STATS(MozTrust) VALUES(?)");
+                            stmt.setBoolean(1,mozMetrics.get(4));
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(33);
+                            cell.setCellValue(mozMetrics.get(5));
+                            stmt = conn.prepareStatement("INSERT INTO STATS(Page_Authority) VALUES(?)");
+                            stmt.setBoolean(1,mozMetrics.get(5));
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(34);
+                            cell.setCellValue(mozMetrics.get(6));
+                            stmt = conn.prepareStatement("INSERT INTO STATS(Subdomain_mozRank) VALUES(?)");
+                            stmt.setBoolean(1,mozMetrics.get(6));
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(35);
+                            cell.setCellValue(enginechoice.get(3));
+                            stmt = conn.prepareStatement("INSERT INTO STATS(merged) VALUES(?)");
+                            stmt.setBoolean(1,enginechoice.get(3));
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(36);
+                            cell.setCellValue(results_number);
+                            stmt = conn.prepareStatement("INSERT INTO STATS(results_number) VALUES(?)");
+                            stmt.setInt(1,results_number);
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(37);
+                            cell.setCellValue(ContentSemantics.get(0));
+                            stmt = conn.prepareStatement("INSERT INTO STATS(Diffbotflag) VALUES(?)");
+                            stmt.setBoolean(1,ContentSemantics.get(0));
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(38);
+                            cell.setCellValue(ContentSemantics.get(1));
+                            stmt = conn.prepareStatement("INSERT INTO STATS(LDAflag) VALUES(?)");
+                            stmt.setBoolean(1,ContentSemantics.get(1));
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(39);
+                            cell.setCellValue(ContentSemantics.get(2));
+                            stmt = conn.prepareStatement("INSERT INTO STATS(Sensebotflag) VALUES(?)");
+                            stmt.setBoolean(1,ContentSemantics.get(2));
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(40);
+                            cell.setCellValue(ContentSemantics.get(3));
+                            stmt = conn.prepareStatement("INSERT INTO STATS(TFIDFflag) VALUES(?)");
+                            stmt.setBoolean(1,ContentSemantics.get(3));
+                            stmt.executeUpdate();
+                            cell   = rowA.createCell(41);
+                            cell.setCellValue(SensebotConcepts);
+                            stmt = conn.prepareStatement("INSERT INTO STATS(SensebotConcepts) VALUES(?)");
+                            stmt.setInt(1,SensebotConcepts);
+                            stmt.executeUpdate();
+                            catentities=yec.connect(links_total[j],quer);
+                            for(int okk=0;okk<catentities.length;okk++){
+                                if(!(catentities[okk].isEmpty())){
+                                    DataManipulation txtpro = new  DataManipulation();
+                                    Stopwords st = new Stopwords();
+                                    catentities[okk]=txtpro.removeChars(catentities[okk]);
+                                    catentities[okk]=st.stop(catentities[okk]);
+                                    catentities[okk]=txtpro.removeChars(catentities[okk]);
+                                }
+                               total_catent[j][1]=total_catent[j][1]+catentities[okk];
+                            }
+                            total_catent[j][0]=links_total[j];
+                            int cat_cnt=yec.GetCatQuerCnt();
+                            int ent_cnt=yec.GetEntQuerCnt();
+                            stmt = conn.prepareStatement("INSERT INTO STATS(Categories_Contained_Query) VALUES(?)");
+                            stmt.setInt(1,cat_cnt);
+                            stmt.executeUpdate();
+                            stmt = conn.prepareStatement("INSERT INTO STATS(Entities_Contained_Query) VALUES(?)");
+                            stmt.setInt(1,ent_cnt);
+                            stmt.executeUpdate();
                             if(flags_new){
                                 System.out.println("I got the html stats for the "+j+" link:"+links_total[j]+"\n"); 
                                 int iframes_number = htm.frames_number;
+                                int number_embeded_vid = htm.number_embeded_videos;
+                                int nauthority=0;
+                                int scripts_cnt = htm.scripts_number;
+                                int nschem=htm.nschem;
+                                int hcardsn=htm.hcardsn;
+                                int hcalen=htm.hcalen;
+                                int hrevn=htm.hrevn;
+                                int hevenn=htm.hevenn;
+                                int haddrn=htm.haddrn;
+                                int hgeon=htm.hgeon;
+                                int hreln=htm.hreln;
+                                int total_micron=htm.total_micron;
+                                int micron1=htm.micron1;
+                                int micron2=htm.micron2;
+                                int microd=htm.microd;
+                                cell   = rowA.createCell(1);
+                                cell.setCellValue(iframes_number);
                                 stmt = conn.prepareStatement("INSERT INTO STATS(iframes) VALUES(?)");
                                 stmt.setInt(1,iframes_number);
                                 stmt.executeUpdate();
-                                //int links_number_int = headless.get_links_number_int();
-                                int number_embeded_vid = htm.number_embeded_videos;
+                                cell   = rowA.createCell(2);
+                                cell.setCellValue(number_embeded_vid);
                                 stmt = conn.prepareStatement("INSERT INTO STATS(number_embeded_vids) VALUES(?)");
                                 stmt.setInt(1,number_embeded_vid);
                                 stmt.executeUpdate();
-                                //**************
-                                int nauthority=0;
-                                //*********************
-                                //int redirect_links_number = headless.get_redirect_links_number();
-                                int scripts_cnt = htm.scripts_number;
+                                cell   = rowA.createCell(3);
+                                cell.setCellValue(scripts_cnt);
                                 stmt = conn.prepareStatement("INSERT INTO STATS(scripts_cnt) VALUES(?)");
                                 stmt.setInt(1,scripts_cnt);
                                 stmt.executeUpdate();
-                                int ntriples=striple.getsindicestats(links_total[j]);
-                               
-                                int nschem=htm.nschem;
+                                cell   = rowA.createCell(8);
+                                cell.setCellValue(nschem);
                                 stmt = conn.prepareStatement("INSERT INTO STATS(schema.org_entities) VALUES(?)");
                                 stmt.setInt(1,nschem);
                                 stmt.executeUpdate();
-                                int hcardsn=htm.hcardsn;
+                                cell   = rowA.createCell(9);
+                                cell.setCellValue(hcardsn);
                                 stmt = conn.prepareStatement("INSERT INTO STATS(hcards) VALUES(?)");
                                 stmt.setInt(1,hcardsn);
                                 stmt.executeUpdate();
-                                int hcalen=htm.hcalen;
+                                cell   = rowA.createCell(10);
+                                cell.setCellValue(hcalen);
                                 stmt = conn.prepareStatement("INSERT INTO STATS(hcalendars) VALUES(?)");
                                 stmt.setInt(1,hcalen);
                                 stmt.executeUpdate();
-                                int hrevn=htm.hrevn;
+                                cell   = rowA.createCell(11);
+                                cell.setCellValue(hrevn);
                                 stmt = conn.prepareStatement("INSERT INTO STATS(hreviews) VALUES(?)");
                                 stmt.setInt(1,hrevn);
                                 stmt.executeUpdate();
-                                int hevenn=htm.hevenn;
+                                cell   = rowA.createCell(12);
+                                cell.setCellValue(hevenn);
                                 stmt = conn.prepareStatement("INSERT INTO STATS(hevents) VALUES(?)");
                                 stmt.setInt(1,hevenn);
                                 stmt.executeUpdate();
-                                int haddrn=htm.haddrn;
+                                cell   = rowA.createCell(13);
+                                cell.setCellValue(haddrn);
                                 stmt = conn.prepareStatement("INSERT INTO STATS(hadresses) VALUES(?)");
                                 stmt.setInt(1,haddrn);
                                 stmt.executeUpdate();
-                                int hgeon=htm.hgeon;
+                                cell   = rowA.createCell(14);
+                                cell.setCellValue(hgeon);
                                 stmt = conn.prepareStatement("INSERT INTO STATS(hgeo) VALUES(?)");
                                 stmt.setInt(1,hgeon);
                                 stmt.executeUpdate();
-                                int hreln=htm.hreln;
+                                cell   = rowA.createCell(15);
+                                cell.setCellValue(hreln);
                                 stmt = conn.prepareStatement("INSERT INTO STATS(hreltags) VALUES(?)");
                                 stmt.setInt(1,hreln);
                                 stmt.executeUpdate();
-                                int total_micron=htm.total_micron;
+                                cell   = rowA.createCell(16);
+                                cell.setCellValue(total_micron);
                                 stmt = conn.prepareStatement("INSERT INTO STATS(total_microformats) VALUES(?)");
                                 stmt.setInt(1,total_micron);
                                 stmt.executeUpdate();
-                                int micron1=htm.micron1;
+                                cell   = rowA.createCell(44);
+                                cell.setCellValue(micron1);
                                 stmt = conn.prepareStatement("INSERT INTO STATS(Microformats-1) VALUES(?)");
                                 stmt.setInt(1,micron1);
                                 stmt.executeUpdate();
-                                int micron2=htm.micron2;
+                                cell   = rowA.createCell(45);
+                                cell.setCellValue(micron2);
                                 stmt = conn.prepareStatement("INSERT INTO STATS(Microformats-2) VALUES(?)");
                                 stmt.setInt(1,micron2);
                                 stmt.executeUpdate();
-                                int microd=htm.microd;
+                                cell   = rowA.createCell(46);
+                                cell.setCellValue(microd);
                                 stmt = conn.prepareStatement("INSERT INTO STATS(Microdata) VALUES(?)");
                                 stmt.setInt(1,microd);
                                 stmt.executeUpdate();
-                                catentities=yec.connect(links_total[j],quer);
-                                for(int okk=0;okk<catentities.length;okk++){
-                                    if(!(catentities[okk].isEmpty())){
-                                        DataManipulation txtpro = new  DataManipulation();
-                                        Stopwords st = new Stopwords();
-                                        catentities[okk]=txtpro.removeChars(catentities[okk]);
-                                        catentities[okk]=st.stop(catentities[okk]);
-                                        catentities[okk]=txtpro.removeChars(catentities[okk]);
-                                    }
-                                   total_catent[j][1]=total_catent[j][1]+catentities[okk];
-                                }
-                                total_catent[j][0]=links_total[j];
-                                int cat_cnt=yec.GetCatQuerCnt();
-                                int ent_cnt=yec.GetEntQuerCnt();
-                                stmt = conn.prepareStatement("INSERT INTO STATS(Categories_Contained_Query) VALUES(?)");
-                                stmt.setInt(1,cat_cnt);
-                                stmt.executeUpdate();
-                                stmt = conn.prepareStatement("INSERT INTO STATS(Entities_Contained_Query) VALUES(?)");
-                                stmt.setInt(1,ent_cnt);
-                                stmt.executeUpdate();
-                                
-                                //System.out.println("I am out of all the headless functions");
-                                //we create all the rows, cells of the .xls file
-                                cell   = rowA.createCell(1);
-                                cell.setCellValue(iframes_number);
-                                cell   = rowA.createCell(2);
-                                cell.setCellValue(number_embeded_vid);
-                                cell   = rowA.createCell(3);
-                                cell.setCellValue(scripts_cnt);
-                                cell   = rowA.createCell(4);
-                                cell.setCellValue(ntriples);
-                                cell   = rowA.createCell(5);
-                                cell.setCellValue(nlinks[0]);
-                                cell   = rowA.createCell(6);
-                                cell.setCellValue(nlinks[0]-nlinks[1]);
-                                cell   = rowA.createCell(7);
-                                cell.setCellValue(nlinks[1]);
-                                cell   = rowA.createCell(8);
-                                cell.setCellValue(nschem);
-                                cell   = rowA.createCell(9);
-                                cell.setCellValue(hcardsn);
-                                cell   = rowA.createCell(10);
-                                cell.setCellValue(hcalen);
-                                cell   = rowA.createCell(11);
-                                cell.setCellValue(hrevn);
-                                cell   = rowA.createCell(12);
-                                cell.setCellValue(hevenn);
-                                cell   = rowA.createCell(13);
-                                cell.setCellValue(haddrn);
-                                cell   = rowA.createCell(14);
-                                cell.setCellValue(hgeon);
-                                cell   = rowA.createCell(15);
-                                cell.setCellValue(hreln);
-                                cell   = rowA.createCell(16);
-                                cell.setCellValue(total_micron);
-                                cell   = rowA.createCell(17);
-                                cell.setCellValue(j);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(search_engine) VALUES(?)");
-                                stmt.setInt(1,j);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(18);
-                                cell.setCellValue(quer);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(query) VALUES(?)");
-                                stmt.setString(1,quer);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(19);
-                                cell.setCellValue(LSHrankSettings.get(1));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(nTopics) VALUES(?)");
-                                stmt.setInt(1,LSHrankSettings.get(1).intValue());
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(20);
-                                cell.setCellValue(alpha);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(alpha) VALUES(?)");
-                                stmt.setDouble(1,alpha);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(21);
-                                cell.setCellValue(LSHrankSettings.get(0));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(beta) VALUES(?)");
-                                stmt.setDouble(1,LSHrankSettings.get(0));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(22);
-                                cell.setCellValue(LSHrankSettings.get(2));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(niters) VALUES(?)");
-                                stmt.setInt(1,LSHrankSettings.get(2).intValue());
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(23);
-                                cell.setCellValue(LSHrankSettings.get(3));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(prob_threshold) VALUES(?)");
-                                stmt.setDouble(1,LSHrankSettings.get(3));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(24);
-                                cell.setCellValue(mozMetrics.get(0));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(moz) VALUES(?)");
-                                stmt.setBoolean(1,mozMetrics.get(0));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(25);
-                                cell.setCellValue(top_count_moz);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(top_count_moz) VALUES(?)");
-                                stmt.setInt(1,top_count_moz);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(26);
-                                cell.setCellValue(moz_threshold);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(moz_threshold) VALUES(?)");
-                                stmt.setDouble(1,moz_threshold);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(27);
-                                cell.setCellValue(moz_threshold_option);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(moz_threshold_option) VALUES(?)");
-                                stmt.setBoolean(1,moz_threshold_option);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(28);
-                                cell.setCellValue(top_visible);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(top_visible) VALUES(?)");
-                                stmt.setInt(1,top_visible);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(29);
-                                cell.setCellValue(mozMetrics.get(1));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(Domain_Authority) VALUES(?)");
-                                stmt.setBoolean(1,mozMetrics.get(1));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(30);
-                                cell.setCellValue(mozMetrics.get(2));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(External_MozRank) VALUES(?)");
-                                stmt.setBoolean(1,mozMetrics.get(2));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(31);
-                                cell.setCellValue(mozMetrics.get(3));
-                                 stmt = conn.prepareStatement("INSERT INTO STATS(MozRank) VALUES(?)");
-                                stmt.setBoolean(1,mozMetrics.get(3));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(32);
-                                cell.setCellValue(mozMetrics.get(4));
-                                 stmt = conn.prepareStatement("INSERT INTO STATS(MozTrust) VALUES(?)");
-                                stmt.setBoolean(1,mozMetrics.get(4));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(33);
-                                cell.setCellValue(mozMetrics.get(5));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(Page_Authority) VALUES(?)");
-                                stmt.setBoolean(1,mozMetrics.get(5));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(34);
-                                cell.setCellValue(mozMetrics.get(6));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(Subdomain_mozRank) VALUES(?)");
-                                stmt.setBoolean(1,mozMetrics.get(6));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(35);
-                                cell.setCellValue(enginechoice.get(3));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(merged) VALUES(?)");
-                                stmt.setBoolean(1,enginechoice.get(3));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(36);
-                                cell.setCellValue(results_number);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(results_number) VALUES(?)");
-                                stmt.setInt(1,results_number);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(37);
-                                cell.setCellValue(ContentSemantics.get(0));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(Diffbotflag) VALUES(?)");
-                                stmt.setBoolean(1,ContentSemantics.get(0));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(38);
-                                cell.setCellValue(ContentSemantics.get(1));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(LDAflag) VALUES(?)");
-                                stmt.setBoolean(1,ContentSemantics.get(1));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(39);
-                                cell.setCellValue(ContentSemantics.get(2));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(Sensebotflag) VALUES(?)");
-                                stmt.setBoolean(1,ContentSemantics.get(2));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(40);
-                                cell.setCellValue(ContentSemantics.get(3));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(TFIDFflag) VALUES(?)");
-                                stmt.setBoolean(1,ContentSemantics.get(3));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(41);
-                                cell.setCellValue(SensebotConcepts);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(SensebotConcepts) VALUES(?)");
-                                stmt.setInt(1,SensebotConcepts);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(42);
-                                cell.setCellValue(cat_cnt);
-                                cell   = rowA.createCell(43);
-                                cell.setCellValue(ent_cnt);
-                                cell   = rowA.createCell(44);
-                                cell.setCellValue(micron1);
-                                cell   = rowA.createCell(45);
-                                cell.setCellValue(micron2);
-                                cell = rowA.createCell(46);
-                                cell.setCellValue(microd);
                                 int cellno=46;
                                 for(int nsi=0;nsi<striple.namespaces.length;nsi++){
                                     cellno=nsi+47;
                                     cell = rowA.createCell(cellno);
                                     cell.setCellValue(striple.namespaces[nsi]);
                                 }
-                                
-                                if(striple.namespaces[0]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/vocab/bio/0.1/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[1]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/dc/elements/1.1/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[2]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/coo/n) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[3]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://web.resource.org/cc/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[4]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://diligentarguont.ontoware.org/2005/10/arguonto) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[5]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://usefulinc.com/ns/doap) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[6]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://xmlns.com/foaf/0.1/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[7]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/goodrelations/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[8]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/muto/core) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[9]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://webns.net/mvcb/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[10]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/ontology/mo/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[11]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/innovation/ns) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[12]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://openguid.net/rdf) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[13]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://www.slamka.cz/ontologies/diagnostika.owl) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[14]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/ontology/po/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[15]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/net/provenance/ns) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[16]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/rss/1.0/modules/syndication) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[17]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://rdfs.org/sioc/ns) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[18]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://madskills.com/public/xml/rss/module/trackback/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[19]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://rdfs.org/ns/void) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[20]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://www.fzi.de/2008/wise/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[21]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://xmlns.com/wot/0.1) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[22]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://www.w3.org/1999/02/22-rdf-syntax-ns) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[23]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(rdf-schema) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[24]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(XMLschema) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[25]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(OWL) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[26]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/dc/terms/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[27]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(VCARD) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[28]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://www.geonames.org/ontology) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[29]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://search.yahoo.com/searchmonkey/commerce/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[30]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://search.yahoo.com/searchmonkey/media/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[31]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://cb.semsol.org/ns#) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[32]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://blogs.yandex.ru/schema/foaf/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[33]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://www.w3.org/2003/01/geo/wgs84_pos#) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[34]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://rdfs.org/sioc/ns#) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[35]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://rdfs.org/sioc/types#) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[36]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://smw.ontoware.org/2005/smw#) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[37]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/rss/1.0/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[38]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://www.w3.org/2004/12/q/contentlabel#) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[39]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://www.w3.org/2004/12/q/contentlabel#) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }                                
                                 cell = rowA.createCell(cellno+1);
                                 cell.setCellValue(htm.foaf);
                                 stmt = conn.prepareStatement("INSERT INTO STATS(FOAF_HTML) VALUES(?)");
@@ -844,47 +831,13 @@ public class Search_analysis {
                                 System.out.println("I created all cells");
                             }
                             else{
-                                int ntriples=striple.getsindicestats(links_total[j]);
-                                catentities=yec.connect(links_total[j],quer);
-                                for(int okk=0;okk<catentities.length;okk++){
-                                    if(!(catentities[okk].isEmpty())){
-                                        DataManipulation txtpro = new DataManipulation();
-                                        Stopwords st = new Stopwords();
-                                        catentities[okk]=txtpro.removeChars(catentities[okk]);
-                                        catentities[okk]=st.stop(catentities[okk]);
-                                        catentities[okk]=txtpro.removeChars(catentities[okk]);
-                                    }
-                                    total_catent[j][1]=total_catent[j][1]+catentities[okk];
-                                }
-                                total_catent[j][0]=links_total[j];
-                                int cat_cnt=yec.GetCatQuerCnt();
-                                int ent_cnt=yec.GetEntQuerCnt();
+                                
                                 cell   = rowA.createCell(1);
                                 cell.setCellValue(-10);
                                 cell   = rowA.createCell(2);
                                 cell.setCellValue(-10);
                                 cell   = rowA.createCell(3);
                                 cell.setCellValue(-10);
-                                cell   = rowA.createCell(4);
-                                cell.setCellValue(ntriples);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(total_semantic_triples) VALUES(?)");
-                                stmt.setInt(1,ntriples);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(5);
-                                cell.setCellValue(nlinks[0]);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(number_links) VALUES(?)");
-                                stmt.setInt(1,nlinks[0]);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(6);
-                                cell.setCellValue(nlinks[0]-nlinks[1]);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(external_links) VALUES(?)");
-                                stmt.setInt(1,nlinks[0]-nlinks[1]);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(7);
-                                cell.setCellValue(nlinks[1]);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(internal_links) VALUES(?)");
-                                stmt.setInt(1,nlinks[1]);
-                                stmt.executeUpdate();
                                 cell   = rowA.createCell(8);
                                 cell.setCellValue(-10);
                                 cell   = rowA.createCell(9);
@@ -903,131 +856,6 @@ public class Search_analysis {
                                 cell.setCellValue(-10);
                                 cell   = rowA.createCell(16);
                                 cell.setCellValue(-10);
-                                cell   = rowA.createCell(17);
-                                cell.setCellValue(j);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(search_engine) VALUES(?)");
-                                stmt.setInt(1,j);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(18);
-                                cell.setCellValue(quer);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(query) VALUES(?)");
-                                stmt.setString(1,quer);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(19);
-                                cell.setCellValue(LSHrankSettings.get(1));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(nTopics) VALUES(?)");
-                                stmt.setInt(1,LSHrankSettings.get(1).intValue());
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(20);
-                                cell.setCellValue(alpha);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(alpha) VALUES(?)");
-                                stmt.setDouble(1,alpha);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(21);
-                                cell.setCellValue(LSHrankSettings.get(0));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(beta) VALUES(?)");
-                                stmt.setDouble(1,LSHrankSettings.get(0));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(22);
-                                cell.setCellValue(LSHrankSettings.get(2));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(niters) VALUES(?)");
-                                stmt.setInt(1,LSHrankSettings.get(2).intValue());
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(23);
-                                cell.setCellValue(LSHrankSettings.get(3));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(prob_threshold) VALUES(?)");
-                                stmt.setDouble(1,LSHrankSettings.get(3));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(24);
-                                cell.setCellValue(mozMetrics.get(0));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(moz) VALUES(?)");
-                                stmt.setBoolean(1,mozMetrics.get(0));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(25);
-                                cell.setCellValue(top_count_moz);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(top_count_moz) VALUES(?)");
-                                stmt.setInt(1,top_count_moz);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(26);
-                                cell.setCellValue(moz_threshold);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(moz_threshold) VALUES(?)");
-                                stmt.setDouble(1,moz_threshold);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(27);
-                                cell.setCellValue(moz_threshold_option);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(moz_threshold_option) VALUES(?)");
-                                stmt.setBoolean(1,moz_threshold_option);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(28);
-                                cell.setCellValue(top_visible);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(top_visible) VALUES(?)");
-                                stmt.setInt(1,top_visible);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(29);
-                                cell.setCellValue(mozMetrics.get(1));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(Domain_Authority) VALUES(?)");
-                                stmt.setBoolean(1,mozMetrics.get(1));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(30);
-                                cell.setCellValue(mozMetrics.get(2));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(External_MozRank) VALUES(?)");
-                                stmt.setBoolean(1,mozMetrics.get(2));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(31);
-                                cell.setCellValue(mozMetrics.get(3));
-                                 stmt = conn.prepareStatement("INSERT INTO STATS(MozRank) VALUES(?)");
-                                stmt.setBoolean(1,mozMetrics.get(3));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(32);
-                                cell.setCellValue(mozMetrics.get(4));
-                                 stmt = conn.prepareStatement("INSERT INTO STATS(MozTrust) VALUES(?)");
-                                stmt.setBoolean(1,mozMetrics.get(4));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(33);
-                                cell.setCellValue(mozMetrics.get(5));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(Page_Authority) VALUES(?)");
-                                stmt.setBoolean(1,mozMetrics.get(5));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(34);
-                                cell.setCellValue(mozMetrics.get(6));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(Subdomain_mozRank) VALUES(?)");
-                                stmt.setBoolean(1,mozMetrics.get(6));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(35);
-                                cell.setCellValue(enginechoice.get(3));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(merged) VALUES(?)");
-                                stmt.setBoolean(1,enginechoice.get(3));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(36);
-                                cell.setCellValue(results_number);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(results_number) VALUES(?)");
-                                stmt.setInt(1,results_number);
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(37);
-                                cell.setCellValue(ContentSemantics.get(0));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(Diffbotflag) VALUES(?)");
-                                stmt.setBoolean(1,ContentSemantics.get(0));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(38);
-                                cell.setCellValue(ContentSemantics.get(1));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(LDAflag) VALUES(?)");
-                                stmt.setBoolean(1,ContentSemantics.get(1));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(39);
-                                cell.setCellValue(ContentSemantics.get(2));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(Sensebotflag) VALUES(?)");
-                                stmt.setBoolean(1,ContentSemantics.get(2));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(40);
-                                cell.setCellValue(ContentSemantics.get(3));
-                                stmt = conn.prepareStatement("INSERT INTO STATS(TFIDFflag) VALUES(?)");
-                                stmt.setBoolean(1,ContentSemantics.get(3));
-                                stmt.executeUpdate();
-                                cell   = rowA.createCell(41);
-                                cell.setCellValue(SensebotConcepts);
-                                stmt = conn.prepareStatement("INSERT INTO STATS(SensebotConcepts) VALUES(?)");
-                                stmt.setInt(1,SensebotConcepts);
-                                stmt.executeUpdate();
                                 cell   = rowA.createCell(42);
                                 cell.setCellValue(cat_cnt);
                                 cell   = rowA.createCell(43);
@@ -1044,217 +872,6 @@ public class Search_analysis {
                                     cell = rowA.createCell(cellno);
                                     cell.setCellValue(striple.namespaces[nsi]);
                                 }
-                                if(striple.namespaces[0]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/vocab/bio/0.1/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[1]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/dc/elements/1.1/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[2]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/coo/n) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[3]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://web.resource.org/cc/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[4]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://diligentarguont.ontoware.org/2005/10/arguonto) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[5]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://usefulinc.com/ns/doap) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[6]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://xmlns.com/foaf/0.1/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[7]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/goodrelations/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[8]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/muto/core) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[9]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://webns.net/mvcb/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[10]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/ontology/mo/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[11]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/innovation/ns) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[12]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://openguid.net/rdf) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[13]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://www.slamka.cz/ontologies/diagnostika.owl) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[14]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/ontology/po/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[15]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/net/provenance/ns) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[16]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/rss/1.0/modules/syndication) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[17]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://rdfs.org/sioc/ns) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[18]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://madskills.com/public/xml/rss/module/trackback/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[19]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://rdfs.org/ns/void) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[20]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://www.fzi.de/2008/wise/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[21]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://xmlns.com/wot/0.1) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[22]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://www.w3.org/1999/02/22-rdf-syntax-ns) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[23]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(rdf-schema) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[24]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(XMLschema) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[25]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(OWL) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[26]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/dc/terms/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[27]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(VCARD) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                
-                                if(striple.namespaces[28]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://www.geonames.org/ontology) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[29]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://search.yahoo.com/searchmonkey/commerce/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[30]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://search.yahoo.com/searchmonkey/media/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[31]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://cb.semsol.org/ns#) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[32]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://blogs.yandex.ru/schema/foaf/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[33]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://www.w3.org/2003/01/geo/wgs84_pos#) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[34]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://rdfs.org/sioc/ns#) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[35]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://rdfs.org/sioc/types#) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[36]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://smw.ontoware.org/2005/smw#) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[37]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://purl.org/rss/1.0/) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[38]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://www.w3.org/2004/12/q/contentlabel#) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }
-                                if(striple.namespaces[39]=true){
-                                    stmt = conn.prepareStatement("INSERT INTO STATS(http://www.w3.org/2004/12/q/contentlabel#) VALUES(?)");
-                                    stmt.setBoolean(1,true);
-                                    stmt.executeUpdate();
-                                }                                
                                 cell = rowA.createCell(cellno+1);
                                 cell.setCellValue(-10);
                                 System.out.println("I created unexecuted cells");
