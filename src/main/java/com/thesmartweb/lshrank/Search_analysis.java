@@ -333,10 +333,8 @@ public class Search_analysis {
                     String[] catentities=new String[2];
                     catentities[0]="";
                     catentities[1]="";
-                    String var="url";
-                    String value="links_total[j]";
-                    stmt = conn.prepareStatement("INSERT INTO STATS("+var+") VALUES(?)");
-                    stmt.setString(1,value);
+                    stmt = conn.prepareStatement("INSERT INTO STATS(url) VALUES(?)");
+                    stmt.setString(1,links_total[j]);
                     stmt.executeUpdate();
                     if(links_total[j]!=null){
                         flag_links_check=1;//a flag used in order to know that the link was not null
@@ -718,9 +716,13 @@ public class Search_analysis {
                             total_catent[j][0]=links_total[j];
                             int cat_cnt=yec.GetCatQuerCnt();
                             int ent_cnt=yec.GetEntQuerCnt();
+                            cell   = rowA.createCell(42);
+                            cell.setCellValue(cat_cnt);
                             stmt = conn.prepareStatement("INSERT INTO STATS(Categories_Contained_Query) VALUES(?)");
                             stmt.setInt(1,cat_cnt);
                             stmt.executeUpdate();
+                            cell   = rowA.createCell(43);
+                            cell.setCellValue(ent_cnt);
                             stmt = conn.prepareStatement("INSERT INTO STATS(Entities_Contained_Query) VALUES(?)");
                             stmt.setInt(1,ent_cnt);
                             stmt.executeUpdate();
@@ -856,10 +858,6 @@ public class Search_analysis {
                                 cell.setCellValue(-10);
                                 cell   = rowA.createCell(16);
                                 cell.setCellValue(-10);
-                                cell   = rowA.createCell(42);
-                                cell.setCellValue(cat_cnt);
-                                cell   = rowA.createCell(43);
-                                cell.setCellValue(ent_cnt);
                                 cell   = rowA.createCell(44);
                                 cell.setCellValue(-10);
                                 cell   = rowA.createCell(45);
