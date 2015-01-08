@@ -963,29 +963,6 @@ public class Search_analysis {
                                 System.out.println("I created unexecuted cells");
                             }
                         }
-                        /*if(flag_links_check>0){
-                            //we try to dispose the browser in order to remove useless data of him
-                            System.out.println("I ll try to dispose");
-                            //browser.dispose();
-
-                            System.out.println("I have disposed");
-                            //we create a new browser to be used
-                            //browser = BrowserFactory.createBrowser(BrowserType.Mozilla);
-                            //System.out.println("the new browser is ready");
-                         }*//*
-                            if((flag_links_check>0)&&(flags[1]==1)){
-                                    //we try to dispose the browser in order to remove useless data of him
-                                    System.out.println("I ll try to dispose");
-                                    browser.dispose();
-                                    System.out.println("I have disposed");
-                                    //we create a new browser to be used
-                                    browser = BrowserFactory.createBrowser(BrowserType.Mozilla);
-                                    System.out.println("the new browser is ready");
-                             }
-                             else if(flags[1]==0){
-                                 //we do not dispose the browser but maybe we should?
-                                System.out.println("document stuck and dont dispose");
-                             }*/
                     } 
                 }
                 //----save the above to excel file
