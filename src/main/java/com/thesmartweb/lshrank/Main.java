@@ -29,12 +29,24 @@ import JavaMI.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Main {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
+        
+            
+
             Path input_path=Paths.get("//home//themis//inputs_phd_test//");
             //---Disable apache log manually----
             System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");
