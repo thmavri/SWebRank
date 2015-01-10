@@ -98,190 +98,6 @@ public class Search_analysis {
                          }
                     }
                 }
-                //we call the function that we are going to use for the headless browsing part
-                //HEADLESS-----------------------------
-                //Headlessbrowse headless=new Headlessbrowse();
-                //we create the .xls work book
-                HSSFWorkbook workbook=new HSSFWorkbook();
-                HSSFSheet firstSheet = workbook.createSheet("Headless sheet");
-                HSSFRow rowA= firstSheet.createRow(0);
-                HSSFCell cell   = rowA.createCell(1);
-                cell.setCellValue("iframes_number");
-                cell = rowA.createCell(2);
-                cell.setCellValue("number_embeded_vid");
-                cell = rowA.createCell(3);
-                cell.setCellValue("scripts_cnt");
-                cell = rowA.createCell(4);
-                cell.setCellValue("total semantic triples");
-                cell = rowA.createCell(5);
-                cell.setCellValue("number_links");
-                cell = rowA.createCell(6);
-                cell.setCellValue("redirect_links_number");
-                cell = rowA.createCell(7);
-                cell.setCellValue("internal_links");
-                cell = rowA.createCell(8);
-                cell.setCellValue("schema.org entities");
-                cell   = rowA.createCell(9);
-                cell.setCellValue("hcards");
-                cell   = rowA.createCell(10);
-                cell.setCellValue("hcalendars");
-                cell   = rowA.createCell(11);
-                cell.setCellValue("hreviews");
-                cell   = rowA.createCell(12);
-                cell.setCellValue("hevents");
-                cell   = rowA.createCell(13);
-                cell.setCellValue("hadresses");
-                cell   = rowA.createCell(14);
-                cell.setCellValue("hgeo");
-                cell   = rowA.createCell(15);
-                cell.setCellValue("hreltags");
-                cell   = rowA.createCell(16);
-                cell.setCellValue("total microformats");
-                cell = rowA.createCell(17);
-                cell.setCellValue("search engine");
-                cell = rowA.createCell(18);
-                cell.setCellValue("query");
-                cell   = rowA.createCell(19);
-                cell.setCellValue("nTopics");
-                cell   = rowA.createCell(20);
-                cell.setCellValue("alpha");
-                cell   = rowA.createCell(21);
-                cell.setCellValue("beta");
-                cell   = rowA.createCell(22);
-                cell.setCellValue("niters");
-                cell   = rowA.createCell(23);
-                cell.setCellValue("prob_threshold");
-                cell   = rowA.createCell(24);
-                cell.setCellValue("moz");
-                cell   = rowA.createCell(25);
-                cell.setCellValue("top_count_moz");
-                cell   = rowA.createCell(26);
-                cell.setCellValue("moz_threshold");
-                cell   = rowA.createCell(27);
-                cell.setCellValue("moz_threshold_option");
-                cell   = rowA.createCell(28);
-                cell.setCellValue("top_visible");
-                cell   = rowA.createCell(29);
-                cell.setCellValue("Domain_Authority");
-                cell   = rowA.createCell(30);
-                cell.setCellValue("External_MozRank");
-                cell   = rowA.createCell(31);
-                cell.setCellValue("MozRank");
-                cell   = rowA.createCell(32);
-                cell.setCellValue("MozTrust");
-                cell   = rowA.createCell(33);
-                cell.setCellValue("Page_Authority");
-                cell   = rowA.createCell(34);
-                cell.setCellValue("Subdomain_mozRank");
-                cell   = rowA.createCell(35);
-                cell.setCellValue("merged");
-                cell   = rowA.createCell(36);
-                cell.setCellValue("results_number");
-                cell   = rowA.createCell(37);
-                cell.setCellValue("Diffbotflag");
-                cell   = rowA.createCell(38);
-                cell.setCellValue("LDAflag");
-                cell   = rowA.createCell(39);
-                cell.setCellValue("Sensebotflag");
-                cell   = rowA.createCell(40);
-                cell.setCellValue("TFIDFflag");
-                cell   = rowA.createCell(41);
-                cell.setCellValue("SensebotConcepts");
-                cell   = rowA.createCell(42);
-                cell.setCellValue("Entities Contained Query");
-                cell   = rowA.createCell(43);
-                cell.setCellValue("Categories Contained Query");
-                cell   = rowA.createCell(44);
-                cell.setCellValue("Microformats-1");
-                cell   = rowA.createCell(45);
-                cell.setCellValue("Microformats-2");
-                cell = rowA.createCell(46);
-                cell.setCellValue("Microdata");
-                cell = rowA.createCell(47);
-                cell.setCellValue("http://purl.org/vocab/bio/0.1/");
-                cell = rowA.createCell(48);
-                cell.setCellValue("http://purl.org/dc/elements/1.1/");
-                cell = rowA.createCell(49);
-                cell.setCellValue("http://purl.org/coo/n");
-                cell = rowA.createCell(50);
-                cell.setCellValue("http://web.resource.org/cc/");
-                cell = rowA.createCell(51);
-                cell.setCellValue("http://diligentarguont.ontoware.org/2005/10/arguonto");  
-                cell = rowA.createCell(52);
-                cell.setCellValue("http://usefulinc.com/ns/doap");        
-                cell = rowA.createCell(53);
-                cell.setCellValue("http://xmlns.com/foaf/0.1/");
-                cell = rowA.createCell(54);
-                cell.setCellValue("http://purl.org/goodrelations/");
-                cell = rowA.createCell(55);
-                cell.setCellValue("http://purl.org/muto/core");
-                cell = rowA.createCell(56);
-                cell.setCellValue("http://webns.net/mvcb/");
-                cell = rowA.createCell(57);
-                cell.setCellValue("http://purl.org/ontology/mo/");
-                cell = rowA.createCell(58);
-                cell.setCellValue("http://purl.org/innovation/ns");    
-                cell = rowA.createCell(59);
-                cell.setCellValue("http://openguid.net/rdf");         
-                cell = rowA.createCell(60);
-                cell.setCellValue("http://www.slamka.cz/ontologies/diagnostika.owl");        
-                cell = rowA.createCell(61);
-                cell.setCellValue("http://purl.org/ontology/po/");       
-                cell = rowA.createCell(62);
-                cell.setCellValue("http://purl.org/net/provenance/ns");           
-                cell = rowA.createCell(63);
-                cell.setCellValue("http://purl.org/rss/1.0/modules/syndication");         
-                cell = rowA.createCell(64); 
-                cell.setCellValue("http://rdfs.org/sioc/ns");
-                cell = rowA.createCell(65); 
-                cell.setCellValue("http://madskills.com/public/xml/rss/module/trackback/");
-                cell = rowA.createCell(66); 
-                cell.setCellValue("http://rdfs.org/ns/void");        
-                cell = rowA.createCell(67); 
-                cell.setCellValue("http://www.fzi.de/2008/wise/"); 
-                cell = rowA.createCell(68); 
-                cell.setCellValue("http://xmlns.com/wot/0.1");        
-                cell = rowA.createCell(69); 
-                cell.setCellValue("http://www.w3.org/1999/02/22-rdf-syntax-ns");         
-                cell = rowA.createCell(70);
-                cell.setCellValue("rdf-schema");        
-                cell = rowA.createCell(71);
-                cell.setCellValue("XMLschema");
-                cell = rowA.createCell(72);
-                cell.setCellValue("OWL");
-                cell = rowA.createCell(73);
-                cell.setCellValue("http://purl.org/dc/terms/");
-                cell = rowA.createCell(74);
-                cell.setCellValue("VCARD");        
-                cell = rowA.createCell(75);
-                cell.setCellValue("http://www.geonames.org/ontology");        
-                cell = rowA.createCell(76);
-                cell.setCellValue("http://search.yahoo.com/searchmonkey/commerce/");          
-                cell = rowA.createCell(77);
-                cell.setCellValue("http://search.yahoo.com/searchmonkey/media/");
-                cell = rowA.createCell(78);
-                cell.setCellValue("http://cb.semsol.org/ns#");
-                cell = rowA.createCell(79);
-                cell.setCellValue("http://blogs.yandex.ru/schema/foaf/");
-                cell = rowA.createCell(80);
-                cell.setCellValue("http://www.w3.org/2003/01/geo/wgs84_pos#");
-                cell = rowA.createCell(81);
-                cell.setCellValue("http://rdfs.org/sioc/ns#");
-                cell = rowA.createCell(82);
-                cell.setCellValue("http://rdfs.org/sioc/types#");
-                cell = rowA.createCell(83);
-                cell.setCellValue("http://smw.ontoware.org/2005/smw#");
-                cell = rowA.createCell(84);
-                cell.setCellValue("http://purl.org/rss/1.0/");
-                cell = rowA.createCell(85);
-                cell.setCellValue("http://www.w3.org/2004/12/q/contentlabel#");
-                cell = rowA.createCell(86);
-                cell.setCellValue("FOAF HTML");
-                //we are going to use a mozilla browser
-                //HEADLESS-----------------------------
-                //Browser browser = BrowserFactory.createBrowser(BrowserType.Mozilla);
-                //we are going to build a DOM
-                //DOMBuilder builder = new DOMBuilder(); 
                 //we are creating Sindice class in order to get the number of semantic triples of a webpage
                 Sindice striple=new Sindice();
                 //create htmlparser to get the number of links in a webpage
@@ -290,7 +106,6 @@ public class Search_analysis {
                 }                                 
                 WebParser htm=new WebParser();
                 //create an array that contains all the links together
-               
                 for(int i=0;i<3;i++){
                     try{
                         if(i==0){System.arraycopy(links_yahoo, 0, links_total, 0, results_number);}
@@ -324,454 +139,1100 @@ public class Search_analysis {
                     total_catent[r][0]="";
                     total_catent[r][1]="";
                 }
-                YahooEntityCategory yec=new YahooEntityCategory();
+                
                 for(int j=0;j<links_total.length;j++){
                     if(links_total[j]!=null){
-                        //we continue only for not null links
-                        rowA= firstSheet.createRow(j+1);
-                        cell   = rowA.createCell(0);
-                        cell.setCellValue(links_total[j]);
-                        String[] catentities=new String[2];
-                        catentities[0]="";
-                        catentities[1]="";
-                        stmt = conn.prepareStatement("INSERT INTO STATS (url) VALUES (?) ON DUPLICATE KEY UPDATE url = VALUES(url) ");
+                        //INSERT INTO STATS (url) VALUES (?) ON DUPLICATE KEY UPDATE url = VALUES(url) 
+                        //stmt = conn.prepareStatement("UPDATE STATS SET (url,query,search_engine) VALUES (?,?,?) where `query`='query',`search_engine`='query'");
+                        stmt = conn.prepareStatement("INSERT INTO STATS (url,query,search_engine) VALUES (?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine)");
                         stmt.setString(1,links_total[j]);
+                        stmt.setString(2,quer);
+                        if(j<results_number){
+                            stmt.setInt(3,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(3,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(3,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+                        
+                        stmt = conn.prepareStatement("UPDATE STATS SET `search_engine_rank`=? WHERE `url`=? AND `query`=? AND `search_engine`=?");
+                        if(j<results_number){
+                            stmt.setInt(1,j);
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(1,j-results_number);
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(1,j-results_number*2);
+                        }
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `nTopics`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setInt(1,LSHrankSettings.get(1).intValue());
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `alpha`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setDouble(1,alpha);
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `beta`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setDouble(1,LSHrankSettings.get(0));
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `niters`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setInt(1,LSHrankSettings.get(2).intValue());
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `prob_threshold`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setDouble(1,LSHrankSettings.get(3));
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `moz`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setBoolean(1,mozMetrics.get(0));
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `top_count_moz`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setInt(1,top_count_moz);
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `moz_threshold`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setDouble(1,moz_threshold);
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `moz_threshold_option`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setBoolean(1,moz_threshold_option);
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `top_visible`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setInt(1,top_visible);
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `Domain_Authority`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setBoolean(1,mozMetrics.get(1));
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `External_MozRank`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setBoolean(1,mozMetrics.get(2));
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `MozRank`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setBoolean(1,mozMetrics.get(3));
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `MozTrust`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setBoolean(1,mozMetrics.get(4));
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `Page_Authority`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setBoolean(1,mozMetrics.get(5));
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `Subdomain_mozRank`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setBoolean(1,mozMetrics.get(6));
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `merged`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setBoolean(1,enginechoice.get(3));
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `results_number`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setInt(1,results_number);
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `Diffbotflag`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setBoolean(1,ContentSemantics.get(0));
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `LDAflag`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setBoolean(1,ContentSemantics.get(1));
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `Sensebotflag`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setBoolean(1,ContentSemantics.get(2));
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `TFIDFflag`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setBoolean(1,ContentSemantics.get(3));
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
+                        stmt.executeUpdate();
+
+                        stmt = conn.prepareStatement("UPDATE STATS SET `SensebotConcepts`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                        stmt.setInt(1,SensebotConcepts);
+                        stmt.setString(2,links_total[j]);
+                        stmt.setString(3,quer);
+                        if(j<results_number){
+                            stmt.setInt(4,0);//0 for yahoo
+                        }
+                        else if(j<results_number*2){
+                            stmt.setInt(4,1);//1 for google
+                        }
+                        else if(j<results_number*3){
+                            stmt.setInt(4,2);//2 for bing
+                        }
                         stmt.executeUpdate();
                         flag_links_check=1;//a flag used in order to know that the link was not null
-                        //HEADLESS-----------------------------
-                        //flags = headless.execute(links_total[j],browser, builder);
-                        //we print that we are back in search analysis
-                        //System.out.println("I am back into search analysis");
                         if(htm.checkconn(links_total[j])){
                             nlinks=htm.getnlinks(links_total[j]);
-                            cell   = rowA.createCell(5);
-                            cell.setCellValue(nlinks[0]);
-                            stmt = conn.prepareStatement("UPDATE STATS SET number_links=? WHERE url=?");
+                            
+                            stmt = conn.prepareStatement("UPDATE STATS SET `number_links`=? WHERE `url`=? AND `query`=? AND `search_engine`=?");
                             stmt.setInt(1,nlinks[0]);
                             stmt.setString(2,links_total[j]);
-                            String check=stmt.toString();
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
                             stmt.executeUpdate();
-                            cell   = rowA.createCell(6);
-                            cell.setCellValue(nlinks[0]-nlinks[1]);
-                            stmt = conn.prepareStatement("UPDATE STATS SET redirect_links=? WHERE url=?");
+                            
+                            stmt = conn.prepareStatement("UPDATE STATS SET `redirect_links`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                             stmt.setInt(1,nlinks[0]-nlinks[1]);
                             stmt.setString(2,links_total[j]);
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
                             stmt.executeUpdate();
-                            cell   = rowA.createCell(7);
-                            cell.setCellValue(nlinks[1]);
-                            stmt = conn.prepareStatement("UPDATE STATS SET internal_links=? WHERE url=?");
+                            
+                            stmt = conn.prepareStatement("UPDATE STATS SET `internal_links`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                             stmt.setInt(1,nlinks[1]);
                             stmt.setString(2,links_total[j]);
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
                             stmt.executeUpdate();
-                            boolean flags_new=htm.gethtmlstats(links_total[j]);
+                            
                             int ntriples=striple.getsindicestats(links_total[j]);
-                            cell   = rowA.createCell(4);
-                            cell.setCellValue(ntriples);
-                            stmt = conn.prepareStatement("UPDATE STATS SET total_semantic_triples=? WHERE url=?");
+                            
+                            stmt = conn.prepareStatement("UPDATE STATS SET `total_semantic_triples`=? WHERE `url` =? AND `query`=? AND `search_engine`=?" );
                             stmt.setInt(1,ntriples);
                             stmt.setString(2,links_total[j]);
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
                             stmt.executeUpdate();
-                            if(striple.namespaces[0]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://purl.org/vocab/bio/0.1/=? WHERE url=?");
+                            //---namespaces-----
+                            if(striple.namespaces[0]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://purl.org/vocab/bio/0.1/` = ?  WHERE `url` = ? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[1]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://purl.org/dc/elements/1.1/=? WHERE url=?");
+                            if(striple.namespaces[1]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://purl.org/dc/elements/1.1/` =? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[2]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://purl.org/coo/n=? WHERE url=?");
+                            if(striple.namespaces[2]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://purl.org/coo/n` = ? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[3]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://web.resource.org/cc/=? WHERE url=?");
+                            if(striple.namespaces[3]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://web.resource.org/cc/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[4]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://diligentarguont.ontoware.org/2005/10/arguonto=? WHERE url=?");
+                            if(striple.namespaces[4]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://diligentarguont.ontoware.org/2005/10/arguonto`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[5]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://usefulinc.com/ns/doap=? WHERE url=?");
+                            if(striple.namespaces[5]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://usefulinc.com/ns/doap`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[6]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://xmlns.com/foaf/0.1/=? WHERE url=?");
+                            if(striple.namespaces[6]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://xmlns.com/foaf/0.1/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[7]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://purl.org/goodrelations/=? WHERE url=?");
+                            if(striple.namespaces[7]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://purl.org/goodrelations/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[8]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://purl.org/muto/core=? WHERE url=?");
+                            if(striple.namespaces[8]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://purl.org/muto/core`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[9]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://webns.net/mvcb/=? WHERE url=?");
+                            if(striple.namespaces[9]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://webns.net/mvcb/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[10]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://purl.org/ontology/mo/=? WHERE url=?");
+                            if(striple.namespaces[10]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://purl.org/ontology/mo/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[11]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://purl.org/innovation/ns=? WHERE url=?");
+                            if(striple.namespaces[11]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://purl.org/innovation/ns`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[12]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://openguid.net/rdf=? WHERE url=?");
+                            if(striple.namespaces[12]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://openguid.net/rdf`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[13]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://www.slamka.cz/ontologies/diagnostika.owl=? WHERE url=?");
+                            if(striple.namespaces[13]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://www.slamka.cz/ontologies/diagnostika.owl`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[14]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://purl.org/ontology/po/=? WHERE url=?");
+                            if(striple.namespaces[14]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://purl.org/ontology/po/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[15]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://purl.org/net/provenance/ns=? WHERE url=?");
+                            if(striple.namespaces[15]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://purl.org/net/provenance/ns`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[16]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://purl.org/rss/1.0/modules/syndication=? WHERE url=?");
+                            if(striple.namespaces[16]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://purl.org/rss/1.0/modules/syndication`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[17]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://rdfs.org/sioc/ns=? WHERE url=?");
+                            if(striple.namespaces[17]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://rdfs.org/sioc/ns`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
 
-                            if(striple.namespaces[18]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://madskills.com/public/xml/rss/module/trackback/=? WHERE url=?");
+                            if(striple.namespaces[18]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://madskills.com/public/xml/rss/module/trackback/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
 
-                            if(striple.namespaces[19]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://rdfs.org/ns/void=? WHERE url=?");
+                            if(striple.namespaces[19]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://rdfs.org/ns/void`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
 
-                            if(striple.namespaces[20]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://www.fzi.de/2008/wise/=? WHERE url=?");
+                            if(striple.namespaces[20]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://www.fzi.de/2008/wise/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
 
-                            if(striple.namespaces[21]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://xmlns.com/wot/0.1=? WHERE url=?");
+                            if(striple.namespaces[21]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://xmlns.com/wot/0.1`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
 
-                            if(striple.namespaces[22]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://www.w3.org/1999/02/22-rdf-syntax-ns=? WHERE url=?");
+                            if(striple.namespaces[22]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://www.w3.org/1999/02/22-rdf-syntax-ns`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
 
-                            if(striple.namespaces[23]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET rdf-schema=? WHERE url=?");
+                            if(striple.namespaces[23]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `rdf-schema`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
 
-                            if(striple.namespaces[24]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET XMLschema=? WHERE url=?");
+                            if(striple.namespaces[24]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `XMLschema`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
 
-                            if(striple.namespaces[25]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET OWL=? WHERE url=?");
+                            if(striple.namespaces[25]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `OWL`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
 
-                            if(striple.namespaces[26]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://purl.org/dc/terms/=? WHERE url=?");
+                            if(striple.namespaces[26]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://purl.org/dc/terms/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
 
-                            if(striple.namespaces[27]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET VCARD=? WHERE url=?");
+                            if(striple.namespaces[27]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `VCARD`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
 
-                            if(striple.namespaces[28]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://www.geonames.org/ontology=? WHERE url=?");
+                            if(striple.namespaces[28]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://www.geonames.org/ontology`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[29]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://search.yahoo.com/searchmonkey/commerce/=? WHERE url=?");
+                            if(striple.namespaces[29]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://search.yahoo.com/searchmonkey/commerce/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[30]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://search.yahoo.com/searchmonkey/media/=? WHERE url=?");
+                            if(striple.namespaces[30]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://search.yahoo.com/searchmonkey/media/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[31]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://cb.semsol.org/ns#=? WHERE url=?");
+                            if(striple.namespaces[31]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://cb.semsol.org/ns#`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[32]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://blogs.yandex.ru/schema/foaf/=? WHERE url=?");
+                            if(striple.namespaces[32]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://blogs.yandex.ru/schema/foaf/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[33]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://www.w3.org/2003/01/geo/wgs84_pos#=? WHERE url=?");
+                            if(striple.namespaces[33]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://www.w3.org/2003/01/geo/wgs84_pos#`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[34]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://rdfs.org/sioc/ns#=? WHERE url=?");
+                            if(striple.namespaces[34]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://rdfs.org/sioc/ns#`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[35]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://rdfs.org/sioc/types#=? WHERE url=?");
+                            if(striple.namespaces[35]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://rdfs.org/sioc/types#`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[36]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://smw.ontoware.org/2005/smw#=? WHERE url=?");
+                            if(striple.namespaces[36]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://smw.ontoware.org/2005/smw#`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[37]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://purl.org/rss/1.0/=? WHERE url=?");
+                            if(striple.namespaces[37]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://purl.org/rss/1.0/`= ? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[38]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://www.w3.org/2004/12/q/contentlabel#=? WHERE url=?");
+                            if(striple.namespaces[38]){
+                                stmt = conn.prepareStatement("UPDATE STATS SET `http://www.w3.org/2004/12/q/contentlabel#`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
                             }
-                            if(striple.namespaces[39]=true){
-                                stmt = conn.prepareStatement("UPDATE STATS SET http://www.w3.org/2004/12/q/contentlabel#=? WHERE url=?");
-                                stmt.setBoolean(1,true);
-                                stmt.setString(2,links_total[j]);
-                                stmt.executeUpdate();
-                            }
-                            cell   = rowA.createCell(17);
-                            cell.setCellValue(j);
-                            stmt = conn.prepareStatement("UPDATE STATS SET search_engine=? WHERE url=?");
-                            stmt.setInt(1,j);
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(18);
-                            cell.setCellValue(quer);
-                            stmt = conn.prepareStatement("UPDATE STATS SET query=? WHERE url=?");
-                            stmt.setString(1,quer);
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(19);
-                            cell.setCellValue(LSHrankSettings.get(1));
-                            stmt = conn.prepareStatement("UPDATE STATS SET nTopics=? WHERE url=?");
-                            stmt.setInt(1,LSHrankSettings.get(1).intValue());
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(20);
-                            cell.setCellValue(alpha);
-                            stmt = conn.prepareStatement("UPDATE STATS SET alpha=? WHERE url=?");
-                            stmt.setDouble(1,alpha);
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(21);
-                            cell.setCellValue(LSHrankSettings.get(0));
-                            stmt = conn.prepareStatement("UPDATE STATS SET beta=? WHERE url=?");
-                            stmt.setDouble(1,LSHrankSettings.get(0));
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(22);
-                            cell.setCellValue(LSHrankSettings.get(2));
-                            stmt = conn.prepareStatement("UPDATE STATS SET niters=? WHERE url=?");
-                            stmt.setInt(1,LSHrankSettings.get(2).intValue());
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(23);
-                            cell.setCellValue(LSHrankSettings.get(3));
-                            stmt = conn.prepareStatement("UPDATE STATS SET prob_threshold=? WHERE url=?");
-                            stmt.setDouble(1,LSHrankSettings.get(3));
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(24);
-                            cell.setCellValue(mozMetrics.get(0));
-                            stmt = conn.prepareStatement("UPDATE STATS SET moz=? WHERE url=?");
-                            stmt.setBoolean(1,mozMetrics.get(0));
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(25);
-                            cell.setCellValue(top_count_moz);
-                            stmt = conn.prepareStatement("UPDATE STATS SET top_count_moz=? WHERE url=?");
-                            stmt.setInt(1,top_count_moz);
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(26);
-                            cell.setCellValue(moz_threshold);
-                            stmt = conn.prepareStatement("UPDATE STATS SET moz_threshold=? WHERE url=?");
-                            stmt.setDouble(1,moz_threshold);
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(27);
-                            cell.setCellValue(moz_threshold_option);
-                            stmt = conn.prepareStatement("UPDATE STATS SET moz_threshold_option=? WHERE url=?");
-                            stmt.setBoolean(1,moz_threshold_option);
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(28);
-                            cell.setCellValue(top_visible);
-                            stmt = conn.prepareStatement("UPDATE STATS SET top_visible=? WHERE url=?");
-                            stmt.setInt(1,top_visible);
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(29);
-                            cell.setCellValue(mozMetrics.get(1));
-                            stmt = conn.prepareStatement("UPDATE STATS SET Domain_Authority=? WHERE url=?");
-                            stmt.setBoolean(1,mozMetrics.get(1));
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(30);
-                            cell.setCellValue(mozMetrics.get(2));
-                            stmt = conn.prepareStatement("UPDATE STATS SET External_MozRank=? WHERE url=?");
-                            stmt.setBoolean(1,mozMetrics.get(2));
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(31);
-                            cell.setCellValue(mozMetrics.get(3));
-                             stmt = conn.prepareStatement("UPDATE STATS SET MozRank=? WHERE url=?");
-                            stmt.setBoolean(1,mozMetrics.get(3));
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(32);
-                            cell.setCellValue(mozMetrics.get(4));
-                             stmt = conn.prepareStatement("UPDATE STATS SET MozTrust=? WHERE url=?");
-                            stmt.setBoolean(1,mozMetrics.get(4));
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(33);
-                            cell.setCellValue(mozMetrics.get(5));
-                            stmt = conn.prepareStatement("UPDATE STATS SET Page_Authority=? WHERE url=?");
-                            stmt.setBoolean(1,mozMetrics.get(5));
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(34);
-                            cell.setCellValue(mozMetrics.get(6));
-                            stmt = conn.prepareStatement("UPDATE STATS SET Subdomain_mozRank=? WHERE url=?");
-                            stmt.setBoolean(1,mozMetrics.get(6));
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(35);
-                            cell.setCellValue(enginechoice.get(3));
-                            stmt = conn.prepareStatement("UPDATE STATS SET merged=? WHERE url=?");
-                            stmt.setBoolean(1,enginechoice.get(3));
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(36);
-                            cell.setCellValue(results_number);
-                            stmt = conn.prepareStatement("UPDATE STATS SET results_number=? WHERE url=?");
-                            stmt.setInt(1,results_number);
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(37);
-                            cell.setCellValue(ContentSemantics.get(0));
-                            stmt = conn.prepareStatement("UPDATE STATS SET Diffbotflag=? WHERE url=?");
-                            stmt.setBoolean(1,ContentSemantics.get(0));
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(38);
-                            cell.setCellValue(ContentSemantics.get(1));
-                            stmt = conn.prepareStatement("UPDATE STATS SET LDAflag=? WHERE url=?");
-                            stmt.setBoolean(1,ContentSemantics.get(1));
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(39);
-                            cell.setCellValue(ContentSemantics.get(2));
-                            stmt = conn.prepareStatement("UPDATE STATS SET Sensebotflag=? WHERE url=?");
-                            stmt.setBoolean(1,ContentSemantics.get(2));
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(40);
-                            cell.setCellValue(ContentSemantics.get(3));
-                            stmt = conn.prepareStatement("UPDATE STATS SET TFIDFflag=? WHERE url=?");
-                            stmt.setBoolean(1,ContentSemantics.get(3));
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
-                            cell   = rowA.createCell(41);
-                            cell.setCellValue(SensebotConcepts);
-                            stmt = conn.prepareStatement("UPDATE STATS SET SensebotConcepts=? WHERE url=?");
-                            stmt.setInt(1,SensebotConcepts);
-                            stmt.setString(2,links_total[j]);
-                            stmt.executeUpdate();
+                            
+                            //we continue only for not null links
+                            String[] catentities=new String[2];
+                            catentities[0]="";
+                            catentities[1]="";
+                            YahooEntityCategory yec=new YahooEntityCategory();
                             catentities=yec.connect(links_total[j],quer);
                             for(int okk=0;okk<catentities.length;okk++){
                                 if(!(catentities[okk].isEmpty())){
@@ -786,18 +1247,78 @@ public class Search_analysis {
                             total_catent[j][0]=links_total[j];
                             int cat_cnt=yec.GetCatQuerCnt();
                             int ent_cnt=yec.GetEntQuerCnt();
-                            cell   = rowA.createCell(42);
-                            cell.setCellValue(cat_cnt);
-                            stmt = conn.prepareStatement("UPDATE STATS SET Categories_Contained_Query=? WHERE url=?");
+                            
+                            stmt = conn.prepareStatement("UPDATE STATS SET `Categories_Contained_Query`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                             stmt.setInt(1,cat_cnt);
                             stmt.setString(2,links_total[j]);
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
                             stmt.executeUpdate();
-                            cell   = rowA.createCell(43);
-                            cell.setCellValue(ent_cnt);
-                            stmt = conn.prepareStatement("UPDATE STATS SET Entities_Contained_Query=? WHERE url=?");
+                            
+                            stmt = conn.prepareStatement("UPDATE STATS SET `Categories_TF`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                            if(cat_cnt>0){
+                                stmt.setBoolean(1,true);
+                            }
+                            else {
+                                stmt.setBoolean(1,false);
+                            }
+                            stmt.setString(2,links_total[j]);
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
+                            stmt.executeUpdate();
+                            
+                            stmt = conn.prepareStatement("UPDATE STATS SET `Entities_Contained_Query`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                             stmt.setInt(1,ent_cnt);
                             stmt.setString(2,links_total[j]);
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
                             stmt.executeUpdate();
+                            
+                            stmt = conn.prepareStatement("UPDATE STATS SET `Entities_TF`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                            if(ent_cnt>0){
+                                stmt.setBoolean(1,true);
+                            }else {
+                                stmt.setBoolean(1,false);
+                            }
+                            stmt.setString(2,links_total[j]);
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
+                            String check=stmt.toString();
+                            stmt.executeUpdate();
+                            
+                            boolean flags_new=htm.gethtmlstats(links_total[j]);
                             if(flags_new){
                                 System.out.println("I got the html stats for the "+j+" link:"+links_total[j]+"\n"); 
                                 int iframes_number = htm.frames_number;
@@ -816,161 +1337,254 @@ public class Search_analysis {
                                 int micron1=htm.micron1;
                                 int micron2=htm.micron2;
                                 int microd=htm.microd;
-                                cell   = rowA.createCell(1);
-                                cell.setCellValue(iframes_number);
-                                stmt = conn.prepareStatement("UPDATE STATS SET iframes=? WHERE url=?");
+                                
+                                stmt = conn.prepareStatement("UPDATE STATS SET `iframes`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setInt(1,iframes_number);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
-                                cell   = rowA.createCell(2);
-                                cell.setCellValue(number_embeded_vid);
-                                stmt = conn.prepareStatement("UPDATE STATS SET number_embeded_vids=? WHERE url=?");
+                                
+                                stmt = conn.prepareStatement("UPDATE STATS SET `number_embeded_vids`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setInt(1,number_embeded_vid);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
-                                cell   = rowA.createCell(3);
-                                cell.setCellValue(scripts_cnt);
-                                stmt = conn.prepareStatement("UPDATE STATS SET scripts_cnt=? WHERE url=?");
+                                
+                                stmt = conn.prepareStatement("UPDATE STATS SET `scripts_cnt`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setInt(1,scripts_cnt);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
-                                cell   = rowA.createCell(8);
-                                cell.setCellValue(nschem);
-                                stmt = conn.prepareStatement("UPDATE STATS SET schema.org_entities=? WHERE url=?");
+                                
+                                stmt = conn.prepareStatement("UPDATE STATS SET `schema.org_entities`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setInt(1,nschem);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
-                                cell   = rowA.createCell(9);
-                                cell.setCellValue(hcardsn);
-                                stmt = conn.prepareStatement("UPDATE STATS SET hcards=? WHERE url=?");
+                               
+                                stmt = conn.prepareStatement("UPDATE STATS SET `hcards`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setInt(1,hcardsn);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
-                                cell   = rowA.createCell(10);
-                                cell.setCellValue(hcalen);
-                                stmt = conn.prepareStatement("UPDATE STATS SET hcalendars=? WHERE url=?");
+                               
+                                stmt = conn.prepareStatement("UPDATE STATS SET `hcalendars`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setInt(1,hcalen);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
-                                cell   = rowA.createCell(11);
-                                cell.setCellValue(hrevn);
-                                stmt = conn.prepareStatement("UPDATE STATS SET hreviews=? WHERE url=?");
+                               
+                                stmt = conn.prepareStatement("UPDATE STATS SET `hreviews`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setInt(1,hrevn);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
-                                cell   = rowA.createCell(12);
-                                cell.setCellValue(hevenn);
-                                stmt = conn.prepareStatement("UPDATE STATS SET hevents=? WHERE url=?");
+                                
+                                stmt = conn.prepareStatement("UPDATE STATS SET `hevents`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setInt(1,hevenn);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
-                                cell   = rowA.createCell(13);
-                                cell.setCellValue(haddrn);
-                                stmt = conn.prepareStatement("UPDATE STATS SET hadresses=? WHERE url=?");
+                               
+                                stmt = conn.prepareStatement("UPDATE STATS SET `hadresses`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setInt(1,haddrn);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
-                                cell   = rowA.createCell(14);
-                                cell.setCellValue(hgeon);
-                                stmt = conn.prepareStatement("UPDATE STATS SET hgeo=? WHERE url=?");
+                                
+                                stmt = conn.prepareStatement("UPDATE STATS SET `hgeo`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setInt(1,hgeon);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
-                                cell   = rowA.createCell(15);
-                                cell.setCellValue(hreln);
-                                stmt = conn.prepareStatement("UPDATE STATS SET hreltags=? WHERE url=?");
+                                
+                                stmt = conn.prepareStatement("UPDATE STATS SET `hreltags`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setInt(1,hreln);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
-                                cell   = rowA.createCell(16);
-                                cell.setCellValue(total_micron);
-                                stmt = conn.prepareStatement("UPDATE STATS SET total_microformats=? WHERE url=?");
+                                
+                                stmt = conn.prepareStatement("UPDATE STATS SET `total_microformats`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setInt(1,total_micron);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
-                                cell   = rowA.createCell(44);
-                                cell.setCellValue(micron1);
-                                stmt = conn.prepareStatement("UPDATE STATS SET Microformats-1=? WHERE url=?");
+                                
+                                stmt = conn.prepareStatement("UPDATE STATS SET `Microformats-1`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setInt(1,micron1);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
-                                cell   = rowA.createCell(45);
-                                cell.setCellValue(micron2);
-                                stmt = conn.prepareStatement("UPDATE STATS SET Microformats-2=? WHERE url=?");
+                                
+                                stmt = conn.prepareStatement("UPDATE STATS SET `Microformats-2`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setInt(1,micron2);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
-                                cell   = rowA.createCell(46);
-                                cell.setCellValue(microd);
-                                stmt = conn.prepareStatement("UPDATE STATS SET Microdata=? WHERE url=?");
+                                
+                                stmt = conn.prepareStatement("UPDATE STATS SET `Microdata`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setInt(1,microd);
                                 stmt.setString(2,links_total[j]);
-                                stmt.executeUpdate();
-                                int cellno=46;
-                                for(int nsi=0;nsi<striple.namespaces.length;nsi++){
-                                    cellno=nsi+47;
-                                    cell = rowA.createCell(cellno);
-                                    cell.setCellValue(striple.namespaces[nsi]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
                                 }
-                                cell = rowA.createCell(cellno+1);
-                                cell.setCellValue(htm.foaf);
-                                stmt = conn.prepareStatement("UPDATE STATS SET FOAF_HTML=? WHERE url=?");
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
+                                stmt.executeUpdate();
+                                
+                                stmt = conn.prepareStatement("UPDATE STATS SET `FOAF_HTML`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
                                 stmt.setInt(1,htm.foaf);
                                 stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
+                                if(j<results_number){
+                                    stmt.setInt(4,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(4,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(4,2);//2 for bing
+                                }
                                 stmt.executeUpdate();
+                                
+                                
                                 System.out.println("I created all cells");
                             }
-                            else{
-                                
-                                cell   = rowA.createCell(1);
-                                cell.setCellValue(-10);
-                                cell   = rowA.createCell(2);
-                                cell.setCellValue(-10);
-                                cell   = rowA.createCell(3);
-                                cell.setCellValue(-10);
-                                cell   = rowA.createCell(8);
-                                cell.setCellValue(-10);
-                                cell   = rowA.createCell(9);
-                                cell.setCellValue(-10);
-                                cell   = rowA.createCell(10);
-                                cell.setCellValue(-10);
-                                cell   = rowA.createCell(11);
-                                cell.setCellValue(-10);
-                                cell   = rowA.createCell(12);
-                                cell.setCellValue(-10);
-                                cell   = rowA.createCell(13);
-                                cell.setCellValue(-10);
-                                cell   = rowA.createCell(14);
-                                cell.setCellValue(-10);
-                                cell   = rowA.createCell(15);
-                                cell.setCellValue(-10);
-                                cell   = rowA.createCell(16);
-                                cell.setCellValue(-10);
-                                cell   = rowA.createCell(44);
-                                cell.setCellValue(-10);
-                                cell   = rowA.createCell(45);
-                                cell.setCellValue(-10);
-                                cell   = rowA.createCell(46);
-                                cell.setCellValue(-10);
-                                int cellno=46;
-                                for(int nsi=0;nsi<striple.namespaces.length;nsi++){
-                                    cellno=nsi+47;
-                                    cell = rowA.createCell(cellno);
-                                    cell.setCellValue(striple.namespaces[nsi]);
-                                }
-                                cell = rowA.createCell(cellno+1);
-                                cell.setCellValue(-10);
-                                System.out.println("I created unexecuted cells");
-                            }
+                            
                         }
                     } 
                 }
-                //----save the above to excel file
-                File file_xls = new File(example_dir + "workbook"+quer+".xls");
-                try (FileOutputStream fileOut = new FileOutputStream(file_xls)) {
-                    workbook.write(fileOut);
-                }    
-                System.out.println("I saved the xls");
 
                 if(ContentSemantics.get(3)||ContentSemantics.get(1)){
                 //we perform LDA or TFIDF analysis to the links obtained
