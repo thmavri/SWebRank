@@ -36,14 +36,13 @@ public String perform(String[] total_links,String example_dir,String quer,int nT
                                 parse_output[i]=parse_output[i]+total_catent[p][1];
                             }
                         }
-                        if (total_links[i].contains("http://www.youtube.com/watch?") || total_links[i].contains("http://www.imdb.com") || total_links[i].contains("cm-gc.com")|| total_links[i].contains(".ppt") || total_links[i].contains(".pdf") || !apicon.check_conn(total_links[i]).contains("ok-conn")) {
+                        System.out.println("Link: "+total_links[i]+"\n");
+                        if (total_links[i].contains("http://www.youtube.com/watch?") || total_links[i].contains("http://www.imdb.com") || total_links[i].contains("cm-gc.com")|| total_links[i].contains(".ppt") || total_links[i].contains("indymedia") || total_links[i].contains(".pdf") || !apicon.check_conn(total_links[i]).contains("ok-conn")) {
                             if (total_links[i].contains("http://www.youtube.com/watch?")) {
                                 String ventry = total_links[i].substring(31);
                                 JSONparsing ypr = new JSONparsing();
                                 System.gc();
-                                System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-                                System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&"+total_links[i]+"&&&&&&&&&&&&&");
-                                System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+                                
                                 url_check=total_links[i];
                                 File current_url = new File(example_dir+ search_engine +"/" + i + "/"+ "current_url.txt");
                                 FileUtils.writeStringToFile(current_url ,url_check);
