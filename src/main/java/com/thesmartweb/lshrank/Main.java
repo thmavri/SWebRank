@@ -9,33 +9,16 @@ package com.thesmartweb.lshrank;
  * @author Themis Mavridis
  */
 import java.io.*;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.commons.io.FileUtils;
 import java.util.*;
 import java.util.List;
-import com.seomoz.api.authentication.Authenticator;
-import com.seomoz.api.service.URLMetricsService;
 import org.apache.commons.io.FilenameUtils;
-import java.net.MalformedURLException;
-import java.net.URL;
-//import uk.ac.shef.wit.simmetrics.similaritymetrics.CosineSimilarity;
-import JavaMI.MutualInformation;
-import JavaMI.Entropy;
-import JavaMI.JointProbabilityState;
-import JavaMI.ProbabilityState;
-import JavaMI.*;
+//import JavaMI.MutualInformation;
+//import JavaMI.Entropy;
+//import JavaMI.JointProbabilityState;
+//import JavaMI.ProbabilityState;
+//import JavaMI.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Main {
 
@@ -158,104 +141,100 @@ public class Main {
                                 query_new_list_total.addAll(query_new_list);
                                 query_new_index++;//we increase the query_new_index
                                 System.out.println("query pointer=" + query_new_index + "");
+                            }
+                        }
+                        //---------------------the following cleans a list from null and duplicates
+                        query_new_list_total=wordsmanipulation.clearListString(query_new_list_total);
+                        //-------we  create an array from the list of the new queries
+                        //String[] query_new_total = query_new_list_total.toArray(new String[query_new_list_total.size()]);
+                        //--------------we create the new directory that our files are going to be saved 
+                        String txt_directory=FilenameUtils.getBaseName(input.getName());
+                        output_child_directory=output_parent_directory+txt_directory+"_level_"+iteration_counter+"//";
+                        //----------------append the wordlist to a file
+                        wordsmanipulation.AppendWordList(query_new_list_total, output_child_directory+"queries_"+iteration_counter+".txt");
+                        //-----------------------------------------
+                        //total analysis' function is going to do all the work and return back what we need
+                        ta.perform(output_child_directory,enginechoice, query_new_list_total, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings);
+                        //we get a vector wordlist that includes the words produced in current iteration
+                        array_wordLists = ta.getarray_wordLists(); //
+
+                        //---------------------the following cleans a list from null and duplicates
+
+                        wordList_new=wordsmanipulation.clearListString(wordList_new);
+                        //---------------------------------------------------------------------------
+
+
+                        //----------------append the wordlist to a file
+                        wordsmanipulation.AppendWordList(wordList_new, output_child_directory+ "wordList.txt");
+                        //-----------------------------------------
+
+                        //we are going to check the convergence rate
+                        Checkconversion cc = new Checkconversion(); // here we check the convergence between the two wordLists, the new and the previous
+                        //the concergence percentage of this iteration
+                        conversion_percentage = cc.perform(wordList_new, wordList_previous);
+                        //a string that contains all the convergence percentage for each round separated by \n character
+                        conv_percentages = conv_percentages + "\n" + conversion_percentage;
+                        //a file that is going to include the convergence percentages
+
+                        //----------------append the string with convergence percentages to a file
+                        wordsmanipulation.AppendString(conv_percentages, output_child_directory+ "conversion_percentage.txt");
+                        //-----------------------------------------
+
+                        //we add the new wordList to the finalList
+                        finalList=wordsmanipulation.AddAList(wordList_new, finalList);
+
+                        //we add the previous wordList to the finalList
+                        finalList=wordsmanipulation.AddAList(wordList_previous, finalList);
+
+                        //we set the query array to be equal to the query new total that we have created
+                        queries=query_new_list_total;
+                        //we increment the iteration_counter in order to count the iterations of the algorithm and to use the perf_limit
+                        iteration_counter++;
+                    }
+                    else{//the following source code is performed on the 1st run of the loop
+                    
+                        //------------we extract the parent path of the file 
+                        String txt_directory=FilenameUtils.getBaseName(input.getName());
+                        //----------we create a string that is going to be used for the corresponding directory of outputs
+                        output_child_directory=output_parent_directory+txt_directory+"_level_"+iteration_counter+"//";
+                        //we call total analysis function perform
+                        ta.perform(output_child_directory,enginechoice, queries, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings);
+                        //we get the array of wordlists
+                        array_wordLists=ta.getarray_wordLists();
+                        //get the wordlist that includes all the new queries
+                        wordList_new=ta.getwordList_total();
+                        //---------------------the following cleans a list from null and duplicates
+                        wordList_new=wordsmanipulation.clearListString(wordList_new);
+                        //---------------------------------------------------------------------------
+
+                        //----------------append the wordlist to a file
+                        wordsmanipulation.AppendWordList(wordList_new, output_child_directory+"wordList.txt");
+                        //-----------------------------------------
+                        iteration_counter++;//increase the iteration_counter that counts the iterations of the algorithm
+                    }
+                }while(conversion_percentage<LSHrankSettings.get(5).doubleValue()&&iteration_counter<LSHrankSettings.get(8).intValue());//while the convergence percentage is below the limit and the iteration_counter below the performance limit
+
+                    //--------------------content List----------------
+                    if (!finalList.isEmpty()) {
+                        //---------------------the following cleans the final list from null and duplicates
+                        finalList=wordsmanipulation.clearListString(finalList);
+                        //write the keywords to a file
+                        boolean flag_file = false;//boolean flag to declare successful write to file
+                        flag_file=wordsmanipulation.AppendWordList(finalList, output_parent_directory+"total_content.txt");
+                        if(!flag_file){
+                            System.out.print("can not create the content file for: "+output_parent_directory+"total_content.txt");
                         }
                     }
-                    //---------------------the following cleans a list from null and duplicates
-                    query_new_list_total=wordsmanipulation.clearListString(query_new_list_total);
-                    //-------we  create an array from the list of the new queries
-                    //String[] query_new_total = query_new_list_total.toArray(new String[query_new_list_total.size()]);
-                    //--------------we create the new directory that our files are going to be saved 
-                    String txt_directory=FilenameUtils.getBaseName(input.getName());
-                    output_child_directory=output_parent_directory+txt_directory+"_level_"+iteration_counter+"//";
-                    //----------------append the wordlist to a file
-                    wordsmanipulation.AppendWordList(query_new_list_total, output_child_directory+"queries_"+iteration_counter+".txt");
-                    //-----------------------------------------
-                    //total analysis' function is going to do all the work and return back what we need
-                    ta.perform(output_child_directory,enginechoice, query_new_list_total, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings);
-                    //we get a vector wordlist that includes the words produced in current iteration
-                    array_wordLists = ta.getarray_wordLists(); //
-
-                    //---------------------the following cleans a list from null and duplicates
-
-                    wordList_new=wordsmanipulation.clearListString(wordList_new);
-                    //---------------------------------------------------------------------------
-
-
-                    //----------------append the wordlist to a file
-                    wordsmanipulation.AppendWordList(wordList_new, output_child_directory+ "wordList.txt");
-                    //-----------------------------------------
-
-                    //we are going to check the convergence rate
-                    Checkconversion cc = new Checkconversion(); // here we check the convergence between the two wordLists, the new and the previous
-                    //the concergence percentage of this iteration
-                    conversion_percentage = cc.perform(wordList_new, wordList_previous);
-                    //a string that contains all the convergence percentage for each round separated by \n character
-                    conv_percentages = conv_percentages + "\n" + conversion_percentage;
-                    //a file that is going to include the convergence percentages
-                    
-                    //----------------append the string with convergence percentages to a file
-                    wordsmanipulation.AppendString(conv_percentages, output_child_directory+ "conversion_percentage.txt");
-                    //-----------------------------------------
-                   
-                    //we add the new wordList to the finalList
-                    finalList=wordsmanipulation.AddAList(wordList_new, finalList);
-                    
-                    //we add the previous wordList to the finalList
-                    finalList=wordsmanipulation.AddAList(wordList_previous, finalList);
-                    
-                    //we set the query array to be equal to the query new total that we have created
-                    queries=query_new_list_total;
-                    //we increment the iteration_counter in order to count the iterations of the algorithm and to use the perf_limit
-                    iteration_counter++;
-                }
-                else{//the following source code is performed on the 1st run of the loop
-                    
-                    //------------we extract the parent path of the file 
-                    String txt_directory=FilenameUtils.getBaseName(input.getName());
-                    //----------we create a string that is going to be used for the corresponding directory of outputs
-                    output_child_directory=output_parent_directory+txt_directory+"_level_"+iteration_counter+"//";
-                    //we call total analysis function perform
-                    ta.perform(output_child_directory,enginechoice, queries, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings);
-                    //we get the array of wordlists
-                    array_wordLists=ta.getarray_wordLists();
-                    //get the wordlist that includes all the new queries
-                    wordList_new=ta.getwordList_total();
-                    //---------------------the following cleans a list from null and duplicates
-                    wordList_new=wordsmanipulation.clearListString(wordList_new);
-                    //---------------------------------------------------------------------------
-
-                    //----------------append the wordlist to a file
-                    wordsmanipulation.AppendWordList(wordList_new, output_child_directory+"wordList.txt");
-                    //-----------------------------------------
-                    iteration_counter++;//increase the iteration_counter that counts the iterations of the algorithm
-                }
-            }while(conversion_percentage<LSHrankSettings.get(5).doubleValue()&&iteration_counter<LSHrankSettings.get(8).intValue());//while the convergence percentage is below the limit and the iteration_counter below the performance limit
-
-            //--------------------content List----------------
-            if (!finalList.isEmpty()) {
-                //---------------------the following cleans the final list from null and duplicates
-                finalList=wordsmanipulation.clearListString(finalList);
-                //write the keywords to a file
-                boolean flag_file = false;//boolean flag to declare successful write to file
-                flag_file=wordsmanipulation.AppendWordList(finalList, output_parent_directory+"total_content.txt");
-                if(!flag_file){
-                    System.out.print("can not create the content file for: "+output_parent_directory+"total_content.txt");
-                }
+                    //----------------------convergence percentages writing to file---------------
+                    //use the conv_percentages string
+                    if(conv_percentages.length()!=0){
+                        boolean flag_file = false;//boolean flag to declare successful write to file
+                        flag_file=wordsmanipulation.AppendString(conv_percentages, output_parent_directory+"conversion_percentages.txt");
+                        if(!flag_file){
+                            System.out.print("can not create the conversion file for: "+output_parent_directory+"conversion_percentages.txt");
+                        }
+                    }
             }
-            //----------------------convergence percentages writing to file---------------
-            //use the conv_percentages string
-            if(conv_percentages.length()!=0){
-                boolean flag_file = false;//boolean flag to declare successful write to file
-                flag_file=wordsmanipulation.AppendString(conv_percentages, output_parent_directory+"conversion_percentages.txt");
-                if(!flag_file){
-                    System.out.print("can not create the conversion file for: "+output_parent_directory+"conversion_percentages.txt");
-                }
-            }
-        }
-            
-            
-           
-
     }
 }
 

@@ -8,13 +8,8 @@ package com.thesmartweb.lshrank;
  *
  * @author Themis Mavridis
  */
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import java.util.*;
-import org.apache.poi.POIDocument;
-import org.apache.poi.hssf.usermodel.*;
-import java.io.FileOutputStream;
-import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -35,20 +30,15 @@ public class Search_analysis {
     public String gchk;
     public String bchk;
     public String tchk;
-    public List<String> perform(String example_dir, List<Boolean> enginechoice, String quer, int results_number, int top_visible,List<Double> LSHrankSettings,double alpha, List<Boolean> mozMetrics, int top_count_moz, boolean moz_threshold_option,double moz_threshold, List<Boolean> ContentSemantics, int SensebotConcepts){ //set the directory
-
+    public List<String> perform(String example_dir, List<Boolean> enginechoice, String quer, int results_number, int top_visible,List<Double> LSHrankSettings,double alpha, List<Boolean> mozMetrics, int top_count_moz, boolean moz_threshold_option,double moz_threshold, List<Boolean> ContentSemantics, int SensebotConcepts){ 
         try {
             Connection conn = null;
             PreparedStatement stmt = null;
-            ResultSet rs = null;
-
             String url = "jdbc:mysql://localhost:3306/LSHrankDB?zeroDateTimeBehavior=convertToNull";
             String user = "root";
             String password = "843647";
-            
             System.out.println("Connecting to database...");
             conn = DriverManager.getConnection(url,user,password);
-                      
             LinksParseAnalysis ld=new LinksParseAnalysis();
             //we create the array that are going to store the results from each search engine
             String[] links_google=new String[results_number];
@@ -60,7 +50,6 @@ public class Search_analysis {
             if(mozMetrics.get(0)){
                 links_total=new String[(top_count_moz)*3];
             }
-            int flag_links_check=0;
             int[] nlinks=new int[2];
             if(enginechoice.get(0)){
                 //get bing results
@@ -526,7 +515,6 @@ public class Search_analysis {
                             stmt.setInt(4,2);//2 for bing
                         }
                         stmt.executeUpdate();
-                        flag_links_check=1;//a flag used in order to know that the link was not null
                         if(htm.checkconn(links_total[j])){
                             nlinks=htm.getnlinks(links_total[j]);
                             
