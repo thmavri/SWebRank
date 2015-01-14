@@ -58,53 +58,62 @@ public String connect(URL link_ur) {
 
 }
 
-public String check_conn(String link)throws IOException{
-        URL link_ur=new URL(link);
-        String line="DNS-error";
-        if(link.startsWith("http:")){
-            httpCon = (HttpURLConnection) link_ur.openConnection();
-            httpCon.setDefaultUseCaches(false);
-            httpCon.setReadTimeout(20000);
-            httpCon.setDoInput(true);
-            httpCon.connect();
-            line="fail-conn";
-            try{
-                int responseCode=httpCon.getResponseCode();
-                if (responseCode==200){line="ok-conn";}
-            }
-            catch (Exception e){
-                System.out.println(link);
-                System.gc();
-                System.gc();
-                System.gc();
-                httpCon=null;
+public String check_conn(String link){
+        try {
+            URL link_ur=new URL(link);
+            String line="DNS-error";
+            if(link.startsWith("http:")){
+                httpCon = (HttpURLConnection) link_ur.openConnection();
+                httpCon.setDefaultUseCaches(false);
+                httpCon.setReadTimeout(20000);
+                httpCon.setDoInput(true);
+                httpCon.connect();
                 line="fail-conn";
-                return line;
+                try{
+                    int responseCode=httpCon.getResponseCode();
+                    if (responseCode==200){line="ok-conn";}
+                }
+                catch (Exception e){
+                    System.out.println(link);
+                    System.gc();
+                    System.gc();
+                    System.gc();
+                    httpCon=null;
+                    line="fail-conn";
+                    return line;
+                }
             }
-        }
-        else if (link.startsWith("https")){
-            httpsCon = (HttpsURLConnection) link_ur.openConnection();
-            httpsCon.setDefaultUseCaches(false);
-            httpsCon.setReadTimeout(20000);
-            httpsCon.setDoInput(true);
-            httpsCon.connect();
-            //httpCon.connect();
-            line="fail-conn";
-            try{
-                int responseCode=httpsCon.getResponseCode();
-                if (responseCode==200){line="ok-conn";}
-            }
-            catch (Exception e){
-                System.out.println(link);
-                System.gc();
-                System.gc();
-                System.gc();
-                httpsCon=null;
+            else if (link.startsWith("https")){
+                httpsCon = (HttpsURLConnection) link_ur.openConnection();
+                httpsCon.setDefaultUseCaches(false);
+                httpsCon.setReadTimeout(20000);
+                httpsCon.setDoInput(true);
+                httpsCon.connect();
+                //httpCon.connect();
                 line="fail-conn";
-                return line;
+                try{
+                    int responseCode=httpsCon.getResponseCode();
+                    if (responseCode==200){line="ok-conn";}
+                }
+                catch (Exception e){
+                    System.out.println(link);
+                    System.gc();
+                    System.gc();
+                    System.gc();
+                    httpsCon=null;
+                    line="fail-conn";
+                    return line;
+                }
             }
-        }
-        return line;
+            return line;
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(APIconn.class.getName()).log(Level.SEVERE, null, ex);
+            return "fail-conn";
+        } catch (IOException ex) {
+            Logger.getLogger(APIconn.class.getName()).log(Level.SEVERE, null, ex);
+            return "fail-conn";
+        } 
+        
 }
 public String azureconnect(URL link_ur){
     String string_link_ur=link_ur.toString();
