@@ -23,28 +23,122 @@ import org.jsoup.select.Elements;
  * @author Themis Mavridis
  */
 public class WebParser {
+
+    /**
+     *
+     */
     public int number_embeded_videos;
+
+    /**
+     *
+     */
     public int number_embeded_videos_internal;
+
+    /**
+     *
+     */
     public int scripts_number;
+
+    /**
+     *
+     */
     public int scripts_internal;
+
+    /**
+     *
+     */
     public int frames_number;
+
+    /**
+     *
+     */
     public int frames_internal;
+
+    /**
+     *
+     */
     public int links_number;
+
+    /**
+     *
+     */
     public int links_internal;
+
+    /**
+     *
+     */
     public int nauth;
+
+    /**
+     *
+     */
     public int nschem;
+
+    /**
+     *
+     */
     public int hcardsn;
+
+    /**
+     *
+     */
     public int hcalen;
+
+    /**
+     *
+     */
     public int hrevn;
+
+    /**
+     *
+     */
     public int hevenn;
+
+    /**
+     *
+     */
     public int haddrn;
+
+    /**
+     *
+     */
     public int hgeon;
+
+    /**
+     *
+     */
     public int hreln;
+
+    /**
+     *
+     */
     public int total_micron;
+
+    /**
+     *
+     */
     public int micron1;
+
+    /**
+     *
+     */
     public int micron2;
+
+    /**
+     *
+     */
     public int microd;
+
+    /**
+     *
+     */
     public int foaf;
+
+    /**
+     *
+     * @param html_string
+     * @return
+     */
     public String Parse(String html_string){
         String content;
         content=cleanhtml(html_string);
@@ -59,7 +153,11 @@ public class WebParser {
       
     }
 
-    
+    /**
+     *
+     * @param link_html
+     * @return
+     */
     public String cleanhtml(String link_html)
     { 
         try {
@@ -113,6 +211,11 @@ public class WebParser {
     
     }
     
+    /**
+     *
+     * @param link_html
+     * @return
+     */
     public int[] getnlinks(String link_html){
         int[] nlinks= new int[2];
         nlinks[0]=0;//total number of links
@@ -133,6 +236,11 @@ public class WebParser {
     
     }
        
+    /**
+     *
+     * @param link_html
+     * @return
+     */
     public boolean gethtmlstats(String link_html){
         try {
             Document doc = Jsoup.connect(link_html).timeout(10*1000).get();
@@ -303,6 +411,13 @@ public class WebParser {
         }
     
     }  
+
+    /**
+     *
+     * @param link_html
+     * @param dir
+     * @return
+     */
     public List<String> getbold(String link_html,String dir)
     {  List<String> SEwords=new ArrayList<String>();
         try {
@@ -335,6 +450,12 @@ public class WebParser {
         }
     
     }
+
+    /**
+     *
+     * @param link_html
+     * @return
+     */
     public boolean checkconn(String link_html){  
         try {
             Connection.Response response = Jsoup.connect(link_html).timeout(10*1000).execute();

@@ -25,9 +25,24 @@ import java.net.URL;import java.net.URLEncoder;
  * @author xyz 
  */  
 public class YahooEntityCategory {
+
+    /**
+     *
+     */
     public static int ent_query_cnt=0;
+
+    /**
+     *
+     */
     public static int cat_query_cnt=0;
-public String[] connect(String urlcheck,String quer) {  
+  
+    /**
+     *
+     * @param urlcheck
+     * @param quer
+     * @return
+     */
+    public String[] connect(String urlcheck,String quer) {  
   
 try {  
     cat_query_cnt=0;
@@ -58,10 +73,20 @@ try {
         return output;
 }  
 } 
-public int GetEntQuerCnt(){
+
+    /**
+     *
+     * @return
+     */
+    public int GetEntQuerCnt(){
     return ent_query_cnt;
 }
-public int GetCatQuerCnt(){
+
+    /**
+     *
+     * @return
+     */
+    public int GetCatQuerCnt(){
     return cat_query_cnt;
 }
   

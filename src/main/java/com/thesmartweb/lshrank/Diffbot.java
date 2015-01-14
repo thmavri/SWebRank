@@ -14,7 +14,17 @@ import org.apache.commons.io.FileUtils;
  * @author Administrator
  */
 public class Diffbot {
+
+    /**
+     *
+     */
     public HttpURLConnection httpCon;
+
+    /**
+     *
+     * @param link_ur
+     * @return
+     */
     public String connect(URL link_ur) {
         try{
             String line="";
@@ -44,6 +54,13 @@ public class Diffbot {
         }
     
     }
+
+    /**
+     *
+     * @param links
+     * @param directory
+     * @return
+     */
     public List<String> compute (String[] links,String directory){
         List<String> wordList=null;
         try{

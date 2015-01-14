@@ -26,7 +26,17 @@ import org.dom4j.io.SAXReader;
  */
  
 public class Sensebot {
+
+    /**
+     *
+     */
     public HttpURLConnection httpCon;
+
+    /**
+     *
+     * @param link_ur
+     * @return
+     */
     public String connect(URL link_ur) {
         try{
             SAXReader reader = new SAXReader();
@@ -48,6 +58,14 @@ public class Sensebot {
         } 
     
     }
+
+    /**
+     *
+     * @param links
+     * @param directory
+     * @param SensebotConcepts
+     * @return
+     */
     public List<String> compute (String[] links,String directory,int SensebotConcepts){
        List<String> wordList=new ArrayList<String>();
        try{

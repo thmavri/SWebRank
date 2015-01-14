@@ -16,10 +16,24 @@ import javax.net.ssl.HttpsURLConnection;
  * @author Themis Mavridis
  */
 public class APIconn {
+
+    /**
+     *
+     */
     public HttpURLConnection httpCon;
+
+    /**
+     *
+     */
     public HttpsURLConnection httpsCon;
     //public HttpsURLConnection[] httpsConn;
-public String sslconnect(URL link_ur) {
+
+    /**
+     *
+     * @param link_ur
+     * @return
+     */
+    public String sslconnect(URL link_ur) {
         try {
             HttpsURLConnection httpsConn=(HttpsURLConnection) link_ur.openConnection();
             String line=httpsConn.getResponseMessage();
@@ -31,7 +45,13 @@ public String sslconnect(URL link_ur) {
         }
 
 }
-public String connect(URL link_ur) {
+
+    /**
+     *
+     * @param link_ur
+     * @return
+     */
+    public String connect(URL link_ur) {
         try {
             httpCon = (HttpURLConnection) link_ur.openConnection();
             if (httpCon.getResponseCode() != 200) {
@@ -58,7 +78,12 @@ public String connect(URL link_ur) {
 
 }
 
-public String check_conn(String link){
+    /**
+     *
+     * @param link
+     * @return
+     */
+    public String check_conn(String link){
         try {
             URL link_ur=new URL(link);
             String line="DNS-error";
@@ -115,7 +140,13 @@ public String check_conn(String link){
         } 
         
 }
-public String azureconnect(URL link_ur){
+
+    /**
+     *
+     * @param link_ur
+     * @return
+     */
+    public String azureconnect(URL link_ur){
     String string_link_ur=link_ur.toString();
     String line="fail";
     if(string_link_ur.substring(23,28).equalsIgnoreCase("azure")){

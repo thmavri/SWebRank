@@ -46,7 +46,13 @@ package com.thesmartweb.lshrank;
  * @version $Revision: 1.4 $
  */
 public class Stopwords {
-  public String stop(String input){
+
+    /**
+     *
+     * @param input
+     * @return
+     */
+    public String stop(String input){
     String[] stoparr={
 
     "a",

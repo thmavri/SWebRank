@@ -15,14 +15,34 @@ import jgibblda.*;
  * @author Themis Mavridis
  */
 public class LDAcall {
-        public void call(int nTopics,double alpha,double beta,int niters,int top_words,String directory){
+
+    /**
+     *
+     * @param nTopics
+     * @param alpha
+     * @param beta
+     * @param niters
+     * @param top_words
+     * @param directory
+     */
+    public void call(int nTopics,double alpha,double beta,int niters,int top_words,String directory){
         //run the LDA
         String directory_LDA=directory;
         System.gc();
         LDAestimate( nTopics, directory_LDA , alpha,beta,niters, top_words);
         System.gc();
         }
-        public void LDAestimate(int nTopics, String directory, double alpha, double beta, int niters,int top_words){
+
+    /**
+     *
+     * @param nTopics
+     * @param directory
+     * @param alpha
+     * @param beta
+     * @param niters
+     * @param top_words
+     */
+    public void LDAestimate(int nTopics, String directory, double alpha, double beta, int niters,int top_words){
         System.gc();
         System.out.println("Starting LDA for discovering " + nTopics + " topics in " + directory + "content_lda.txt");
         LDACmdOption option = new LDACmdOption();

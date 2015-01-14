@@ -34,7 +34,10 @@ public class YahooConn {
   
 private static final Logger log = Logger.getLogger(YahooConn.class);  
   
-protected static String yahooServer = "http://query.yahooapis.com/v1/public/yql";  
+    /**
+     *
+     */
+    protected static String yahooServer = "http://query.yahooapis.com/v1/public/yql";  
   
 // Please provide your consumer key here  
 private static String consumer_key = "dj0yJmk9SlZGZml5ZzM0WlA5JmQ9WVdrOWVVOHlhMGM0TkhNbWNHbzlPVEUwTnpZMk1qWXkmcz1jb25zdW1lcnNlY3JldCZ4PTU0";  
@@ -55,6 +58,7 @@ private static final int HTTP_STATUS_OK = 200;
   
 /** 
  *  
+     * @param query
  * @return 
  */  
 public String returnHttpData(String query)   
@@ -141,8 +145,10 @@ return false;
 }  
 return true;  
 }  
-/** 
+/**
+     * @param query
  * @param args 
+     * @return  
  */  
 public String connect(String query) {  
   

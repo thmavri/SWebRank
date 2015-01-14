@@ -16,10 +16,39 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
 
+/**
+ *
+ * @author themis
+ */
 public class LinksParseAnalysis {
+
+    /**
+     *
+     */
     public String url_check;
+
+    /**
+     *
+     */
     protected List<String> topWordsTFIDF;
-public String perform(String[] total_links,String example_dir,String quer,int nTopics,double alpha,double beta,int niters,int top_words,String search_engine,boolean LDAflag,boolean TFIDFflag, String[][] total_catent){
+
+    /**
+     *
+     * @param total_links
+     * @param example_dir
+     * @param quer
+     * @param nTopics
+     * @param alpha
+     * @param beta
+     * @param niters
+     * @param top_words
+     * @param search_engine
+     * @param LDAflag
+     * @param TFIDFflag
+     * @param total_catent
+     * @return
+     */
+    public String perform(String[] total_links,String example_dir,String quer,int nTopics,double alpha,double beta,int niters,int top_words,String search_engine,boolean LDAflag,boolean TFIDFflag, String[][] total_catent){
         try {
             System.gc();
             WebParser web = new WebParser();
@@ -119,5 +148,10 @@ public String perform(String[] total_links,String example_dir,String quer,int nT
             return chk;
         }
 }
-public List<String> return_topWordsTFIDF(){return topWordsTFIDF;}
+
+    /**
+     *
+     * @return
+     */
+    public List<String> return_topWordsTFIDF(){return topWordsTFIDF;}
 }

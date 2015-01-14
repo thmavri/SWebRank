@@ -26,7 +26,15 @@ import java.util.*;
  * @author Themis Mavridis
  */
 public class YahooResults {
- public String[] Get(String quer,int yahoo_results_number,String example_dir){
+
+    /**
+     *
+     * @param quer
+     * @param yahoo_results_number
+     * @param example_dir
+     * @return
+     */
+    public String[] Get(String quer,int yahoo_results_number,String example_dir){
      String chk="ok";
      String[] links=new String[yahoo_results_number];
      try {
@@ -57,7 +65,13 @@ public class YahooResults {
         }
        
 }
- public Long Get_Results_Number(String quer) 
+ 
+    /**
+     *
+     * @param quer
+     * @return
+     */
+    public Long Get_Results_Number(String quer) 
     {   try {
             long results_number = 0;
             //we connect through 

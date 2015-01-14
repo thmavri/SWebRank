@@ -17,8 +17,19 @@ import org.apache.commons.io.FileUtils;
  * @author Administrator
  */
 public class TFIDF {
+
+    /**
+     *
+     */
     protected List<String> topWordsList;
-     public double tfCalculator(String Doc, String termToCheck) {
+
+    /**
+     *
+     * @param Doc
+     * @param termToCheck
+     * @return
+     */
+    public double tfCalculator(String Doc, String termToCheck) {
         double count = 0;  //to count the overall occurrence of the term termToCheck
         String[] tokenizedTerms = Doc.toString().replaceAll("[\\W&&[^\\s]]", "").split("\\W+");   //to get individual terms
         for (String s : tokenizedTerms) {
@@ -30,7 +41,15 @@ public class TFIDF {
         
         return tfvalue;
     }
-   public double idfCalculator(List<List<String>> allwordsList, String termToCheck, int NumberOfDocs) {
+
+    /**
+     *
+     * @param allwordsList
+     * @param termToCheck
+     * @param NumberOfDocs
+     * @return
+     */
+    public double idfCalculator(List<List<String>> allwordsList, String termToCheck, int NumberOfDocs) {
         double count = 0;
         for (List<String> wordList : allwordsList){
             for (String s : wordList){
@@ -45,7 +64,15 @@ public class TFIDF {
         double output=1+Math.log(NumberOfDocs/ (1+count));
         return output;
     }
-   public List<String> compute(String[] allDocs,int topWords, String directory){
+
+    /**
+     *
+     * @param allDocs
+     * @param topWords
+     * @param directory
+     * @return
+     */
+    public List<String> compute(String[] allDocs,int topWords, String directory){
          try {
              
              List<List<String>> allwordsList = new ArrayList<List<String>>();

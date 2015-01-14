@@ -11,7 +11,16 @@ import java.util.*;
  * @author Themis Mavridis
  */
 public class VisibilityScore {
-public String[] perform(String[] links1,String[] links2,String[] links3,int top_visible)
+
+    /**
+     *
+     * @param links1
+     * @param links2
+     * @param links3
+     * @param top_visible
+     * @return
+     */
+    public String[] perform(String[] links1,String[] links2,String[] links3,int top_visible)
 {           //gets as input the links from the engines and gets them to lists in order to combine them
             List<String> link_list1=Arrays.asList(links1);
             List<String> link_list2=Arrays.asList(links2);
@@ -38,7 +47,17 @@ public String[] perform(String[] links1,String[] links2,String[] links3,int top_
 
 
 }
-public String[] visibility_score(String[] links,String[] links1,String[] links2,String[] links3,int top_visible)
+
+    /**
+     *
+     * @param links
+     * @param links1
+     * @param links2
+     * @param links3
+     * @param top_visible
+     * @return
+     */
+    public String[] visibility_score(String[] links,String[] links1,String[] links2,String[] links3,int top_visible)
 {           Integer[] scores=new Integer[links.length];
             for(int i=0;i<0;i++){scores[i]=0;}
             //we compare every link of the merged engine with the links of each engine and when we found it in an engine we give the link a score of the place we found it

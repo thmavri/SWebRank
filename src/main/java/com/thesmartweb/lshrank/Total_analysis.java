@@ -12,10 +12,38 @@ package com.thesmartweb.lshrank;
 import java.util.*;
 
 import java.util.List;
+
+/**
+ *
+ * @author themis
+ */
 public class Total_analysis {
+
+    /**
+     *
+     */
     protected List<ArrayList<String>> array_wordLists = new ArrayList<ArrayList<String>>();
+
+    /**
+     *
+     */
     protected List<String> wordList_total = new ArrayList<String>();
 
+    /**
+     *
+     * @param example_dir
+     * @param enginechoice
+     * @param queries
+     * @param results_number
+     * @param top_visible
+     * @param mozMetrics
+     * @param moz_threshold_option
+     * @param moz_threshold
+     * @param top_count_moz
+     * @param ContentSemantics
+     * @param SensebotConcepts
+     * @param LSHrankSettings
+     */
     public void perform(String example_dir,List<Boolean> enginechoice,List<String> queries,int results_number, int top_visible, List<Boolean> mozMetrics, boolean moz_threshold_option, double moz_threshold, int top_count_moz, List<Boolean> ContentSemantics, int SensebotConcepts, List<Double> LSHrankSettings){
         //for every term of the query String[] it performs the search analysis function
         //which includes sumbission of the term to the search engines, getting the results according to the options selected
@@ -42,10 +70,20 @@ public class Total_analysis {
        }
      
      }
+
+    /**
+     *
+     * @return
+     */
     public List<String> getwordList_total()
     {
         return wordList_total;
     }
+
+    /**
+     *
+     * @return
+     */
     public List<ArrayList<String>> getarray_wordLists()
     {
         return array_wordLists;

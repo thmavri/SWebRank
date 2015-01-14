@@ -29,6 +29,12 @@ import org.apache.commons.io.IOUtils;
  * @author Administrator
  */
 public class DataManipulation {
+
+    /**
+     *
+     * @param wordList
+     * @return
+     */
     public List<String> clearListString(List<String> wordList){
             //remove all null elements of the wordlist
             wordList.removeAll(Collections.singleton(null));
@@ -44,7 +50,14 @@ public class DataManipulation {
             return wordList;         
                     
     }
-     public boolean AppendWordList(List<String> wordList, String file_wordlist){
+
+    /**
+     *
+     * @param wordList
+     * @param file_wordlist
+     * @return
+     */
+    public boolean AppendWordList(List<String> wordList, String file_wordlist){
             //----------------append the wordlist to a file
                         File wordlist_file = new File(file_wordlist);
                         try {
@@ -57,7 +70,14 @@ public class DataManipulation {
                         //-----------------------------------------        
                     
     }
-     public boolean AppendString(String input, String file_string){
+
+    /**
+     *
+     * @param input
+     * @param file_string
+     * @return
+     */
+    public boolean AppendString(String input, String file_string){
             //----------------append the wordlist to a file
                         File string_file = new File(file_string);
                         try {
@@ -70,6 +90,13 @@ public class DataManipulation {
                         //-----------------------------------------        
                     
     }
+
+    /**
+     *
+     * @param wordListtoAdd
+     * @param wordListTotal
+     * @return
+     */
     public List<String> AddAList(List<String> wordListtoAdd, List<String> wordListTotal){
             Iterator wordList_new_final_iterator=wordListtoAdd.iterator();
             while(wordList_new_final_iterator.hasNext()){
@@ -78,6 +105,12 @@ public class DataManipulation {
             return wordListTotal;
                     
     }
+
+    /**
+     *
+     * @param input
+     * @return
+     */
     public boolean FileTypeAnalyzed(String input){
         List<String> filetypesnotsupported=new ArrayList<String>();
         filetypesnotsupported.add(".pdf");
@@ -93,6 +126,12 @@ public class DataManipulation {
         }
         return flag_found;
     }
+
+    /**
+     *
+     * @param str
+     * @return
+     */
     public String removeChars(String str){
         if (str != null) {
             try {
@@ -190,6 +229,11 @@ public class DataManipulation {
         }
     }
    
+    /**
+     *
+     * @param map
+     * @return
+     */
     public List<String> sortHashmap (final HashMap<String,Double> map){
         Set<String> set = map.keySet();
         List<String> keys=new ArrayList<String>(set);
@@ -201,6 +245,13 @@ public class DataManipulation {
         });
         return keys;
     }
+
+    /**
+     *
+     * @param directory_path
+     * @param filetype
+     * @return
+     */
     public Collection<File> getinputfiles(String directory_path,String filetype){
             String[] extensions = {filetype};//set the file extensions you would like to parse, e.g. you could have {txt,jpeg,pdf}
             File directory = new File(directory_path);

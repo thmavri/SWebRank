@@ -17,7 +17,13 @@ import twitter4j.conf.ConfigurationBuilder;
  * @author asymeon
  */
 public class TwitterAnalysis {
-public String perform(String query_string){    
+    
+    /**
+     *
+     * @param query_string
+     * @return
+     */
+    public String perform(String query_string){    
 try {
             //configuration builder in order to set the keys of twitter
             ConfigurationBuilder cb = new ConfigurationBuilder();

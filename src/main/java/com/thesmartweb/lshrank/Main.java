@@ -20,6 +20,10 @@ import org.apache.commons.io.FilenameUtils;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ *
+ * @author themis
+ */
 public class Main {
 
     /**

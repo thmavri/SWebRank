@@ -21,6 +21,14 @@ import java.util.*;
  * @author Themis Mavridis
  */
 public class GoogleResults {
+
+    /**
+     *
+     * @param quer
+     * @param google_results_number
+     * @param example_dir
+     * @return
+     */
     public String[] Get(String quer,int google_results_number,String example_dir){
         //counter is set
         int counter_limit=google_results_number+1;
@@ -70,6 +78,11 @@ public class GoogleResults {
         return links_google_total;   
     }
  
+    /**
+     *
+     * @param quer
+     * @return
+     */
     public Long Get_Results_Number(String quer)//it gets the results number for a specific query
     {   try {
             long results_number = 0;
@@ -130,7 +143,10 @@ public class GoogleResults {
         }
     }
     
-    
+    /**
+     *
+     * @return
+     */
     public String[] GetKeys(){
                 String[] apikeys =new String[6];
                 String[] cxs=new String[6];

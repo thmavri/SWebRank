@@ -9,7 +9,14 @@ package com.thesmartweb.lshrank;
  * @author Themis Mavridis
  */
 public class NGD_Analysis {
-public double NGD_score(String term1, String term2) {
+
+    /**
+     *
+     * @param term1
+     * @param term2
+     * @return
+     */
+    public double NGD_score(String term1, String term2) {
             System.out.println("into ngd score");
             Long M = 10000000000L; //802080446201L (2007)
             double freqx = logResults(term1);
@@ -28,7 +35,13 @@ public double NGD_score(String term1, String term2) {
             }
 
     }
-public double logResults(String term) {
+
+    /**
+     *
+     * @param term
+     * @return
+     */
+    public double logResults(String term) {
         
             
             //GoogleResults gr=new GoogleResults();

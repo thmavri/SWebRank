@@ -17,10 +17,21 @@ import org.apache.commons.io.FileUtils;
 import java.util.*;
 import java.util.List;
 
-
-
+/**
+ *
+ * @author themis
+ */
 public class ReadKeys {
-      public List<String> readFile(String example_dir,Double prob_threshold,int top_words,int nTopics)  {
+
+    /**
+     *
+     * @param example_dir
+     * @param prob_threshold
+     * @param top_words
+     * @param nTopics
+     * @return
+     */
+    public List<String> readFile(String example_dir,Double prob_threshold,int top_words,int nTopics)  {
         try {
             DataManipulation getfiles=new DataManipulation();
            
@@ -88,7 +99,13 @@ public class ReadKeys {
         
         
     }
-     public boolean checkIfNumber(String in) {
+
+    /**
+     *
+     * @param in
+     * @return
+     */
+    public boolean checkIfNumber(String in) {
 
         try {
 

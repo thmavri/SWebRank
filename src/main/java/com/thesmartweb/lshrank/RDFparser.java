@@ -11,7 +11,13 @@ import com.hp.hpl.jena.rdf.model.*;
 public class RDFparser {
         boolean[] namespaces=new boolean[40];
         int foaftotal=0;
-        public int findNamespaces(String url){
+
+    /**
+     *
+     * @param url
+     * @return
+     */
+    public int findNamespaces(String url){
             
             Model model = ModelFactory.createDefaultModel();
             model.read(url);
@@ -155,6 +161,11 @@ public class RDFparser {
             return foaftotal;
         
         }
+
+    /**
+     *
+     * @return
+     */
     public boolean[] getnamespaces(){
             return namespaces;
     }

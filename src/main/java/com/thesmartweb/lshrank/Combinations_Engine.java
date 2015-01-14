@@ -10,8 +10,23 @@ package com.thesmartweb.lshrank;
  */
 import java.util.*;
 import java.util.List;
+
+/**
+ *
+ * @author themis
+ */
 public class Combinations_Engine {//function that calculates all the possible combinations and permutations and ranks them according to NGD threshold value
-public List<String> perform(List<String> wordList,Double combine_limit,List<String> queries,Double ngd_threshold,int i){
+
+    /**
+     *
+     * @param wordList
+     * @param combine_limit
+     * @param queries
+     * @param ngd_threshold
+     * @param i
+     * @return
+     */
+    public List<String> perform(List<String> wordList,Double combine_limit,List<String> queries,Double ngd_threshold,int i){
     int[] indices;
     System.gc();
     List<String> queries_new = new LinkedList<String>();
@@ -78,7 +93,13 @@ public List<String> perform(List<String> wordList,Double combine_limit,List<Stri
     System.gc();
     return queries_new;
 }
-public List<String> Calculate_Permutations(List<String> wordList) {
+
+    /**
+     *
+     * @param wordList
+     * @return
+     */
+    public List<String> Calculate_Permutations(List<String> wordList) {
         
             //this function calculates all the possible permitations of the phrases given in a wordlist
             ListIterator li = wordList.listIterator();

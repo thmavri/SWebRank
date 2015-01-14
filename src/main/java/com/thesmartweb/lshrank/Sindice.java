@@ -17,7 +17,13 @@ import org.apache.commons.lang.StringUtils;
 public class Sindice {
      int triplecount=0;
      boolean[] namespaces;
-     public int getsindicestats(String url){
+
+    /**
+     *
+     * @param url
+     * @return
+     */
+    public int getsindicestats(String url){
         try {
             String chk;
             String line="";

@@ -12,8 +12,20 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+/**
+ *
+ * @author themis
+ */
 public class Checkconversion {
-public double perform(List<String> wordList_new,List<String> wordList_previous/*,List<String> finalList*/){
+
+    /**
+     *
+     * @param wordList_new
+     * @param wordList_previous
+     * @return
+     */
+    public double perform(List<String> wordList_new,List<String> wordList_previous/*,List<String> finalList*/){
     try {
         //System.out.print("\n" + "_______________________________________" + conversion_percentage+ "_____________________");
         

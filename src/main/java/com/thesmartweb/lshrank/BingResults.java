@@ -17,7 +17,15 @@ import org.json.simple.JSONArray;
  *///
 //"http://api.search.live.net/json.aspx?Appid=<7FC8F5CEC23A5A4B418E83457E2DC00DC189DAF8>&query="+quer+"&sources=web&web.count=4
 public class BingResults {
-public String[] Get(String query,int bing_results_number,String example_dir){
+
+    /**
+     *
+     * @param query
+     * @param bing_results_number
+     * @param example_dir
+     * @return
+     */
+    public String[] Get(String query,int bing_results_number,String example_dir){
     String chk="ok";
     String[] links=new String[bing_results_number];
     try {
@@ -46,7 +54,13 @@ public String[] Get(String query,int bing_results_number,String example_dir){
           
         
 }
-public Long Get_Results_Number(String quer)
+
+    /**
+     *
+     * @param quer
+     * @return
+     */
+    public Long Get_Results_Number(String quer)
     {   try {
             int azure_flag=1;
             long results_number = 0;

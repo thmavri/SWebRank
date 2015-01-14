@@ -17,8 +17,23 @@ import com.seomoz.api.authentication.Authenticator;
 import com.seomoz.api.service.URLMetricsService;
 import com.seomoz.api.response.UrlResponse;
 import com.google.gson.*;
+
+/**
+ *
+ * @author themis
+ */
 public class Moz {
-public String[] perform(String[] links,int top_count,Double moz_threshold,Boolean moz_threshold_option,List<Boolean> mozMetrics){
+
+    /**
+     *
+     * @param links
+     * @param top_count
+     * @param moz_threshold
+     * @param moz_threshold_option
+     * @param mozMetrics
+     * @return
+     */
+    public String[] perform(String[] links,int top_count,Double moz_threshold,Boolean moz_threshold_option,List<Boolean> mozMetrics){
     long upa=34359738368L;
     long pda=68719476736L;
     long uemrp=1048576;
@@ -208,7 +223,12 @@ public String[] perform(String[] links,int top_count,Double moz_threshold,Boolea
 
                  
 }
- public boolean check(){
+
+    /**
+     *
+     * @return
+     */
+    public boolean check(){
     boolean moz=false;
     String accessID = "member-87c6a749b0";
     //Add your secretKey here
@@ -226,7 +246,12 @@ public String[] perform(String[] links,int top_count,Double moz_threshold,Boolea
     }
     return moz;
 }
-public URLMetricsService authenticate(){
+
+    /**
+     *
+     * @return
+     */
+    public URLMetricsService authenticate(){
     //Add your accessID here
     String accessID = "member-87c6a749b0";
     //Add your secretKey here

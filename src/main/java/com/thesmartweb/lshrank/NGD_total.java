@@ -10,8 +10,20 @@ package com.thesmartweb.lshrank;
  */
 import java.util.*;
 
-
+/**
+ *
+ * @author themis
+ */
 public class NGD_total {
+
+    /**
+     *
+     * @param ngd_arr
+     * @param queries
+     * @param ngd_threshold
+     * @param i
+     * @return
+     */
     public int[] call(String[] ngd_arr,List<String> queries,Double ngd_threshold,int i) {
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ NGD @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         //get all ngd scores for all the words comparing to the current query term

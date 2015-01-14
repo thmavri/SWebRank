@@ -15,6 +15,10 @@ package com.thesmartweb.lshrank;
 
 import java.math.BigInteger;
 
+/**
+ *
+ * @author themis
+ */
 public class PermutationGenerator {
 
   private int[] a;
@@ -30,6 +34,11 @@ public class PermutationGenerator {
   // why we use BigInteger instead.
   //----------------------------------------------------------
 
+    /**
+     *
+     * @param n
+     */
+    
   public PermutationGenerator (int n) {
     if (n < 1) {
       throw new IllegalArgumentException ("Min 1");
@@ -43,6 +52,10 @@ public class PermutationGenerator {
   // Reset
   //------
 
+    /**
+     *
+     */
+    
   public void reset () {
     for (int i = 0; i < a.length; i++) {
       a[i] = i;
@@ -54,6 +67,11 @@ public class PermutationGenerator {
   // Return number of permutations not yet generated
   //------------------------------------------------
 
+    /**
+     *
+     * @return
+     */
+    
   public BigInteger getNumLeft () {
     return numLeft;
   }
@@ -62,6 +80,11 @@ public class PermutationGenerator {
   // Return total number of permutations
   //------------------------------------
 
+    /**
+     *
+     * @return
+     */
+    
   public BigInteger getTotal () {
     return total;
   }
@@ -70,6 +93,11 @@ public class PermutationGenerator {
   // Are there more permutations?
   //-----------------------------
 
+    /**
+     *
+     * @return
+     */
+    
   public boolean hasMore () {
     return numLeft.compareTo (BigInteger.ZERO) == 1;
   }
@@ -90,6 +118,11 @@ public class PermutationGenerator {
   // Generate next permutation (algorithm from Rosen p. 284)
   //--------------------------------------------------------
 
+    /**
+     *
+     * @return
+     */
+    
   public int[] getNext () {
 
     if (numLeft.equals (total)) {

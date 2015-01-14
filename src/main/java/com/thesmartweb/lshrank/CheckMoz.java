@@ -11,8 +11,18 @@ package com.thesmartweb.lshrank;
  */
 import com.seomoz.api.authentication.Authenticator;
 import com.seomoz.api.service.URLMetricsService;
+
+/**
+ *
+ * @author themis
+ */
 public class CheckMoz {
-public boolean check(){
+
+    /**
+     *
+     * @return
+     */
+    public boolean check(){
                 boolean moz=false;
                 String accessID = "member-87c6a749b0";
                 //Add your secretKey here

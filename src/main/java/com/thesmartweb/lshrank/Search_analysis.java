@@ -25,11 +25,49 @@ import java.util.logging.Logger;
 //import com.teamdev.jxbrowser.BrowserType;
 //import com.teamdev.jxbrowser.dom.DOMDocument;
 
+/**
+ *
+ * @author themis
+ */
 public class Search_analysis {
+
+    /**
+     *
+     */
     public String ychk;
+
+    /**
+     *
+     */
     public String gchk;
+
+    /**
+     *
+     */
     public String bchk;
+
+    /**
+     *
+     */
     public String tchk;
+
+    /**
+     *
+     * @param example_dir
+     * @param enginechoice
+     * @param quer
+     * @param results_number
+     * @param top_visible
+     * @param LSHrankSettings
+     * @param alpha
+     * @param mozMetrics
+     * @param top_count_moz
+     * @param moz_threshold_option
+     * @param moz_threshold
+     * @param ContentSemantics
+     * @param SensebotConcepts
+     * @return
+     */
     public List<String> perform(String example_dir, List<Boolean> enginechoice, String quer, int results_number, int top_visible,List<Double> LSHrankSettings,double alpha, List<Boolean> mozMetrics, int top_count_moz, boolean moz_threshold_option,double moz_threshold, List<Boolean> ContentSemantics, int SensebotConcepts){ 
         try {
             Connection conn = null;

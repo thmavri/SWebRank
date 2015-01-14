@@ -17,17 +17,51 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import java.util.*;
 import java.util.Iterator;
+
+/**
+ *
+ * @author themis
+ */
 public class JSONparsing {
+
+    /**
+     *
+     */
     public static String[] links;
+
+    /**
+     *
+     */
     public static String[] links_yahoo_bing;
+
+    /**
+     *
+     */
     public static Map.Entry[] entries_yahoo_bing;
+
+    /**
+     *
+     */
     public static int triple_cnt;
+
+    /**
+     *
+     */
     public static int ent_query_cnt=0;
+
+    /**
+     *
+     */
     public static int cat_query_cnt=0;
     
     JSONparsing(){links=new String[10];}
     JSONparsing(int results_number){links_yahoo_bing=new String[results_number];}
 
+    /**
+     *
+     * @param input
+     * @return
+     */
     public String[] GoogleJsonParsing(String input)  {
         try {
             //Create a parser
@@ -59,6 +93,13 @@ public class JSONparsing {
             return links;
         }
     }
+
+    /**
+     *
+     * @param input
+     * @param yahoo_result_number
+     * @return
+     */
     public String[] YahooJsonParsing(String input,int yahoo_result_number){
         try {
             //Create a parser
@@ -106,7 +147,13 @@ public class JSONparsing {
         }
 }
 
-public String[] BingAzureJsonParsing(String input,int bing_result_number) {
+    /**
+     *
+     * @param input
+     * @param bing_result_number
+     * @return
+     */
+    public String[] BingAzureJsonParsing(String input,int bing_result_number) {
         try {
             //Create a parser
             JSONParser parser = new JSONParser();
@@ -137,7 +184,13 @@ public String[] BingAzureJsonParsing(String input,int bing_result_number) {
         }
             
 }
-public boolean[] TripleParse(String input) {
+
+    /**
+     *
+     * @param input
+     * @return
+     */
+    public boolean[] TripleParse(String input) {
         try {
             boolean[] namespaces=new boolean[39];
             if(input.length()>0){
@@ -348,7 +401,13 @@ public boolean[] TripleParse(String input) {
         }
 
 }
-public String DiffbotParsing(String input){
+
+    /**
+     *
+     * @param input
+     * @return
+     */
+    public String DiffbotParsing(String input){
         String output=""; 
         try {
             //Create a parser
@@ -374,7 +433,14 @@ public String DiffbotParsing(String input){
 
 
 }
-public String[] YahooEntityJsonParsing(String input, String quer){
+
+    /**
+     *
+     * @param input
+     * @param quer
+     * @return
+     */
+    public String[] YahooEntityJsonParsing(String input, String quer){
         try {
             ent_query_cnt=0;
             cat_query_cnt=0;
@@ -533,13 +599,29 @@ public String[] YahooEntityJsonParsing(String input, String quer){
             return output;
         }
 }
-public int GetEntQuerCnt(){
+
+    /**
+     *
+     * @return
+     */
+    public int GetEntQuerCnt(){
     return ent_query_cnt;
 }
-public int GetCatQuerCnt(){
+
+    /**
+     *
+     * @return
+     */
+    public int GetCatQuerCnt(){
     return cat_query_cnt;
 }
-public String GetYoutubeDetails(String ventry) {
+
+    /**
+     *
+     * @param ventry
+     * @return
+     */
+    public String GetYoutubeDetails(String ventry) {
         try {
             String apikey = "AIzaSyDLm-MfYHcbTHQO1S8ROX2rpvsqd5oYSRI";
             String output = "";

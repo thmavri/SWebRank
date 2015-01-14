@@ -17,20 +17,60 @@ import java.util.*;
 import java.util.List;
 import java.util.Scanner;
 
-
+/**
+ *
+ * @author themis
+ */
 public class ReadInput {
            
-            protected int results_number;//the number of results that are returned from each search engine
+    /**
+     *
+     */
+    protected int results_number;//the number of results that are returned from each search engine
             
-            protected Double moz_threshold;//if weant to have a threshold in moz
-            protected boolean moz_threshold_option; 
-            protected int SensebotConcepts;
-            protected List<Boolean> mozMetrics;
-            protected List<String> queries;
-            protected List<Boolean> enginechoice; //Bing is in 1st place, Google is in 2nd place, Yahoo 3rd
-            protected List<Boolean> ContentSemantics;
-            protected List<Double> LSHrankSettings;
+    /**
+     *
+     */
+    protected Double moz_threshold;//if weant to have a threshold in moz
+ 
+    /**
+     *
+     */
+    protected boolean moz_threshold_option; 
 
+    /**
+     *
+     */
+    protected int SensebotConcepts;
+
+    /**
+     *
+     */
+    protected List<Boolean> mozMetrics;
+
+    /**
+     *
+     */
+    protected List<String> queries;
+
+    /**
+     *
+     */
+    protected List<Boolean> enginechoice; //Bing is in 1st place, Google is in 2nd place, Yahoo 3rd
+
+    /**
+     *
+     */
+    protected List<Boolean> ContentSemantics;
+
+    /**
+     *
+     */
+    protected List<Double> LSHrankSettings;
+
+    /**
+     *
+     */
     public ReadInput() {
         this.SensebotConcepts = 0;
         this.moz_threshold_option = false;
@@ -42,6 +82,12 @@ public class ReadInput {
         this.LSHrankSettings=new ArrayList<Double>();
         this.mozMetrics=new ArrayList<Boolean>();
     }
+
+    /**
+     *
+     * @param Input
+     * @return
+     */
     public boolean perform(File Input){
     //function that reads the input file and returns a string with word "ok" if everything is fine, null if not
 
