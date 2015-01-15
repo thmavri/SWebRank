@@ -32,7 +32,8 @@ public class Main {
     public static void main(String[] args) {
             Path input_path=Paths.get("//home//themis//inputs_phd_test//");
             //---Disable apache log manually----
-            System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");
+            //System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");
+            System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.Log4JLogger");
             //------------------search engine related options----------------------
             List<String> queries=null;
             int results_number = 0;//the number of results that are returned from each search engine

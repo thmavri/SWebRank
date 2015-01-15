@@ -19,6 +19,22 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.elasticsearch.ElasticsearchException;
+import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.Client;
+import static org.elasticsearch.client.Requests.createIndexRequest;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.node.Node;
+import static org.elasticsearch.node.NodeBuilder.*;
+import static org.elasticsearch.common.xcontent.XContentFactory.*;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchType;
+import org.elasticsearch.index.query.FilterBuilders.*;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
 //import org.jdom2.input.DOMBuilder;
 //import com.teamdev.jxbrowser.Browser;
 //import com.teamdev.jxbrowser.BrowserFactory;
@@ -1656,6 +1672,32 @@ public class Search_analysis {
                 System.out.println("i ll try to read the keys");
                 ReadKeys rk = new ReadKeys();
                 wordList = rk.readFile(example_dir, LSHrankSettings.get(4),LSHrankSettings.get(3).intValue(), LSHrankSettings.get(1).intValue());
+                // on startup of elastic search
+                Node node = nodeBuilder().clusterName("elasticsearch").node();
+                Client client = node.client();
+
+                Map<String, Object> json = new HashMap<String, Object>();
+                json.put("query",quer);
+                StringBuilder words = new StringBuilder();
+                for(String word:wordList){
+                    words.append(" ");
+                    words.append(word);
+                }
+                json.put("words",words.toString());
+
+                //Client client = new TransportClient()
+                  //  .addTransportAddress(new InetSocketTransportAddress("localhost", 9300));
+
+                IndexRequest indexReq=new IndexRequest("lshrankldaindex","content");
+                indexReq.source(json);
+                IndexResponse indexRes = client.index(indexReq).actionGet();
+
+
+
+                node.close();
+                int sadasj=0;
+                
+ 
                 System.out.println("i returned the wordlist to search analysis");
             }
             return wordList;
@@ -1665,7 +1707,7 @@ public class Search_analysis {
             ArrayList<String> finalList = new ArrayList<String>();
             return finalList;
         } 
-        catch (Exception ex) {
+        catch (SQLException | ElasticsearchException ex) {
             Logger.getLogger(Search_analysis.class.getName()).log(Level.SEVERE, null, ex);
             ArrayList<String> finalList = new ArrayList<String>();
             return finalList;
