@@ -12,11 +12,11 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 import org.apache.commons.io.FilenameUtils;
-//import JavaMI.MutualInformation;
-//import JavaMI.Entropy;
-//import JavaMI.JointProbabilityState;
-//import JavaMI.ProbabilityState;
-//import JavaMI.*;
+import JavaMI.MutualInformation;
+import JavaMI.Entropy;
+import JavaMI.JointProbabilityState;
+import JavaMI.ProbabilityState;
+import JavaMI.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
