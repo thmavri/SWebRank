@@ -44,7 +44,7 @@ public class LDAcall {
      */
     public void LDAestimate(int nTopics, String directory, double alpha, double beta, int niters,int top_words){
         System.gc();
-        System.out.println("Starting LDA for discovering " + nTopics + " topics in " + directory + "content_lda.txt");
+        System.out.println("Starting LDA for discovering " + nTopics + " topics in " + directory + "content_for_analysis.txt");
         LDACmdOption option = new LDACmdOption();
         option.est = true;
         option.alpha = alpha;

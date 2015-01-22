@@ -71,6 +71,9 @@ public class ReadInput {
     /**
      *
      */
+    
+    protected String domain;
+    
     public ReadInput() {
         this.SensebotConcepts = 0;
         this.moz_threshold_option = false;
@@ -81,6 +84,7 @@ public class ReadInput {
         this.ContentSemantics=new ArrayList<Boolean>();
         this.LSHrankSettings=new ArrayList<Double>();
         this.mozMetrics=new ArrayList<Boolean>();
+        this.domain="";
     }
 
     /**
@@ -96,6 +100,9 @@ public class ReadInput {
         try{
             inputStream=new FileInputStream(Input);
             sc=new Scanner(inputStream);
+            if (sc.hasNextLine()) {
+                domain = sc.nextLine().toString().split(":")[1].trim();
+            }
             if (sc.hasNextLine()) {
                 int queries_number = Integer.parseInt(sc.nextLine().toString().split(":")[1].trim());
                 int j=0;

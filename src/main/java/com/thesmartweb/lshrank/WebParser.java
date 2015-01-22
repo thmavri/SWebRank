@@ -8,6 +8,7 @@ package com.thesmartweb.lshrank;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -148,6 +149,18 @@ public class WebParser {
              content=txtpro.removeChars(content);
              content=st.stop(content);
              content=txtpro.removeChars(content);
+             //List<String> contentList = Arrays.asList(content.split(" "));
+             //StemmerSnow snowballstemmer = new StemmerSnow();
+             //contentList=snowballstemmer.stem(contentList);
+             //for(String contentListItem : contentList){
+             //    content=content+" "+contentListItem;
+             //}
+             Lemmatizer lemmatizer = new Lemmatizer();
+             List<String> contentList=lemmatizer.lemmatize(content);
+             content="";
+             for(String contentListItem : contentList){
+                 content=content+" "+contentListItem;
+             }
          }
         return content;
       
@@ -192,6 +205,7 @@ public class WebParser {
                 }
             }
             String content = mainbody + title + anchortext+alttext;
+            
             return content;
         } catch (IOException ex) {
             Logger.getLogger(com.thesmartweb.lshrank.WebParser.class.getName()).log(Level.SEVERE, null, ex);

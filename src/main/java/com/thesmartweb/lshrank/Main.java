@@ -12,13 +12,20 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 import org.apache.commons.io.FilenameUtils;
-import JavaMI.MutualInformation;
-import JavaMI.Entropy;
-import JavaMI.JointProbabilityState;
-import JavaMI.ProbabilityState;
-import JavaMI.*;
+//import JavaMI.MutualInformation;
+//import JavaMI.Entropy;
+//import JavaMI.JointProbabilityState;
+//import JavaMI.ProbabilityState;
+//import JavaMI.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.node.Node;
+import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -34,6 +41,8 @@ public class Main {
             //---Disable apache log manually----
             //System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");
             System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.Log4JLogger");
+            //--------------Domain that is searched----------
+            String domain="";
             //------------------search engine related options----------------------
             List<String> queries=null;
             int results_number = 0;//the number of results that are returned from each search engine
@@ -66,10 +75,10 @@ public class Main {
             inputs_files=getfiles.getinputfiles(input_path.toString(),"txt");//method to retrieve all the path of the input documents
             //------------read the txt files------------
             for (File input : inputs_files) {
-                String file_dir=input.getParent();
                 ReadInput ri=new ReadInput();//function to read the input
                 boolean check_reading_input=ri.perform(input);
                 if(check_reading_input){
+                    domain=ri.domain;
                     //----------
                     queries=ri.queries;    
                     results_number=ri.results_number;
@@ -127,6 +136,8 @@ public class Main {
                         //we set an Iterator in order to obtain access to every wordList
                         ListIterator iter = array_wordLists.listIterator(array_wordLists.size()-queries.size());
                         wordList_previous = wordList_new;
+                        //we add the previous wordList to the finalList
+                        finalList=wordsmanipulation.AddAList(wordList_previous, finalList);
                         List<String> query_new_list_total = new ArrayList<String>();
                         int query_new_index = 0;//variable that counts the number of the queries for which combinations and permutations are calculated
                         while (iter.hasNext()) {
@@ -157,68 +168,57 @@ public class Main {
                         output_child_directory=output_parent_directory+txt_directory+"_level_"+iteration_counter+"//";
                         //----------------append the wordlist to a file
                         wordsmanipulation.AppendWordList(query_new_list_total, output_child_directory+"queries_"+iteration_counter+".txt");
+                        if(query_new_list_total.size()<1){break;}//if we don't create new queries we end the while loop
                         //-----------------------------------------
                         //total analysis' function is going to do all the work and return back what we need
-                        ta.perform(output_child_directory,enginechoice, query_new_list_total, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings);
-                        //we get a vector wordlist that includes the words produced in current iteration
-                        array_wordLists = ta.getarray_wordLists(); //
-
-                        //---------------------the following cleans a list from null and duplicates
-
-                        wordList_new=wordsmanipulation.clearListString(wordList_new);
-                        //---------------------------------------------------------------------------
-
-
-                        //----------------append the wordlist to a file
-                        wordsmanipulation.AppendWordList(wordList_new, output_child_directory+ "wordList.txt");
-                        //-----------------------------------------
-
-                        //we are going to check the convergence rate
-                        Checkconversion cc = new Checkconversion(); // here we check the convergence between the two wordLists, the new and the previous
-                        //the concergence percentage of this iteration
-                        conversion_percentage = cc.perform(wordList_new, wordList_previous);
-                        //a string that contains all the convergence percentage for each round separated by \n character
-                        conv_percentages = conv_percentages + "\n" + conversion_percentage;
-                        //a file that is going to include the convergence percentages
-
-                        //----------------append the string with convergence percentages to a file
-                        wordsmanipulation.AppendString(conv_percentages, output_child_directory+ "conversion_percentage.txt");
-                        //-----------------------------------------
-
-                        //we add the new wordList to the finalList
-                        finalList=wordsmanipulation.AddAList(wordList_new, finalList);
-
-                        //we add the previous wordList to the finalList
-                        finalList=wordsmanipulation.AddAList(wordList_previous, finalList);
-
-                        //we set the query array to be equal to the query new total that we have created
-                        queries=query_new_list_total;
-                        //we increment the iteration_counter in order to count the iterations of the algorithm and to use the perf_limit
-                        iteration_counter++;
-                    }
-                    else{//the following source code is performed on the 1st run of the loop
-                    
-                        //------------we extract the parent path of the file 
-                        String txt_directory=FilenameUtils.getBaseName(input.getName());
-                        //----------we create a string that is going to be used for the corresponding directory of outputs
-                        output_child_directory=output_parent_directory+txt_directory+"_level_"+iteration_counter+"//";
-                        //we call total analysis function perform
-                        ta.perform(output_child_directory,enginechoice, queries, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings);
+                        ta = new Total_analysis();
+                        ta.perform(iteration_counter,output_child_directory,domain,enginechoice, query_new_list_total, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings);
                         //we get the array of wordlists
                         array_wordLists=ta.getarray_wordLists();
                         //get the wordlist that includes all the new queries
                         wordList_new=ta.getwordList_total();
                         //---------------------the following cleans a list from null and duplicates
                         wordList_new=wordsmanipulation.clearListString(wordList_new);
-                        //---------------------------------------------------------------------------
-
+                        //----------------append the wordlist to a file
+                        wordsmanipulation.AppendWordList(wordList_new, output_child_directory+ "wordList.txt");
+                        //we are going to check the convergence rate
+                        CheckConvergence cc = new CheckConvergence(); // here we check the convergence between the two wordLists, the new and the previous
+                        //the concergence percentage of this iteration
+                        conversion_percentage = cc.perform(wordList_new, wordList_previous);
+                        //a string that contains all the convergence percentage for each round separated by \n character
+                        conv_percentages = conv_percentages + "\n" + conversion_percentage;
+                        //a file that is going to include the convergence percentages
+                        wordsmanipulation.AppendString(conv_percentages, output_child_directory+ "conversion_percentage.txt");
+                        //we add the new wordList to the finalList
+                        finalList=wordsmanipulation.AddAList(wordList_new, finalList);
+                        //we set the query array to be equal to the query new total that we have created
+                        queries=query_new_list_total;
+                        //we increment the iteration_counter in order to count the iterations of the algorithm and to use the perf_limit
+                        iteration_counter++;
+                    }
+                    else{//the following source code is performed on the 1st run of the loop
+                        //------------we extract the parent path of the file 
+                        String txt_directory=FilenameUtils.getBaseName(input.getName());
+                        //----------we create a string that is going to be used for the corresponding directory of outputs
+                        output_child_directory=output_parent_directory+txt_directory+"_level_"+iteration_counter+"//";
+                        //we call total analysis function performOld
+                        ta.perform(iteration_counter,output_child_directory,domain, enginechoice, queries, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings);
+                        //we get the array of wordlists
+                        array_wordLists=ta.getarray_wordLists();
+                        //get the wordlist that includes all the new queries
+                        wordList_new=ta.getwordList_total();
+                        //---------------------the following cleans a list from null and duplicates
+                        wordList_new=wordsmanipulation.clearListString(wordList_new);
                         //----------------append the wordlist to a file
                         wordsmanipulation.AppendWordList(wordList_new, output_child_directory+"wordList.txt");
                         //-----------------------------------------
                         iteration_counter++;//increase the iteration_counter that counts the iterations of the algorithm
+                        
                     }
                 }while(conversion_percentage<LSHrankSettings.get(5).doubleValue()&&iteration_counter<LSHrankSettings.get(8).intValue());//while the convergence percentage is below the limit and the iteration_counter below the performance limit
-
+                    if(iteration_counter==1){
+                        finalList=wordsmanipulation.AddAList(wordList_new, finalList);
+                    }
                     //--------------------content List----------------
                     if (!finalList.isEmpty()) {
                         //---------------------the following cleans the final list from null and duplicates
@@ -230,13 +230,23 @@ public class Main {
                             System.out.print("can not create the content file for: "+output_parent_directory+"total_content.txt");
                         }
                     }
+                    Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
+                    Client client = node.client();
+                    JSONObject objEngineLevel = new JSONObject();
+                    objEngineLevel.put("TotalContent", finalList);
+                    objEngineLevel.put("Convergences", conv_percentages);
+                    IndexRequest indexReq=new IndexRequest("lshrankgeneratedcontent","content",domain);
+                    indexReq.source(objEngineLevel);
+                    IndexResponse indexRes = client.index(indexReq).actionGet();
+                    node.close();
+                    //node.client().admin().cluster().prepareNodesShutdown().execute().actionGet();
                     //----------------------convergence percentages writing to file---------------
                     //use the conv_percentages string
                     if(conv_percentages.length()!=0){
                         boolean flag_file = false;//boolean flag to declare successful write to file
-                        flag_file=wordsmanipulation.AppendString(conv_percentages, output_parent_directory+"conversion_percentages.txt");
+                        flag_file=wordsmanipulation.AppendString(conv_percentages, output_parent_directory+"convergence_percentages.txt");
                         if(!flag_file){
-                            System.out.print("can not create the conversion file for: "+output_parent_directory+"conversion_percentages.txt");
+                            System.out.print("can not create the conversion file for: "+output_parent_directory+"convergence_percentages.txt");
                         }
                     }
             }

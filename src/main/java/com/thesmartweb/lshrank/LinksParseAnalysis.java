@@ -15,6 +15,12 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.node.Node;
+import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -48,7 +54,7 @@ public class LinksParseAnalysis {
      * @param total_catent
      * @return
      */
-    public String perform(String[] total_links,String example_dir,String quer,int nTopics,double alpha,double beta,int niters,int top_words,String search_engine,boolean LDAflag,boolean TFIDFflag, String[][] total_catent){
+    public String perform(String[] total_links, String domain, String engine, String example_dir,String quer,int nTopics,double alpha,double beta,int niters,int top_words,String search_engine,boolean LDAflag,boolean TFIDFflag, String[][] total_catent){
         try {
             System.gc();
             WebParser web = new WebParser();
@@ -56,6 +62,8 @@ public class LinksParseAnalysis {
             String[] parse_output = new String[total_links.length];
             APIconn apicon = new APIconn();
             int counter_LDA_documents = 0;
+            Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
+            Client client = node.client();
             for (int i = 0; i < (total_links.length); i++) {
                 try {
                     parse_output[i]="";
@@ -70,8 +78,6 @@ public class LinksParseAnalysis {
                             if (total_links[i].contains("http://www.youtube.com/watch?")) {
                                 String ventry = total_links[i].substring(31);
                                 JSONparsing ypr = new JSONparsing();
-                                System.gc();
-                                
                                 url_check=total_links[i];
                                 File current_url = new File(example_dir+ search_engine +"/" + i + "/"+ "current_url.txt");
                                 FileUtils.writeStringToFile(current_url ,url_check);
@@ -87,12 +93,9 @@ public class LinksParseAnalysis {
                             }
                         }
                         else {
-                                
                                 int number = i;
                                 String directory = example_dir + search_engine  + "/" + number + "/";
-                                System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-                                System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&"+total_links[i]+"&&&&&&&&&&&&&");
-                                System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+                                System.out.println("Link:"+total_links[i]+"\n");
                                 url_check=total_links[i];
                                 File current_url = new File(directory+"current_url.txt");                               
                                 FileUtils.writeStringToFile(current_url ,url_check);
@@ -109,15 +112,22 @@ public class LinksParseAnalysis {
                                 } else {
                                     chk = parse_output[i];
                                 }
-                            }
                         }
+                        JSONObject obj = new JSONObject();
+                        obj.put("ParsedContent", parse_output[i]);
+                        String id=domain+"/"+quer+"/"+engine+"/"+total_links[i];
+                        IndexRequest indexReq=new IndexRequest("lshrankurlcontent","content",id);
+                        indexReq.source(obj);
+                        IndexResponse indexRes = client.index(indexReq).actionGet();
                     }
+                }
                  catch (IOException ex) {
                     Logger.getLogger(GoogleResults.class.getName()).log(Level.SEVERE, null, ex);
                     chk = null;
                     return chk;
                 }
             }
+            node.close();
             String output_string_content = Integer.toString(counter_LDA_documents);
             TwitterAnalysis tw=new TwitterAnalysis();
             String twitter_txt=tw.perform(quer);
