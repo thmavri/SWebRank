@@ -80,7 +80,7 @@ public class Total_analysis {
         objEngineLevel.put("RoundContent", wordList_total);
         objEngineLevel.put("Round", iteration_counter);
         String id=domain+"/"+iteration_counter;
-        IndexRequest indexReq=new IndexRequest("lshrankgneratedcontentperround","content",id);
+        IndexRequest indexReq=new IndexRequest("lshrankgeneratedcontentperround","content",id);
         indexReq.source(objEngineLevel);
         IndexResponse indexRes = client.index(indexReq).actionGet();
         node.close();

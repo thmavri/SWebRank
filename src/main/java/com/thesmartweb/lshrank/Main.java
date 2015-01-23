@@ -37,6 +37,10 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+            //ElasticGetWordList estest=new ElasticGetWordList();
+            //List<String> idstest=new ArrayList<>();
+            //idstest.add("NBA"+"/"+"kobe+bryant"+"/bing"+"/"+0);
+            //estest.getMaxWords(idstest, 10);
             Path input_path=Paths.get("//home//themis//inputs_phd_test//");
             //---Disable apache log manually----
             //System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");
@@ -47,6 +51,10 @@ public class Main {
             List<String> queries=null;
             int results_number = 0;//the number of results that are returned from each search engine
             List<Boolean> enginechoice = null;
+            //list element #0. True/False Bing
+            //list element #1. True/False Google
+            //list element #2. True/False Yahoo!
+            //list element #3. True/False Merged
             //-----------Moz options---------------------
             List<Boolean> mozMetrics = null;
             //The list is going to contain the moz related input in the following order
@@ -139,7 +147,7 @@ public class Main {
                         //we add the previous wordList to the finalList
                         finalList=wordsmanipulation.AddAList(wordList_previous, finalList);
                         List<String> query_new_list_total = new ArrayList<String>();
-                        int query_new_index = 0;//variable that counts the number of the queries for which combinations and permutations are calculated
+                        /*int query_new_index = 0;//variable that counts the number of the queries for which combinations and permutations are calculated
                         while (iter.hasNext()) {
                             //we calculate all the combinations and then the permutations of the terms and then we calculate
                             //the NGD scores of them comparing to the query that all these terms are produced by
@@ -159,6 +167,34 @@ public class Main {
                                 System.out.println("query pointer=" + query_new_index + "");
                             }
                         }
+                        */
+                        int iteration_previous=iteration_counter-1;
+                        Combinations_Engine cn = new Combinations_Engine();
+                        for(String query:queries){
+                            List<String> ids=new ArrayList<>();
+                            if(enginechoice.get(0)){
+                                String id=domain+"/"+query+"/bing"+"/"+iteration_previous;
+                                ids.add(id);
+                            }
+                            if(enginechoice.get(1)){
+                                String id=domain+"/"+query+"/google"+"/"+iteration_previous;
+                                ids.add(id);
+                            }
+                            if(enginechoice.get(2)){
+                                String id=domain+"/"+query+"/yahoo"+"/"+iteration_previous;
+                                ids.add(id);
+                            }
+                            ElasticGetWordList ESget=new ElasticGetWordList();
+                            List<String> maxWords = ESget.getMaxWords(ids,10);
+                            int query_index=queries.indexOf(query);
+                            List<String> query_new_list = cn.perform(maxWords, LSHrankSettings.get(7), queries, LSHrankSettings.get(6), query_index);
+                            //we transform the query array to list
+                            //List<String> query_new_list = Arrays.asList(query_new);
+                            //we add the list of new queries to the total list that containas all the new queries
+                            query_new_list_total.addAll(query_new_list);
+                            System.out.println("query pointer=" + query_index + "");
+                        }
+                        
                         //---------------------the following cleans a list from null and duplicates
                         query_new_list_total=wordsmanipulation.clearListString(query_new_list_total);
                         //-------we  create an array from the list of the new queries
