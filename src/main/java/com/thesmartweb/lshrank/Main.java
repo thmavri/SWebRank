@@ -185,7 +185,7 @@ public class Main {
                                 ids.add(id);
                             }
                             ElasticGetWordList ESget=new ElasticGetWordList();
-                            List<String> maxWords = ESget.getMaxWords(ids,10);
+                            List<String> maxWords = ESget.getMaxWords(ids, LSHrankSettings.get(9).intValue());
                             int query_index=queries.indexOf(query);
                             List<String> query_new_list = cn.perform(maxWords, LSHrankSettings.get(7), queries, LSHrankSettings.get(6), query_index);
                             //we transform the query array to list

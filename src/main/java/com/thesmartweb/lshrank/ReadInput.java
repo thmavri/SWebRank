@@ -85,6 +85,7 @@ public class ReadInput {
         this.LSHrankSettings=new ArrayList<Double>();
         this.mozMetrics=new ArrayList<Boolean>();
         this.domain="";
+        
     }
 
     /**
@@ -258,6 +259,9 @@ public class ReadInput {
                 LSHrankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
             if (sc.hasNextLine()) {//8performance limit
+                LSHrankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
+            }
+            if (sc.hasNextLine()) {//9amount of terms to get from each query to create the new queries per round
                 LSHrankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
             if (sc.ioException() !=null){
