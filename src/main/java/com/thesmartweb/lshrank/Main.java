@@ -1,11 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.thesmartweb.lshrank;
 /**
- *
+ * Main method of LSHrank. 
+ * It receives the input in a txt file in a structure format.
+ * Passes all the input variables to the total analysis class.
+ * It receives the wordlist of every iteration for each query and creates a wordlist for every domain.
+ * It get all the combinations and permutations of all the words in the wordlist.
+ * Creates the new queries according to their Normalized Web Distance (using Bing Search API)
+ * It compares the wordlist of every iteration with the previous one using Normalized Mutual Information
  * @author Themis Mavridis
  */
 import java.io.*;

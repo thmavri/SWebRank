@@ -24,32 +24,38 @@ import java.util.Scanner;
 public class ReadInput {
            
     /**
-     *
+     * the number of results that are returned from each search engine
      */
-    protected int results_number;//the number of results that are returned from each search engine
+    protected int results_number;
             
     /**
-     *
+     * moz threshold
      */
-    protected Double moz_threshold;//if weant to have a threshold in moz
+    protected Double moz_threshold;
  
     /**
-     *
+     * if we want to have a threshold in moz or not
      */
     protected boolean moz_threshold_option; 
 
     /**
-     *
+     * amount of Sensebot Concept (if we choose to use Sensebot)
      */
     protected int SensebotConcepts;
 
     /**
-     *
+     * List that has true 0 if we would like to use Moz
+     * #1 Domain Authority
+     * #2 External MozRank
+     * #3 MozRank
+     * #4 MozTrust
+     * #5 Page Authority
+     * #6 Subdomain MozRank
      */
     protected List<Boolean> mozMetrics;
 
     /**
-     *
+     * List that contains the queries that 
      */
     protected List<String> queries;
 

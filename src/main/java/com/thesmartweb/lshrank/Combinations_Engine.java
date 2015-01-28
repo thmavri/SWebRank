@@ -79,13 +79,17 @@ public class Combinations_Engine {//function that calculates all the possible co
                 if(queries.get(i)!=null){
                     int[] origIndex = ngt.call(ngd_array, queries, ngd_threshold, i);
                     //****max number of new queries*****
+                    for (int kk=0;kk<origIndex.length;kk++){
+                        queries_new.add(kk,ngd_array[origIndex[kk]]);
+                    }
+                    /*
                     int size_quer_new=1;
                     if(origIndex.length<size_quer_new){
                         size_quer_new=origIndex.length;
                     }
                     for (int kk=0;kk<size_quer_new;kk++){
                         queries_new.add(kk,ngd_array[origIndex[kk]]);
-                    }
+                    }*/
                 }
         }
     }
