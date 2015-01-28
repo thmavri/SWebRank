@@ -267,7 +267,10 @@ public class ReadInput {
             if (sc.hasNextLine()) {//8performance limit
                 LSHrankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
-            if (sc.hasNextLine()) {//9amount of terms to get from each query to create the new queries per round
+            if (sc.hasNextLine()) {//9amount of terms to get from each query from the wordlist of LDA to create the new queries per round
+                LSHrankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
+            }
+            if (sc.hasNextLine()) {//10amount of queries to create for each query using NWD
                 LSHrankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
             if (sc.ioException() !=null){

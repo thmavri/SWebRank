@@ -42,7 +42,7 @@ public class Main {
             //List<String> idstest=new ArrayList<>();
             //idstest.add("NBA"+"/"+"kobe+bryant"+"/bing"+"/"+0);
             //estest.getMaxWords(idstest, 10);
-            Path input_path=Paths.get("//home//themis//inputs_phd_test//");
+            Path input_path=Paths.get("//mnt//var//dbs//inputs//softwareengineering//");
             //---Disable apache log manually----
             //System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");
             System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.Log4JLogger");
@@ -75,7 +75,7 @@ public class Main {
             int SensebotConcepts = 0;//define the amount of concepts that sensebot is going to recognize
             List<Double> LSHrankSettings=null;
             //-----------------output directory-----------------
-            String output_parent_directory="//home//themis//outputs_phd_test_db//";
+            String output_parent_directory="//mnt//var//dbs//outputs//softwareengineering//";
             //------(string)directory is going to be used later-----
             String output_child_directory;
             //-------we get all the paths of the txt (input) files from the input directory-------
@@ -188,7 +188,8 @@ public class Main {
                             ElasticGetWordList ESget=new ElasticGetWordList();
                             List<String> maxWords = ESget.getMaxWords(ids, LSHrankSettings.get(9).intValue());
                             int query_index=queries.indexOf(query);
-                            List<String> query_new_list = cn.perform(maxWords, LSHrankSettings.get(7), queries, LSHrankSettings.get(6), query_index);
+                            int size_query_new = LSHrankSettings.get(10).intValue();
+                            List<String> query_new_list = cn.perform(maxWords, LSHrankSettings.get(7), queries, LSHrankSettings.get(6), query_index, size_query_new);
                             //we transform the query array to list
                             //List<String> query_new_list = Arrays.asList(query_new);
                             //we add the list of new queries to the total list that containas all the new queries
