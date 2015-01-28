@@ -25,15 +25,16 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 /**
- *
- * @author Administrator
+ * Class that contains methods that manipulate different data
+ * for LSHrank
+ * @author Themis Mavridis
  */
 public class DataManipulation {
 
     /**
-     *
-     * @param wordList
-     * @return
+     * Method that clears a List<String> from duplicates and null elements
+     * @param wordList It contains the List<String> to be cleared
+     * @return a List<String> cleared from duplicates and null elements
      */
     public List<String> clearListString(List<String> wordList){
             //remove all null elements of the wordlist
@@ -52,10 +53,10 @@ public class DataManipulation {
     }
 
     /**
-     *
-     * @param wordList
-     * @param file_wordlist
-     * @return
+     * Method that writes a List<String> to a file
+     * @param wordList List<String> to be saved
+     * @param file_wordlist The file in a string format that the List<String> is going to be saved
+     * @return True/False 
      */
     public boolean AppendWordList(List<String> wordList, String file_wordlist){
             //----------------append the wordlist to a file
@@ -72,10 +73,10 @@ public class DataManipulation {
     }
 
     /**
-     *
-     * @param input
-     * @param file_string
-     * @return
+     * Method that writes a String to a file
+     * @param input String to be saved
+     * @param file_string The file in a string format that the String input is going to be saved
+     * @return True/False 
      */
     public boolean AppendString(String input, String file_string){
             //----------------append the wordlist to a file
@@ -92,10 +93,10 @@ public class DataManipulation {
     }
 
     /**
-     *
-     * @param wordListtoAdd
-     * @param wordListTotal
-     * @return
+     * Method that adds a List<String> to another List<String>
+     * @param wordListtoAdd List<String> to be added
+     * @param wordListTotal List<String> in which the elements of wordListtoAdd are going to be added
+     * @return wordListTotal which contains the elements already existent in it along with the elements of wordListtoAdd
      */
     public List<String> AddAList(List<String> wordListtoAdd, List<String> wordListTotal){
             Iterator wordList_new_final_iterator=wordListtoAdd.iterator();
@@ -107,9 +108,9 @@ public class DataManipulation {
     }
 
     /**
-     *
-     * @param input
-     * @return
+     * Method that recognizes if a string contains a an extension that is not supported
+     * @param input String of the file
+     * @return True/False
      */
     public boolean FileTypeAnalyzed(String input){
         List<String> filetypesnotsupported=new ArrayList<String>();
@@ -128,9 +129,9 @@ public class DataManipulation {
     }
 
     /**
-     *
-     * @param str
-     * @return
+     * Removes the characters from a string
+     * @param str String to be cleaned from the characters
+     * @return the String cleaned from characters
      */
     public String removeChars(String str){
         if (str != null) {
@@ -230,9 +231,9 @@ public class DataManipulation {
     }
    
     /**
-     *
-     * @param map
-     * @return
+     * Method that sorts a HashMap<String,Double> according to their values
+     * @param map the HashMap<String,Double> to be sorted
+     * @return a List<String> that contains the keys in sorted (descending) fashion
      */
     public List<String> sortHashmap (final HashMap<String,Double> map){
         Set<String> set = map.keySet();
@@ -247,10 +248,10 @@ public class DataManipulation {
     }
 
     /**
-     *
-     * @param directory_path
-     * @param filetype
-     * @return
+     * Method that returns all the files of a certain extension from a directory
+     * @param directory_path A String with the directory 
+     * @param filetype A string with the filetype (without dot symbol)
+     * @return a Collection that contains all the files found
      */
     public Collection<File> getinputfiles(String directory_path,String filetype){
             String[] extensions = {filetype};//set the file extensions you would like to parse, e.g. you could have {txt,jpeg,pdf}

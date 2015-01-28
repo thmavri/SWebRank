@@ -6,6 +6,7 @@
 package com.thesmartweb.lshrank;
 
 /**
+ * 
  *
  * @author Themis Mavridis
  */
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- *
+ * Class to read the input files
  * @author themis
  */
 public class ReadInput {
@@ -55,30 +56,49 @@ public class ReadInput {
     protected List<Boolean> mozMetrics;
 
     /**
-     * List that contains the queries that 
+     * List that contains the queries that are defined in the input files
      */
     protected List<String> queries;
 
     /**
-     *
+     * Search engine choice, Bing is in 1st place, Google is in 2nd place, Yahoo 3rd
      */
-    protected List<Boolean> enginechoice; //Bing is in 1st place, Google is in 2nd place, Yahoo 3rd
+    protected List<Boolean> enginechoice; 
 
     /**
-     *
+     * List that contains which Semantic Analysis algorithm we choose
+     * #1 Diffbotflag
+     * #2 LDA
+     * #3 Sensebotflag
+     * #4 TF-IDF
      */
     protected List<Boolean> ContentSemantics;
 
     /**
-     *
+     * List that contains then LSHrank settings
+     * #0 beta
+     * #1 number of topics
+     * #2 number of iterations
+     * #3 number of top words
+     * #4 probability 
+     * #5 nmi convergence limit
+     * #6 nwd threshold
+     * #7 combine limit
+     * #8 performance limit
+     * #9 new terms to combine from wordlist per query per round
+     * #10 max new queries to generate per previous round query
      */
     protected List<Double> LSHrankSettings;
 
     /**
-     *
+     * Domain of queries
      */
     
     protected String domain;
+    
+    /**
+     * Initialize the values
+     */
     
     public ReadInput() {
         this.SensebotConcepts = 0;
@@ -96,12 +116,11 @@ public class ReadInput {
 
     /**
      *
-     * @param Input
-     * @return
+     * @param Input The file that contains the input settings to be read
+     * @return True/False if everything was read correctly
      */
     public boolean perform(File Input){
-    //function that reads the input file and returns a string with word "ok" if everything is fine, null if not
-
+    
         FileInputStream inputStream=null;
         Scanner sc=null;
         try{
@@ -116,7 +135,6 @@ public class ReadInput {
                 while(j<queries_number){
                     String temp=sc.nextLine().toString().split(":")[1].trim();
                     boolean add = queries.add(temp);
-                    //queries.add(
                     j++;
                 }
             }
