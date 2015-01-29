@@ -311,7 +311,7 @@ public class Search_analysis {
                             webstatsStmBuild.append("`number_links`=? , ");
                             webstatsStmBuild.append("`redirect_links`=? , ");
                             webstatsStmBuild.append("`internal_links`=? ");
-                            webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain=`?");
+                            webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
                             stmt = conn.prepareStatement(webstatsStmBuild.toString());
                             stmt.setInt(1,nlinks[0]);
                             stmt.setInt(2,nlinks[0]-nlinks[1]);
