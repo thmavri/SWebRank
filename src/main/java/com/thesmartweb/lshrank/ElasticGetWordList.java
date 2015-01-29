@@ -161,13 +161,16 @@ public class ElasticGetWordList {
             wordsMapsorted=sortByValue(wordsMap);
             Iterator<Entry<String, Double>> iterator = wordsMapsorted.entrySet().iterator();
             
-            int beginindex=wordsMapsorted.entrySet().size()-top;
+            int beginindex=0;
+            if(wordsMapsorted.entrySet().size()>top){
+                beginindex=wordsMapsorted.entrySet().size()-top;
+            }
             int index=0;
             while(index<beginindex){
                 iterator.next();
                 index++;
             }
-            while(MaxwordList.size()<top){
+            while(MaxwordList.size()<top && iterator.hasNext()){
                 String word=iterator.next().getKey();
                 MaxwordList.add(word);
                 

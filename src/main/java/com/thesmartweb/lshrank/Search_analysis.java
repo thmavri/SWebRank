@@ -206,40 +206,45 @@ public class Search_analysis {
                             engine=2;
                         }
                         
-                        stmt = conn.prepareStatement("INSERT INTO SETTINGS (url,query,search_engine,search_engine_rank) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine)");
+                        stmt = conn.prepareStatement("INSERT INTO SETTINGS (url,query,search_engine,search_engine_rank,domain) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine),domain=VALUES(domain)");
                         stmt.setString(1,links_total[j]);
                         stmt.setString(2,quer);
                         stmt.setInt(3,engine);
                         stmt.setInt(4,rank);
+                        stmt.setString(5,domain);
                         stmt.executeUpdate();
                         
-                        stmt = conn.prepareStatement("INSERT INTO WEBSTATS (url,query,search_engine,search_engine_rank) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine)");
+                        stmt = conn.prepareStatement("INSERT INTO WEBSTATS (url,query,search_engine,search_engine_rank,domain) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine),domain=VALUES(domain)");
                         stmt.setString(1,links_total[j]);
                         stmt.setString(2,quer);
                         stmt.setInt(3,engine);
                         stmt.setInt(4,rank);
+                        stmt.setString(5,domain);
                         stmt.executeUpdate();
                         
-                        stmt = conn.prepareStatement("INSERT INTO SEMANTICSTATS (url,query,search_engine,search_engine_rank) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine)");
+                        stmt = conn.prepareStatement("INSERT INTO SEMANTICSTATS (url,query,search_engine,search_engine_rank) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine),domain=VALUES(domain)");
                         stmt.setString(1,links_total[j]);
                         stmt.setString(2,quer);
                         stmt.setInt(3,engine);
                         stmt.setInt(4,rank);
+                        stmt.setString(5,domain);
                         stmt.executeUpdate();
                         
                         
-                        stmt = conn.prepareStatement("INSERT INTO NAMESPACESSTATS (url,query,search_engine,search_engine_rank) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine)");
+                        stmt = conn.prepareStatement("INSERT INTO NAMESPACESSTATS (url,query,search_engine,search_engine_rank) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine),domain=VALUES(domain)");
                         stmt.setString(1,links_total[j]);
                         stmt.setString(2,quer);
                         stmt.setInt(3,engine);
                         stmt.setInt(4,rank);
+                        stmt.setString(5,domain);
                         stmt.executeUpdate();
                         
-                        stmt = conn.prepareStatement("INSERT INTO ENTCATSTATS (url,query,search_engine,search_engine_rank) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine)");
+                        stmt = conn.prepareStatement("INSERT INTO ENTCATSTATS (url,query,search_engine,search_engine_rank) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine),domain=VALUES(domain)");
                         stmt.setString(1,links_total[j]);
                         stmt.setString(2,quer);
                         stmt.setInt(3,engine);
                         stmt.setInt(4,rank);
+                        stmt.setString(5,domain);
                         stmt.executeUpdate();
                         
                         StringBuilder settingsStmBuild = new StringBuilder();
@@ -267,7 +272,7 @@ public class Search_analysis {
                         settingsStmBuild.append("`Sensebotflag`=? , "); 
                         settingsStmBuild.append("`TFIDFflag`=? , "); 
                         settingsStmBuild.append("`SensebotConcepts`=? "); 
-                        settingsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=?");
+                        settingsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
                         
                         stmt = conn.prepareStatement(settingsStmBuild.toString());
                         stmt.setInt(1,LSHrankSettings.get(1).intValue());
@@ -296,6 +301,7 @@ public class Search_analysis {
                         stmt.setString(24,links_total[j]);
                         stmt.setString(25,quer);
                         stmt.setInt(26,engine);
+                        stmt.setString(27,domain);
                         stmt.executeUpdate();
                         
                         if(htm.checkconn(links_total[j])){
@@ -305,7 +311,7 @@ public class Search_analysis {
                             webstatsStmBuild.append("`number_links`=? , ");
                             webstatsStmBuild.append("`redirect_links`=? , ");
                             webstatsStmBuild.append("`internal_links`=? ");
-                            webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=?");
+                            webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain=`?");
                             stmt = conn.prepareStatement(webstatsStmBuild.toString());
                             stmt.setInt(1,nlinks[0]);
                             stmt.setInt(2,nlinks[0]-nlinks[1]);
@@ -313,341 +319,382 @@ public class Search_analysis {
                             stmt.setString(4,links_total[j]);
                             stmt.setString(5,quer);
                             stmt.setInt(6,engine);
+                            stmt.setString(7,domain);
                             stmt.executeUpdate();
                             System.out.println("I am going to get the stats from Sindice\n");
                             int ntriples=striple.getsindicestats(links_total[j]);
                             System.out.println("I am going insert the semantic triples number in the DB\n");
-                            stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `total_semantic_triples`=? WHERE `url` =? AND `query`=? AND `search_engine`=?" );
+                            stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `total_semantic_triples`=? WHERE `url` =? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                             stmt.setInt(1,ntriples);
                             stmt.setString(2,links_total[j]);
                             stmt.setString(3,quer);
                             stmt.setInt(4,engine);
+                            stmt.setString(5,domain);
                             stmt.executeUpdate();
                             System.out.println("I inserted the semantic triples number in the DB\n");
                             //---namespaces-----
                             
                             System.out.println("I am going to insert the namespaces in the DB\n");
                             if(striple.namespaces[0]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/vocab/bio/0.1/` = ?  WHERE `url` = ? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/vocab/bio/0.1/` = ?  WHERE `url` = ? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[1]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/dc/elements/1.1/` =? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/dc/elements/1.1/` =? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[2]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/coo/n` = ? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/coo/n` = ? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[3]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://web.resource.org/cc/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://web.resource.org/cc/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[4]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://diligentarguont.ontoware.org/2005/10/arguonto`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://diligentarguont.ontoware.org/2005/10/arguonto`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[5]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://usefulinc.com/ns/doap`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://usefulinc.com/ns/doap`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[6]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://xmlns.com/foaf/0.1/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://xmlns.com/foaf/0.1/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[7]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/goodrelations/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/goodrelations/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[8]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/muto/core`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/muto/core`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[9]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://webns.net/mvcb/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://webns.net/mvcb/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[10]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/ontology/mo/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/ontology/mo/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[11]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/innovation/ns`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/innovation/ns`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[12]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://openguid.net/rdf`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://openguid.net/rdf`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[13]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.slamka.cz/ontologies/diagnostika.owl`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.slamka.cz/ontologies/diagnostika.owl`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[14]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/ontology/po/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/ontology/po/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[15]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/net/provenance/ns`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/net/provenance/ns`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[16]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/rss/1.0/modules/syndication`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/rss/1.0/modules/syndication`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[17]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://rdfs.org/sioc/ns`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://rdfs.org/sioc/ns`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
 
                             if(striple.namespaces[18]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://madskills.com/public/xml/rss/module/trackback/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://madskills.com/public/xml/rss/module/trackback/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
 
                             if(striple.namespaces[19]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://rdfs.org/ns/void`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://rdfs.org/ns/void`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
 
                             if(striple.namespaces[20]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.fzi.de/2008/wise/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.fzi.de/2008/wise/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
 
                             if(striple.namespaces[21]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://xmlns.com/wot/0.1`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://xmlns.com/wot/0.1`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
 
                             if(striple.namespaces[22]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.w3.org/1999/02/22-rdf-syntax-ns`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.w3.org/1999/02/22-rdf-syntax-ns`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
 
                             if(striple.namespaces[23]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `rdf-schema`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `rdf-schema`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
 
                             if(striple.namespaces[24]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `XMLschema`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `XMLschema`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
 
                             if(striple.namespaces[25]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `OWL`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `OWL`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
 
                             if(striple.namespaces[26]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/dc/terms/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/dc/terms/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
 
                             if(striple.namespaces[27]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `VCARD`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `VCARD`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
 
                             if(striple.namespaces[28]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.geonames.org/ontology`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.geonames.org/ontology`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[29]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://search.yahoo.com/searchmonkey/commerce/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://search.yahoo.com/searchmonkey/commerce/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[30]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://search.yahoo.com/searchmonkey/media/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://search.yahoo.com/searchmonkey/media/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[31]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://cb.semsol.org/ns#`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://cb.semsol.org/ns#`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[32]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://blogs.yandex.ru/schema/foaf/`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://blogs.yandex.ru/schema/foaf/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[33]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.w3.org/2003/01/geo/wgs84_pos#`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.w3.org/2003/01/geo/wgs84_pos#`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[34]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://rdfs.org/sioc/ns#`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://rdfs.org/sioc/ns#`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[35]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://rdfs.org/sioc/types#`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://rdfs.org/sioc/types#`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[36]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://smw.ontoware.org/2005/smw#`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://smw.ontoware.org/2005/smw#`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[37]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/rss/1.0/`= ? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/rss/1.0/`= ? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             if(striple.namespaces[38]){
-                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.w3.org/2004/12/q/contentlabel#`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                                stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.w3.org/2004/12/q/contentlabel#`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
                                 stmt.setString(2,links_total[j]);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                             }
                             System.out.println("I inserted the namespaces in the DB\n");
@@ -672,7 +719,7 @@ public class Search_analysis {
                             int cat_cnt=yec.GetCatQuerCnt();
                             int ent_cnt=yec.GetEntQuerCnt();
                             System.out.println("I insert the semantic entities and categories stats in the DB\n");
-                            stmt = conn.prepareStatement("UPDATE ENTCATSTATS SET `Categories_Contained_Query`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                            stmt = conn.prepareStatement("UPDATE ENTCATSTATS SET `Categories_Contained_Query`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                             stmt.setInt(1,cat_cnt);
                             stmt.setString(2,links_total[j]);
                             stmt.setString(3,quer);
@@ -685,9 +732,10 @@ public class Search_analysis {
                             else if(j<results_number*3){
                                 stmt.setInt(4,2);//2 for bing
                             }
+                            stmt.setString(5,domain);
                             stmt.executeUpdate();
                             
-                            stmt = conn.prepareStatement("UPDATE ENTCATSTATS SET `Categories_TF`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                            stmt = conn.prepareStatement("UPDATE ENTCATSTATS SET `Categories_TF`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                             if(cat_cnt>0){
                                 stmt.setBoolean(1,true);
                             }
@@ -705,9 +753,10 @@ public class Search_analysis {
                             else if(j<results_number*3){
                                 stmt.setInt(4,2);//2 for bing
                             }
+                            stmt.setString(5,domain);
                             stmt.executeUpdate();
                             
-                            stmt = conn.prepareStatement("UPDATE ENTCATSTATS SET `Entities_Contained_Query`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                            stmt = conn.prepareStatement("UPDATE ENTCATSTATS SET `Entities_Contained_Query`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                             stmt.setInt(1,ent_cnt);
                             stmt.setString(2,links_total[j]);
                             stmt.setString(3,quer);
@@ -720,9 +769,10 @@ public class Search_analysis {
                             else if(j<results_number*3){
                                 stmt.setInt(4,2);//2 for bing
                             }
+                            stmt.setString(5,domain);
                             stmt.executeUpdate();
                             
-                            stmt = conn.prepareStatement("UPDATE ENTCATSTATS SET `Entities_TF`=? WHERE `url`=? AND `query`=? AND `search_engine`=?" );
+                            stmt = conn.prepareStatement("UPDATE ENTCATSTATS SET `Entities_TF`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                             if(ent_cnt>0){
                                 stmt.setBoolean(1,true);
                             }else {
@@ -739,6 +789,7 @@ public class Search_analysis {
                             else if(j<results_number*3){
                                 stmt.setInt(4,2);//2 for bing
                             }
+                            stmt.setString(5,domain);
                             String check=stmt.toString();
                             stmt.executeUpdate();
                             
@@ -770,7 +821,7 @@ public class Search_analysis {
                                 webstatsStmBuild.append("`iframes`=? , ");
                                 webstatsStmBuild.append("`number_embeded_vids`=? , ");
                                 webstatsStmBuild.append("`scripts_cnt`=? ");
-                                webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=?");
+                                webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
                                 stmt = conn.prepareStatement(webstatsStmBuild.toString());
                                 stmt.setInt(1,iframes_number);
                                 stmt.setInt(2,number_embeded_vid);
@@ -786,6 +837,7 @@ public class Search_analysis {
                                 else if(j<results_number*3){
                                     stmt.setInt(6,2);//2 for bing
                                 }
+                                stmt.setString(7,domain);
                                 stmt.executeUpdate();
                                 System.out.println("I inserted webstats in the DB\n");
                                 
@@ -805,7 +857,7 @@ public class Search_analysis {
                                 semanticstatsStmBuild.append("`Microformats-2`=? , ");
                                 semanticstatsStmBuild.append("`Microdata`=?  , ");
                                 semanticstatsStmBuild.append("`FOAF_HTML`=? ");
-                                semanticstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=?");
+                                semanticstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
                                 stmt = conn.prepareStatement(semanticstatsStmBuild.toString());
                                 stmt.setInt(1,nschem);
                                 stmt.setInt(2,hcardsn);
@@ -831,6 +883,7 @@ public class Search_analysis {
                                 else if(j<results_number*3){
                                     stmt.setInt(16,2);//2 for bing
                                 }
+                                stmt.setString(17,domain);
                                 stmt.executeUpdate();
                                 System.out.println("I inserted semantic stats in the DB\n");
                             }
