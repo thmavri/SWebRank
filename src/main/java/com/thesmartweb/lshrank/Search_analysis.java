@@ -222,7 +222,7 @@ public class Search_analysis {
                         stmt.setString(5,domain);
                         stmt.executeUpdate();
                         
-                        stmt = conn.prepareStatement("INSERT INTO SEMANTICSTATS (url,query,search_engine,search_engine_rank) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine),domain=VALUES(domain)");
+                        stmt = conn.prepareStatement("INSERT INTO SEMANTICSTATS (url,query,search_engine,search_engine_rank,domain) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine),domain=VALUES(domain)");
                         stmt.setString(1,links_total[j]);
                         stmt.setString(2,quer);
                         stmt.setInt(3,engine);
@@ -231,7 +231,7 @@ public class Search_analysis {
                         stmt.executeUpdate();
                         
                         
-                        stmt = conn.prepareStatement("INSERT INTO NAMESPACESSTATS (url,query,search_engine,search_engine_rank) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine),domain=VALUES(domain)");
+                        stmt = conn.prepareStatement("INSERT INTO NAMESPACESSTATS (url,query,search_engine,search_engine_rank,domain) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine),domain=VALUES(domain)");
                         stmt.setString(1,links_total[j]);
                         stmt.setString(2,quer);
                         stmt.setInt(3,engine);
@@ -239,7 +239,7 @@ public class Search_analysis {
                         stmt.setString(5,domain);
                         stmt.executeUpdate();
                         
-                        stmt = conn.prepareStatement("INSERT INTO ENTCATSTATS (url,query,search_engine,search_engine_rank) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine),domain=VALUES(domain)");
+                        stmt = conn.prepareStatement("INSERT INTO ENTCATSTATS (url,query,search_engine,search_engine_rank,domain) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine),domain=VALUES(domain)");
                         stmt.setString(1,links_total[j]);
                         stmt.setString(2,quer);
                         stmt.setInt(3,engine);
