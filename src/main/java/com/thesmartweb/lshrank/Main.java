@@ -38,10 +38,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-            //ElasticGetWordList estest=new ElasticGetWordList();
-            //List<String> idstest=new ArrayList<>();
-            //idstest.add("NBA"+"/"+"kobe+bryant"+"/bing"+"/"+0);
-            //estest.getMaxWords(idstest, 10);
+            
             Path input_path=Paths.get("//mnt//var//DBs//inputs//softwareengineering//");
             //---Disable apache log manually----
             //System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");
@@ -135,7 +132,7 @@ public class Main {
                 List<ArrayList<String>> array_wordLists = new ArrayList<ArrayList<String>>();
                 List<String> wordList_previous=new ArrayList<String>();
                 List<String> wordList_new=new ArrayList<String>();
-                double conversion_percentage=0;//we create the convergence percentage and initialize it
+                double F1=0;//we create the convergence percentage and initialize it
                 String conv_percentages="";//string that contains all the convergence percentages
 
                 DataManipulation wordsmanipulation=new DataManipulation();//method to manipulate various word data (String, list<String>, etc)
@@ -222,11 +219,11 @@ public class Main {
                         //we are going to check the convergence rate
                         CheckConvergence cc = new CheckConvergence(); // here we check the convergence between the two wordLists, the new and the previous
                         //the concergence percentage of this iteration
-                        conversion_percentage = cc.perform(wordList_new, wordList_previous);
+                        F1 = cc.F1Calc(wordList_new, wordList_previous);
                         //a string that contains all the convergence percentage for each round separated by \n character
-                        conv_percentages = conv_percentages + "\n" + conversion_percentage;
+                        conv_percentages = conv_percentages + "\n" + F1;
                         //a file that is going to include the convergence percentages
-                        wordsmanipulation.AppendString(conv_percentages, output_child_directory+ "conversion_percentage.txt");
+                        wordsmanipulation.AppendString(conv_percentages, output_child_directory+ "convergence_percentage.txt");
                         //we add the new wordList to the finalList
                         finalList=wordsmanipulation.AddAList(wordList_new, finalList);
                         //we set the query array to be equal to the query new total that we have created
@@ -253,7 +250,7 @@ public class Main {
                         iteration_counter++;//increase the iteration_counter that counts the iterations of the algorithm
                         
                     }
-                }while(conversion_percentage<LSHrankSettings.get(5).doubleValue()&&iteration_counter<LSHrankSettings.get(8).intValue());//while the convergence percentage is below the limit and the iteration_counter below the performance limit
+                }while(F1<LSHrankSettings.get(5).doubleValue()&&iteration_counter<LSHrankSettings.get(8).intValue());//while the convergence percentage is below the limit and the iteration_counter below the performance limit
                     if(iteration_counter==1){
                         finalList=wordsmanipulation.AddAList(wordList_new, finalList);
                     }

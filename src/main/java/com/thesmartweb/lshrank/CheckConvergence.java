@@ -8,8 +8,6 @@ package com.thesmartweb.lshrank;
  *
  * @author Themis Mavridis
  */
-import JavaMI.Entropy;
-import JavaMI.MutualInformation;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,13 +54,32 @@ public class CheckConvergence {
         }
     
     }
-    public double perform(List<String> wordList_new,List<String> wordList_previous/*,List<String> finalList*/){
+    /*public double perform(List<String> wordList_new,List<String> wordList_previous){
         
             StemmerSnow sm = new StemmerSnow();
             wordList_new = sm.stem(wordList_new);
             NMIcalculator nmicalculator = new NMIcalculator();
             double nmi=nmicalculator.calculate(wordList_new, wordList_previous);
             return nmi;
+        
+    }*/
+    public double F1Calc(List<String> wordList_new,List<String> wordList_previous){
+        
+            StemmerSnow sm = new StemmerSnow();
+            wordList_new = sm.stem(wordList_new);
+            double F1;
+            double precision=0;
+            for(String s:wordList_previous){
+                if(wordList_new.contains(s)){
+                    precision++;
+                }
+            }
+            if(precision==0){return 0;}
+            double recall=precision;
+            precision=precision/wordList_new.size();
+            recall=recall/wordList_previous.size();
+            F1=2*(precision*recall)/(precision+recall);
+            return F1;
         
     }
 }
