@@ -28,13 +28,18 @@ public class Total_analysis {
     /**
      *
      */
-    protected List<ArrayList<String>> array_wordLists = new ArrayList<ArrayList<String>>();
+    protected List<ArrayList<String>> array_wordLists = new ArrayList<>();
 
     /**
      *
      */
-    protected List<String> wordList_total = new ArrayList<String>();
+    protected List<String> wordList_total = new ArrayList<>();
 
+    
+    /**
+     *
+     */
+    protected double F1;
     /**
      *
      * @param example_dir
@@ -50,7 +55,7 @@ public class Total_analysis {
      * @param SensebotConcepts
      * @param LSHrankSettings
      */
-    public void perform(int iteration_counter,String example_dir,String domain, List<Boolean> enginechoice,List<String> queries,int results_number, int top_visible, List<Boolean> mozMetrics, boolean moz_threshold_option, double moz_threshold, int top_count_moz, List<Boolean> ContentSemantics, int SensebotConcepts, List<Double> LSHrankSettings){
+    public void perform(List<String> wordList_previous,int iteration_counter,String example_dir,String domain, List<Boolean> enginechoice,List<String> queries,int results_number, int top_visible, List<Boolean> mozMetrics, boolean moz_threshold_option, double moz_threshold, int top_count_moz, List<Boolean> ContentSemantics, int SensebotConcepts, List<Double> LSHrankSettings){
         //for every term of the query String[] it performs the search analysis function
         //which includes sumbission of the term to the search engines, getting the results according to the options selected
         //parsing the websites and getting the content and the running LDA on them and getting the top content
@@ -74,11 +79,16 @@ public class Total_analysis {
             //we add the wordlist and to the total wordlist
             wordList_total.addAll(wordList);
         }
+        //we are going to check the convergence rate
+        CheckConvergence cc = new CheckConvergence(); // here we check the convergence between the two wordLists, the new and the previous
+        //the concergence percentage of this iteration
+        F1 = cc.F1Calc(wordList_total, wordList_previous);
         Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
         Client client = node.client();
         JSONObject objEngineLevel = new JSONObject();
         objEngineLevel.put("RoundContent", wordList_total);
         objEngineLevel.put("Round", iteration_counter);
+        objEngineLevel.put("ConvergenceF1", F1);
         String id=domain+"/"+iteration_counter;
         IndexRequest indexReq=new IndexRequest("lshrankgeneratedcontentperround","content",id);
         indexReq.source(objEngineLevel);
@@ -87,7 +97,16 @@ public class Total_analysis {
         
      
      }
-
+    
+    /**
+     *
+     * @return
+     */
+    public double getF1()
+    {
+        return F1;
+    }
+    
     /**
      *
      * @return

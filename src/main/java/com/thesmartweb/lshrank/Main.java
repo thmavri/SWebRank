@@ -129,9 +129,9 @@ public class Main {
                 int iteration_counter=0;//the iteration_counter is used in order to count the number of iterations of the algorithm and to be checked with perf_limit
                 //this list of arraylists  is going to contain all the wordLists that are produced for every term of the String[] query,
                 //in order to calculate the NGD scores between every term of the wordList and the term that was used as query in order to produce the spesific wordList
-                List<ArrayList<String>> array_wordLists = new ArrayList<ArrayList<String>>();
-                List<String> wordList_previous=new ArrayList<String>();
-                List<String> wordList_new=new ArrayList<String>();
+                List<ArrayList<String>> array_wordLists = new ArrayList<>();
+                List<String> wordList_previous=new ArrayList<>();
+                List<String> wordList_new=new ArrayList<>();
                 double F1=0;//we create the convergence percentage and initialize it
                 String conv_percentages="";//string that contains all the convergence percentages
 
@@ -207,7 +207,7 @@ public class Main {
                         //-----------------------------------------
                         //total analysis' function is going to do all the work and return back what we need
                         ta = new Total_analysis();
-                        ta.perform(iteration_counter,output_child_directory,domain,enginechoice, query_new_list_total, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings);
+                        ta.perform(wordList_previous,iteration_counter,output_child_directory,domain,enginechoice, query_new_list_total, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings);
                         //we get the array of wordlists
                         array_wordLists=ta.getarray_wordLists();
                         //get the wordlist that includes all the new queries
@@ -216,10 +216,8 @@ public class Main {
                         wordList_new=wordsmanipulation.clearListString(wordList_new);
                         //----------------append the wordlist to a file
                         wordsmanipulation.AppendWordList(wordList_new, output_child_directory+ "wordList.txt");
-                        //we are going to check the convergence rate
-                        CheckConvergence cc = new CheckConvergence(); // here we check the convergence between the two wordLists, the new and the previous
                         //the concergence percentage of this iteration
-                        F1 = cc.F1Calc(wordList_new, wordList_previous);
+                        F1 = ta.getF1();
                         //a string that contains all the convergence percentage for each round separated by \n character
                         conv_percentages = conv_percentages + "\n" + F1;
                         //a file that is going to include the convergence percentages
@@ -237,7 +235,7 @@ public class Main {
                         //----------we create a string that is going to be used for the corresponding directory of outputs
                         output_child_directory=output_parent_directory+txt_directory+"_level_"+iteration_counter+"//";
                         //we call total analysis function performOld
-                        ta.perform(iteration_counter,output_child_directory,domain, enginechoice, queries, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings);
+                        ta.perform(wordList_new,iteration_counter,output_child_directory,domain, enginechoice, queries, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings);
                         //we get the array of wordlists
                         array_wordLists=ta.getarray_wordLists();
                         //get the wordlist that includes all the new queries

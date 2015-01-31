@@ -475,7 +475,7 @@ public class WebParser {
             Connection.Response response = Jsoup.connect(link_html).timeout(10*1000).execute();
             if(response.statusCode()!=200){return false;}
             return true;
-        }  catch (IOException ex) {
+        }  catch (Exception ex) {
             Logger.getLogger(WebParser.class.getName()).log(Level.SEVERE, null, ex);
             System.out.print("can not connect to:"+link_html);
             return false;
