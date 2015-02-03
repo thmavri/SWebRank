@@ -85,49 +85,53 @@ public class APIconn {
      */
     public String check_conn(String link){
         try {
-            URL link_ur=new URL(link);
-            String line="DNS-error";
-            if(link.startsWith("http:")){
-                httpCon = (HttpURLConnection) link_ur.openConnection();
-                httpCon.setDefaultUseCaches(false);
-                httpCon.setReadTimeout(20000);
-                httpCon.setDoInput(true);
-                httpCon.connect();
-                line="fail-conn";
-                try{
-                    int responseCode=httpCon.getResponseCode();
-                    if (responseCode==200){line="ok-conn";}
-                }
-                catch (Exception e){
-                    System.out.println(link);
-                    System.gc();
-                    System.gc();
-                    System.gc();
-                    httpCon=null;
+            link=link.trim();
+            String line="fail-conn";
+            if(link.startsWith("http")){
+                URL link_ur=new URL(link);
+                line="DNS-error";
+                if(link.startsWith("http:")){
+                    httpCon = (HttpURLConnection) link_ur.openConnection();
+                    httpCon.setDefaultUseCaches(false);
+                    httpCon.setReadTimeout(20000);
+                    httpCon.setDoInput(true);
+                    httpCon.connect();
                     line="fail-conn";
-                    return line;
+                    try{
+                        int responseCode=httpCon.getResponseCode();
+                        if (responseCode==200){line="ok-conn";}
+                    }
+                    catch (Exception e){
+                        System.out.println(link);
+                        System.gc();
+                        System.gc();
+                        System.gc();
+                        httpCon=null;
+                        line="fail-conn";
+                        return line;
+                    }
                 }
-            }
-            else if (link.startsWith("https")){
-                httpsCon = (HttpsURLConnection) link_ur.openConnection();
-                httpsCon.setDefaultUseCaches(false);
-                httpsCon.setReadTimeout(20000);
-                httpsCon.setDoInput(true);
-                httpsCon.connect();
-                //httpCon.connect();
-                line="fail-conn";
-                try{
-                    int responseCode=httpsCon.getResponseCode();
-                    if (responseCode==200){line="ok-conn";}
-                }
-                catch (Exception e){
-                    System.out.println(link);
-                    System.gc();
-                    System.gc();
-                    System.gc();
-                    httpsCon=null;
+                else if (link.startsWith("https")){
+                    httpsCon = (HttpsURLConnection) link_ur.openConnection();
+                    httpsCon.setDefaultUseCaches(false);
+                    httpsCon.setReadTimeout(20000);
+                    httpsCon.setDoInput(true);
+                    httpsCon.connect();
+                    //httpCon.connect();
                     line="fail-conn";
-                    return line;
+                    try{
+                        int responseCode=httpsCon.getResponseCode();
+                        if (responseCode==200){line="ok-conn";}
+                    }
+                    catch (Exception e){
+                        System.out.println(link);
+                        System.gc();
+                        System.gc();
+                        System.gc();
+                        httpsCon=null;
+                        line="fail-conn";
+                        return line;
+                    }
                 }
             }
             return line;

@@ -38,10 +38,9 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-            
-            Path input_path=Paths.get("//mnt//var//DBs//inputs//RESTful//");
+            Path input_path=Paths.get("//mnt//var//DBs//inputs//restful//");
             //-----------------output directory-----------------
-            String output_parent_directory="//mnt//var//DBs//outputs//RESTful//";
+            String output_parent_directory="//mnt//var//DBs//outputs//restful//";
             //---Disable apache log manually----
             //System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");
             System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.Log4JLogger");
