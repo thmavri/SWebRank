@@ -39,7 +39,9 @@ public class Main {
      */
     public static void main(String[] args) {
             
-            Path input_path=Paths.get("//mnt//var//DBs//inputs//softwareengineering//");
+            Path input_path=Paths.get("//mnt//var//DBs//inputs//RESTful//");
+            //-----------------output directory-----------------
+            String output_parent_directory="//mnt//var//DBs//outputs//RESTful//";
             //---Disable apache log manually----
             //System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");
             System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.Log4JLogger");
@@ -71,8 +73,6 @@ public class Main {
             List<Boolean> ContentSemantics=null;
             int SensebotConcepts = 0;//define the amount of concepts that sensebot is going to recognize
             List<Double> LSHrankSettings=null;
-            //-----------------output directory-----------------
-            String output_parent_directory="//mnt//var//DBs//outputs//softwareengineering//";
             //------(string)directory is going to be used later-----
             String output_child_directory;
             //-------we get all the paths of the txt (input) files from the input directory-------
