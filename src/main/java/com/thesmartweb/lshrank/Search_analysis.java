@@ -705,15 +705,17 @@ public class Search_analysis {
                             catentities[1]="";
                             YahooEntityCategory yec=new YahooEntityCategory();
                             catentities=yec.connect(links_total[j],quer);
-                            for(int okk=0;okk<catentities.length;okk++){
-                                if(!(catentities[okk].isEmpty())){
-                                    DataManipulation txtpro = new  DataManipulation();
-                                    Stopwords st = new Stopwords();
-                                    catentities[okk]=txtpro.removeChars(catentities[okk]);
-                                    catentities[okk]=st.stop(catentities[okk]);
-                                    catentities[okk]=txtpro.removeChars(catentities[okk]);
+                            if(catentities!=null){
+                                for(int okk=0;okk<catentities.length;okk++){
+                                    if(!(catentities[okk].isEmpty())){
+                                        DataManipulation txtpro = new  DataManipulation();
+                                        Stopwords st = new Stopwords();
+                                        catentities[okk]=txtpro.removeChars(catentities[okk]);
+                                        catentities[okk]=st.stop(catentities[okk]);
+                                        catentities[okk]=txtpro.removeChars(catentities[okk]);
+                                    }
+                                   total_catent[j][1]=total_catent[j][1]+catentities[okk];
                                 }
-                               total_catent[j][1]=total_catent[j][1]+catentities[okk];
                             }
                             total_catent[j][0]=links_total[j];
                             int cat_cnt=yec.GetCatQuerCnt();
