@@ -95,7 +95,7 @@ public class Search_analysis {
             Connection conn = null;
             PreparedStatement stmt = null;
             String url = "jdbc:mysql://localhost:3306/LSHrankDB?zeroDateTimeBehavior=convertToNull";
-            String user = "root";
+            String user = "lshrankStatsAdmin";
             String password = "843647";
             System.out.println("Connecting to database...");
             conn = DriverManager.getConnection(url,user,password);

@@ -38,9 +38,13 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-            Path input_path=Paths.get("//mnt//var//DBs//inputs//linkeddata//");
+            DandelionEntities de = new DandelionEntities();
+            de.connect("http://nba.com", "nba+basketball");
+            YahooEntityCategory ye = new YahooEntityCategory();
+            ye.connect("http://nba.com", "nba+basketball");
+            Path input_path=Paths.get("//mnt//var//DBs//inputs//basketball//");
             //-----------------output directory-----------------
-            String output_parent_directory="//mnt//var//DBs//outputs//linkeddata//";
+            String output_parent_directory="//mnt//var//DBs//outputs//basketball//";
             //---Disable apache log manually----
             //System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");
             System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.Log4JLogger");

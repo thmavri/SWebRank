@@ -54,6 +54,15 @@ public class JSONparsing {
      */
     public static int cat_query_cnt=0;
     
+    /**
+     *
+     */
+    public static int ent_query_cnt_dand=0;
+    /**
+     *
+     */
+    public static int cat_query_cnt_dand=0;
+    
     JSONparsing(){links=new String[10];}
     JSONparsing(int results_number){links_yahoo_bing=new String[results_number];}
 
@@ -432,7 +441,7 @@ public class JSONparsing {
         }
 
 
-}
+    }
 
     /**
      *
@@ -444,10 +453,9 @@ public class JSONparsing {
         try {
             ent_query_cnt=0;
             cat_query_cnt=0;
-            String categories=new String();
-            String entities=new String();
-            categories="";
-            entities="";
+            List<String> entities = new ArrayList<>();
+            List<String> categories = new ArrayList<>();
+            
             String[] output=new String[2];
             //Create a parser
             JSONParser parser = new JSONParser();
@@ -499,7 +507,7 @@ public class JSONparsing {
                                             for(int kj=0;kj<arr_cat.length;kj++){
                                                 entry = (Map.Entry) arr_cat[kj];
                                                 if(entry.getKey().toString().contains("content")){
-                                                    categories=categories+"+"+entry.getValue().toString();
+                                                    categories.add(entry.getValue().toString());
 
                                                 }
                                             }
@@ -512,7 +520,7 @@ public class JSONparsing {
                                     for(int ka=0;ka<arr_cat.length;ka++){
                                         entry = (Map.Entry) arr_cat[ka];
                                         if(entry.getKey().toString().contains("content")){
-                                            categories=categories+"+"+entry.getValue().toString();
+                                            categories.add(entry.getValue().toString());
                                         }
                                     }
                                 }     
@@ -545,7 +553,7 @@ public class JSONparsing {
                                                 for(int kai=0;kai<arr_ent.length;kai++){
                                                     entry = (Map.Entry) arr_ent[kai];
                                                     if(entry.getKey().toString().contains("content")){
-                                                        entities = entities+"+"+entry.getValue().toString(); 
+                                                        entities.add(entry.getValue().toString().toLowerCase()); 
                                                     }
                                                 }
                                             }
@@ -566,7 +574,7 @@ public class JSONparsing {
                                             for(int kai=0;kai<arr_ent.length;kai++){
                                                 entry = (Map.Entry) arr_ent[kai];
                                                 if(entry.getKey().toString().contains("content")){
-                                                    entities = entities+"+"+entry.getValue().toString(); 
+                                                    entities.add(entry.getValue().toString().toLowerCase()); 
                                                 }
                                             }
                                         }
@@ -577,19 +585,22 @@ public class JSONparsing {
                     }
                 }
             }
-            String queries[] = quer.split("\\+");
-            for(int e=0;e<queries.length;e++){
-                if(entities.toLowerCase().contains(queries[e])){
-                    ent_query_cnt++;
-                }
-                if(categories.toLowerCase().contains(queries[e])){
-                    cat_query_cnt++;
-                }
+            String[] split = quer.split("\\+");
+            for(String splitStr:split){
+                entities.stream().forEach((s) -> {
+                    if(s.contains(splitStr)){
+                        ent_query_cnt++;
+                    }
+                });
+                categories.stream().forEach((s) -> {
+                    if(s.contains(splitStr)){
+                        cat_query_cnt++;
+                    }
+                });
             }
-            entities=entities.substring(1);
-            categories=categories.substring(1);
-            output[0]=categories;
-            output[1]=entities;
+            
+            output[0]="ok";
+            output[1]="ok";
             return output;
         } catch (ParseException ex) {
             Logger.getLogger(JSONparsing.class.getName()).log(Level.SEVERE, null, ex);
@@ -685,6 +696,75 @@ public class JSONparsing {
             String output=null;
             return output;
         } 
+    }
+    /**
+     *
+     * @param input
+     * @return
+     */
+    public String DandelionParsing(String input, String query){
+        String output=""; 
+        try {
+            List<String> entities = new ArrayList<>();
+            List<String> categories = new ArrayList<>();
+           
+            //Create a parser
+            JSONParser parser = new JSONParser();
+            //Create the map
+            Object parse = parser.parse(input);
+            Map json = (Map) parser.parse(input);
+            Set entrySet = json.entrySet();
+            Iterator iterator=entrySet.iterator();
+            Map.Entry entry = null;
+            boolean flagfound = false;
+            while(iterator.hasNext()&&!flagfound){
+                entry= (Map.Entry) iterator.next();
+                if(entry.getKey().toString().equalsIgnoreCase("annotations")){
+                    flagfound=true;
+                }
+            }
+            if(flagfound){
+                JSONArray jsonarray=(JSONArray) entry.getValue();
+                Iterator iteratorarray = jsonarray.iterator();
+                flagfound=false;
+                JSONObject get =null;
+                while(iteratorarray.hasNext()&&!flagfound){
+                    JSONObject next = (JSONObject) iteratorarray.next();
+                    if(next.containsKey("label")){
+                       entities.add(next.get("label").toString().toLowerCase());
+                    }
+                    if(next.containsKey("categories")){
+                        jsonarray = (JSONArray) next.get("categories");
+                        for(int i=0;i<jsonarray.size();i++){
+                            categories.add(jsonarray.get(i).toString().toLowerCase());
+                        }
+                    }
+                }
+                String[] split = query.split("\\+");
+                for(String splitStr:split){
+                    entities.stream().forEach((s) -> {
+                        if(s.contains(splitStr)){
+                            ent_query_cnt_dand++;
+                        }
+                    });
+                    categories.stream().forEach((s) -> {
+                        if(s.contains(splitStr)){
+                            cat_query_cnt_dand++;
+                        }
+                    });
+                }
+                
+            }
+            output="ok";
+            return output;
+        }
+          catch (ParseException ex) {
+            Logger.getLogger(JSONparsing.class.getName()).log(Level.SEVERE, null, ex);
+            output="fail";
+             return output;
+        }
+
+
     }
 }
 
