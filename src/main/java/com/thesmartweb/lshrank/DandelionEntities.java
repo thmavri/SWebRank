@@ -5,6 +5,8 @@
  */
 package com.thesmartweb.lshrank;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -14,12 +16,13 @@ import java.net.URLEncoder;
  */
 public class DandelionEntities {
     public static int ent_query_cnt=0;
-    public String connect(String urlcheck, String quer) {  
+    public static int cat_query_cnt=0;
+    public void connect(String urlcheck, String quer) {  
   
         try {  
-            
             ent_query_cnt=0;
-            String output="";
+            cat_query_cnt=0;
+            int[] output = new int[2];
             String line="";
             String baseUrl = "https://api.dandelion.eu/datatxt/nex/v1?url=";
             String fullUrlStr = baseUrl + URLEncoder.encode(urlcheck, "UTF-8")+"&min_confidence=0.6&include=types%2Ccategories%2Clod";
@@ -32,15 +35,14 @@ public class DandelionEntities {
                 JSONparsing jsonParser= new JSONparsing();
                 //get the links in an array
                 output= jsonParser.DandelionParsing(line, quer);
-                ent_query_cnt=jsonParser.GetEntQuerCnt();
-               
+                ent_query_cnt=output[0];
+                cat_query_cnt=output[1];
             }
-            return output;
-        } catch (Exception e) {  
-                String output="fail";
-                return output;
+        } catch (UnsupportedEncodingException | MalformedURLException e) {
         }  
     } 
+    public int getEnt(){return ent_query_cnt;}
+    public int getCat(){return cat_query_cnt;}
 }
 
   

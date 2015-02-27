@@ -700,26 +700,14 @@ public class Search_analysis {
                             System.out.println("I inserted the namespaces in the DB\n");
                             //we continue only for not null links
                             System.out.println("I will get the semantic entities and categories\n");
-                            String[] catentities=new String[2];
-                            catentities[0]="";
-                            catentities[1]="";
                             YahooEntityCategory yec=new YahooEntityCategory();
-                            catentities=yec.connect(links_total[j],quer);
-                            if(catentities!=null){
-                                for(int okk=0;okk<catentities.length;okk++){
-                                    if(!(catentities[okk].isEmpty())){
-                                        DataManipulation txtpro = new  DataManipulation();
-                                        Stopwords st = new Stopwords();
-                                        catentities[okk]=txtpro.removeChars(catentities[okk]);
-                                        catentities[okk]=st.stop(catentities[okk]);
-                                        catentities[okk]=txtpro.removeChars(catentities[okk]);
-                                    }
-                                   total_catent[j][1]=total_catent[j][1]+catentities[okk];
-                                }
-                            }
-                            total_catent[j][0]=links_total[j];
+                            yec.connect(links_total[j],quer);
                             int cat_cnt=yec.GetCatQuerCnt();
                             int ent_cnt=yec.GetEntQuerCnt();
+                            DandelionEntities dec = new DandelionEntities();
+                            dec.connect(links_total[j], quer);
+                            int cat_cnt_dand=dec.getCat();
+                            int ent_cnt_dand=dec.getEnt();
                             System.out.println("I insert the semantic entities and categories stats in the DB\n");
                             stmt = conn.prepareStatement("UPDATE ENTCATSTATS SET `Categories_Contained_Query`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                             stmt.setInt(1,cat_cnt);
@@ -805,12 +793,6 @@ public class Search_analysis {
                                 int nauthority=0;
                                 int scripts_cnt = htm.scripts_number;
                                 int nschem=htm.nschem;
-                                int hcardsn=htm.hcardsn;
-                                int hcalen=htm.hcalen;
-                                int hrevn=htm.hrevn;
-                                int hevenn=htm.hevenn;
-                                int haddrn=htm.haddrn;
-                                int hgeon=htm.hgeon;
                                 int hreln=htm.hreln;
                                 int total_micron=htm.total_micron;
                                 int micron1=htm.micron1;
@@ -820,26 +802,22 @@ public class Search_analysis {
                                 System.out.println("I will insert webstats in the DB\n");
                                 webstatsStmBuild.setLength(0);
                                 webstatsStmBuild.append("UPDATE WEBSTATS SET ");
-                                webstatsStmBuild.append("`iframes`=? , ");
-                                webstatsStmBuild.append("`number_embeded_vids`=? , ");
                                 webstatsStmBuild.append("`scripts_cnt`=? ");
                                 webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
                                 stmt = conn.prepareStatement(webstatsStmBuild.toString());
-                                stmt.setInt(1,iframes_number);
-                                stmt.setInt(2,number_embeded_vid);
-                                stmt.setInt(3,scripts_cnt);
-                                stmt.setString(4,links_total[j]);
-                                stmt.setString(5,quer);
+                                stmt.setInt(1,scripts_cnt);
+                                stmt.setString(2,links_total[j]);
+                                stmt.setString(3,quer);
                                 if(j<results_number){
-                                    stmt.setInt(6,0);//0 for yahoo
+                                    stmt.setInt(4,0);//0 for yahoo
                                 }
                                 else if(j<results_number*2){
-                                    stmt.setInt(6,1);//1 for google
+                                    stmt.setInt(4,1);//1 for google
                                 }
                                 else if(j<results_number*3){
-                                    stmt.setInt(6,2);//2 for bing
+                                    stmt.setInt(4,2);//2 for bing
                                 }
-                                stmt.setString(7,domain);
+                                stmt.setString(5,domain);
                                 stmt.executeUpdate();
                                 System.out.println("I inserted webstats in the DB\n");
                                 
@@ -847,12 +825,6 @@ public class Search_analysis {
                                 StringBuilder semanticstatsStmBuild = new StringBuilder();
                                 semanticstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
                                 semanticstatsStmBuild.append("`schema.org_entities`=? , ");
-                                semanticstatsStmBuild.append("`hcards`=? , ");
-                                semanticstatsStmBuild.append("`hcalendars`=? , ");
-                                semanticstatsStmBuild.append("`hreviews`=? , ");
-                                semanticstatsStmBuild.append("`hevents`=? , ");
-                                semanticstatsStmBuild.append("`hadresses`=? , ");
-                                semanticstatsStmBuild.append("`hgeo`=? , ");
                                 semanticstatsStmBuild.append("`hreltags`=? , ");
                                 semanticstatsStmBuild.append("`total_microformats`=? , ");
                                 semanticstatsStmBuild.append("`Microformats-1`=? , ");
@@ -862,30 +834,24 @@ public class Search_analysis {
                                 semanticstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
                                 stmt = conn.prepareStatement(semanticstatsStmBuild.toString());
                                 stmt.setInt(1,nschem);
-                                stmt.setInt(2,hcardsn);
-                                stmt.setInt(3,hcalen);
-                                stmt.setInt(4,hrevn);
-                                stmt.setInt(5,hevenn);
-                                stmt.setInt(6,haddrn);
-                                stmt.setInt(7,hgeon);
-                                stmt.setInt(8,hreln);
-                                stmt.setInt(9,total_micron);
-                                stmt.setInt(10,micron1);
-                                stmt.setInt(11,micron2); 
-                                stmt.setInt(12,microd);
-                                stmt.setInt(13,htm.foaf);
-                                stmt.setString(14,links_total[j]);
-                                stmt.setString(15,quer);
+                                stmt.setInt(2,hreln);
+                                stmt.setInt(3,total_micron);
+                                stmt.setInt(4,micron1);
+                                stmt.setInt(5,micron2); 
+                                stmt.setInt(6,microd);
+                                stmt.setInt(7,htm.foaf);
+                                stmt.setString(8,links_total[j]);
+                                stmt.setString(9,quer);
                                 if(j<results_number){
-                                    stmt.setInt(16,0);//0 for yahoo
+                                    stmt.setInt(10,0);//0 for yahoo
                                 }
                                 else if(j<results_number*2){
-                                    stmt.setInt(16,1);//1 for google
+                                    stmt.setInt(10,1);//1 for google
                                 }
                                 else if(j<results_number*3){
-                                    stmt.setInt(16,2);//2 for bing
+                                    stmt.setInt(10,2);//2 for bing
                                 }
-                                stmt.setString(17,domain);
+                                stmt.setString(11,domain);
                                 stmt.executeUpdate();
                                 System.out.println("I inserted semantic stats in the DB\n");
                             }
@@ -898,21 +864,21 @@ public class Search_analysis {
                 //we perform LDA or TFIDF analysis to the links obtained
                     if(!enginechoice.get(3)){
                         if(enginechoice.get(2)){
-                            ychk=ld.perform(links_yahoo, domain, "yahoo", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"yahoo",ContentSemantics.get(1),ContentSemantics.get(3),total_catent);
+                            ychk=ld.perform(links_yahoo, domain, "yahoo", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"yahoo",ContentSemantics.get(1),ContentSemantics.get(3));
                             System.gc();
                         }
                         if(enginechoice.get(1)){
-                            gchk=ld.perform(links_google, domain, "google", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"google",ContentSemantics.get(1),ContentSemantics.get(3),total_catent);
+                            gchk=ld.perform(links_google, domain, "google", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"google",ContentSemantics.get(1),ContentSemantics.get(3));
                             System.gc();
                         }
                         if(enginechoice.get(0)){
-                            bchk=ld.perform(links_bing, domain, "bing", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"bing",ContentSemantics.get(1),ContentSemantics.get(3),total_catent);
+                            bchk=ld.perform(links_bing, domain, "bing", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"bing",ContentSemantics.get(1),ContentSemantics.get(3));
                             System.gc();
                         }
                     }
                     else{
                         System.gc();//links_total
-                        tchk=ld.perform(links_total, domain, "merged", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"Merged",ContentSemantics.get(1),ContentSemantics.get(3),total_catent);
+                        tchk=ld.perform(links_total, domain, "merged", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"Merged",ContentSemantics.get(1),ContentSemantics.get(3));
                         System.gc();
                     }
                 }

@@ -54,7 +54,7 @@ public class LinksParseAnalysis {
      * @param total_catent
      * @return
      */
-    public String perform(String[] total_links, String domain, String engine, String example_dir,String quer,int nTopics,double alpha,double beta,int niters,int top_words,String search_engine,boolean LDAflag,boolean TFIDFflag, String[][] total_catent){
+    public String perform(String[] total_links, String domain, String engine, String example_dir,String quer,int nTopics,double alpha,double beta,int niters,int top_words,String search_engine,boolean LDAflag,boolean TFIDFflag){
         try {
             System.gc();
             WebParser web = new WebParser();
@@ -68,11 +68,6 @@ public class LinksParseAnalysis {
                 try {
                     parse_output[i]="";
                     if (total_links[i] != null) {
-                        for(int p=0;p<total_catent.length;p++){
-                            if(total_catent[p][0].equalsIgnoreCase(total_links[i])){
-                                parse_output[i]=parse_output[i]+total_catent[p][1];
-                            }
-                        }
                         System.out.println("Link: "+total_links[i]+"\n");
                         if (total_links[i].contains("http://www.youtube.com/watch?") || total_links[i].contains("http://www.imdb.com") || total_links[i].contains("cm-gc.com")|| total_links[i].contains(".ppt") || total_links[i].contains("indymedia") || total_links[i].contains(".pdf") || !apicon.check_conn(total_links[i]).contains("ok-conn")) {
                             if (total_links[i].contains("http://www.youtube.com/watch?")) {
@@ -121,7 +116,7 @@ public class LinksParseAnalysis {
                         IndexResponse indexRes = client.index(indexReq).actionGet();
                     }
                 }
-                 catch (IOException ex) {
+                catch (IOException ex) {
                     Logger.getLogger(GoogleResults.class.getName()).log(Level.SEVERE, null, ex);
                     chk = null;
                     return chk;

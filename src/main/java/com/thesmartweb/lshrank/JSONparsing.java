@@ -702,8 +702,8 @@ public class JSONparsing {
      * @param input
      * @return
      */
-    public String DandelionParsing(String input, String query){
-        String output=""; 
+    public int[] DandelionParsing(String input, String query){
+        int[] output=new int[2]; 
         try {
             List<String> entities = new ArrayList<>();
             List<String> categories = new ArrayList<>();
@@ -755,13 +755,15 @@ public class JSONparsing {
                 }
                 
             }
-            output="ok";
+            output[0]=ent_query_cnt_dand;
+            output[1]=cat_query_cnt_dand;
             return output;
         }
           catch (ParseException ex) {
             Logger.getLogger(JSONparsing.class.getName()).log(Level.SEVERE, null, ex);
-            output="fail";
-             return output;
+            output[0]=0;
+            output[1]=0;
+            return output;
         }
 
 
