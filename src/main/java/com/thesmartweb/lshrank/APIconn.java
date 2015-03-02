@@ -57,7 +57,33 @@ public class APIconn {
             return line;
         }
 }
-
+    public String sslconnectAylien(URL link_ur) {
+        try {
+            httpsCon=(HttpsURLConnection) link_ur.openConnection();
+            System.out.println(httpsCon.getResponseCode());
+            if (httpsCon.getResponseCode() != 200) {
+                String line;
+                line = "fail";
+                return line;
+            } else {
+                String line;
+                try (BufferedReader rd = new BufferedReader(new InputStreamReader(httpsCon.getInputStream()))) {
+                    StringBuilder sb = new StringBuilder();
+                    while ((line = rd.readLine()) != null) {
+                        sb.append(line);
+                    }
+                    line = sb.toString();
+                }
+                return line;
+            } 
+        } catch (IOException ex) {
+            Logger.getLogger(APIconn.class.getName()).log(Level.SEVERE, null, ex);
+            String line="fail";
+            return line;
+        }
+}
+    
+    
     /**
      * Connects to an http url and GETs the response
      * @param link_ur

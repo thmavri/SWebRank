@@ -708,6 +708,10 @@ public class Search_analysis {
                             dec.connect(links_total[j], quer);
                             int cat_cnt_dand=dec.getCat();
                             int ent_cnt_dand=dec.getEnt();
+                            AylienEntities aye = new AylienEntities();
+                            aye.connect(links_total[j], quer);
+                            int cat_cnt_ay=aye.getCat();
+                            int ent_cnt_ay=aye.getEnt();
                             System.out.println("I insert the semantic entities and categories stats in the DB\n");
                             stmt = conn.prepareStatement("UPDATE ENTCATSTATS SET `Categories_Contained_Query`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                             stmt.setInt(1,cat_cnt);
