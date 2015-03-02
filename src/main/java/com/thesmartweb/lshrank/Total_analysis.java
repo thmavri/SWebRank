@@ -55,7 +55,7 @@ public class Total_analysis {
      * @param SensebotConcepts
      * @param LSHrankSettings
      */
-    public void perform(List<String> wordList_previous,int iteration_counter,String example_dir,String domain, List<Boolean> enginechoice,List<String> queries,int results_number, int top_visible, List<Boolean> mozMetrics, boolean moz_threshold_option, double moz_threshold, int top_count_moz, List<Boolean> ContentSemantics, int SensebotConcepts, List<Double> LSHrankSettings){
+    public void perform(List<String> wordList_previous,int iteration_counter,String example_dir,String domain, List<Boolean> enginechoice,List<String> queries,int results_number, int top_visible, List<Boolean> mozMetrics, boolean moz_threshold_option, double moz_threshold, int top_count_moz, List<Boolean> ContentSemantics, int SensebotConcepts, List<Double> LSHrankSettings, String config_path){
         //for every term of the query String[] it performs the search analysis function
         //which includes sumbission of the term to the search engines, getting the results according to the options selected
         //parsing the websites and getting the content and the running LDA on them and getting the top content
@@ -71,7 +71,7 @@ public class Total_analysis {
             //we set the alpha variable of the LDA algorithm to the value that is said to be optimal in the paper of LDA, alpha
             double alpha = 50 / LSHrankSettings.get(1);
             //we call perform method of search analysis
-            wordList = sa.perform(iteration_counter,example_directory, domain, enginechoice, queries.get(i), results_number, top_visible, LSHrankSettings, alpha,mozMetrics,top_count_moz,moz_threshold_option,moz_threshold,ContentSemantics, SensebotConcepts);
+            wordList = sa.perform(iteration_counter,example_directory, domain, enginechoice, queries.get(i), results_number, top_visible, LSHrankSettings, alpha,mozMetrics,top_count_moz,moz_threshold_option,moz_threshold,ContentSemantics, SensebotConcepts, config_path);
             
             //we add the wordlist to the vector of word list
             ArrayList<String> wordArrayList=new ArrayList<String>(wordList);

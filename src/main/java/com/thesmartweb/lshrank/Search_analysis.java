@@ -90,12 +90,12 @@ public class Search_analysis {
      * @param SensebotConcepts
      * @return
      */
-    public List<String> perform(int iteration_counter,String example_dir, String domain, List<Boolean> enginechoice, String quer, int results_number, int top_visible,List<Double> LSHrankSettings,double alpha, List<Boolean> mozMetrics, int top_count_moz, boolean moz_threshold_option,double moz_threshold, List<Boolean> ContentSemantics, int SensebotConcepts){ 
+    public List<String> perform(int iteration_counter,String example_dir, String domain, List<Boolean> enginechoice, String quer, int results_number, int top_visible,List<Double> LSHrankSettings,double alpha, List<Boolean> mozMetrics, int top_count_moz, boolean moz_threshold_option,double moz_threshold, List<Boolean> ContentSemantics, int SensebotConcepts, String config_path){ 
         try {
             Connection conn = null;
             PreparedStatement stmt = null;
             String url = "jdbc:mysql://localhost:3306/LSHrankDB?zeroDateTimeBehavior=convertToNull";
-            String user = "lshrankStatsAdmin";
+            String user = "lshrankAdmin";
             String password = "843647";
             System.out.println("Connecting to database...");
             conn = DriverManager.getConnection(url,user,password);
@@ -114,12 +114,12 @@ public class Search_analysis {
             if(enginechoice.get(0)){
                 //get bing results
                 BingResults br = new BingResults();
-                links_bing=br.Get(quer, results_number, example_dir);                     
+                links_bing=br.Get(quer, results_number, example_dir,config_path);                     
             }
             if(enginechoice.get(1)){
                 //get google results
                 GoogleResults gr = new GoogleResults();
-                links_google=gr.Get(quer,results_number,example_dir);
+                links_google=gr.Get(quer,results_number,example_dir,config_path);
             }
             if(enginechoice.get(2)){
                 //get yahoo results

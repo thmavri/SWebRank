@@ -313,7 +313,35 @@ public class ReadInput {
         }
         return false;
     }
-
+    public List<String> GetSEKeys(File Input){
+    
+        FileInputStream inputStream=null;
+        Scanner sc=null;
+        List<String> output = new ArrayList<>();
+        try{
+            inputStream=new FileInputStream(Input);
+            sc=new Scanner(inputStream);
+            while (sc.hasNextLine()) {
+                output.add(sc.nextLine().trim());
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ReadInput.class.getName()).log(Level.SEVERE, null, ex);
+            return output;
+        } finally {
+            if (inputStream !=null){
+                try {
+                    inputStream.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(ReadInput.class.getName()).log(Level.SEVERE, null, ex);
+                    return output;
+                }
+            }
+            if (sc !=null){
+                sc.close();
+            }
+        }
+        return output;
+    }
    
 
 }

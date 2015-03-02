@@ -32,9 +32,9 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Path input_path=Paths.get("//mnt//var//DBs//inputs//basketball//");
-        //-----------------output directory-----------------
-        String output_parent_directory="//mnt//var//DBs//outputs//basketball//";
+        Path input_path=Paths.get("//mnt//var//DBs//inputs//basketball//");//input directory
+        String output_parent_directory="//mnt//var//DBs//outputs//basketball//";//output directory
+        String config_path="//mnt//var//DBs//config//";//input directory
         //---Disable apache log manually----
         //System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");
         System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.Log4JLogger");
@@ -170,7 +170,7 @@ public class Main {
                         List<String> maxWords = ESget.getMaxWords(ids, LSHrankSettings.get(9).intValue());
                         int query_index=queries.indexOf(query);
                         int size_query_new = LSHrankSettings.get(10).intValue();
-                        List<String> query_new_list = cn.perform(maxWords, LSHrankSettings.get(7), queries, LSHrankSettings.get(6), query_index, size_query_new);
+                        List<String> query_new_list = cn.perform(maxWords, LSHrankSettings.get(7), queries, LSHrankSettings.get(6), query_index, size_query_new, config_path);
                         //we transform the query array to list
                         //List<String> query_new_list = Arrays.asList(query_new);
                         //we add the list of new queries to the total list that containas all the new queries
@@ -190,7 +190,7 @@ public class Main {
                     //-----------------------------------------
                     //total analysis' function is going to do all the work and return back what we need
                     ta = new Total_analysis();
-                    ta.perform(wordList_previous,iteration_counter,output_child_directory,domain,enginechoice, query_new_list_total, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings);
+                    ta.perform(wordList_previous,iteration_counter,output_child_directory,domain,enginechoice, query_new_list_total, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings, config_path);
                     //we get the array of wordlists
                     array_wordLists=ta.getarray_wordLists();
                     //get the wordlist that includes all the new queries
@@ -218,7 +218,7 @@ public class Main {
                     //----------we create a string that is going to be used for the corresponding directory of outputs
                     output_child_directory=output_parent_directory+txt_directory+"_level_"+iteration_counter+"//";
                     //we call total analysis function performOld
-                    ta.perform(wordList_new,iteration_counter,output_child_directory,domain, enginechoice, queries, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings);
+                    ta.perform(wordList_new,iteration_counter,output_child_directory,domain, enginechoice, queries, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings, config_path);
                     //we get the array of wordlists
                     array_wordLists=ta.getarray_wordLists();
                     //get the wordlist that includes all the new queries

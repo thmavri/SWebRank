@@ -5,9 +5,12 @@
  */
 
 package com.thesmartweb.lshrank;
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.net.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.json.simple.parser.*;
 import org.json.simple.JSONArray;
 import java.util.*;
@@ -29,7 +32,7 @@ public class GoogleResults {
      * @param example_dir
      * @return
      */
-    public String[] Get(String quer,int google_results_number,String example_dir){
+    public String[] Get(String quer,int google_results_number,String example_dir, String config_path){
         //counter is set
         int counter_limit=google_results_number+1;
         String chk="fail";
@@ -41,8 +44,8 @@ public class GoogleResults {
             String[] links=new String[10];//10 is the default number that Google Search API returns
             String[] apikeys =new String[6];
             String[] cxs=new String[6];
-            String[] keys=new String[36];//keys is the combination of cxs and apikeys which are parameters for performing queries to Google Search API
-            keys=GetKeys();
+            String[] keys;//keys is the combination of cxs and apikeys which are parameters for performing queries to Google Search API
+            keys=GetKeys(config_path);
             int i=0;
             int flag_key=0;
             String key="";
@@ -147,30 +150,34 @@ public class GoogleResults {
      *
      * @return
      */
-    public String[] GetKeys(){
-                String[] apikeys =new String[6];
-                String[] cxs=new String[6];
-                String[] keys=new String[36];
-                apikeys[0]="AIzaSyCGIdV0fatLZw_ltq7WdkiPfdv0t62_3C8";
-                apikeys[1]="AIzaSyCEXV3aNihcFR_bqpjtK2iLHOvuOLtrOGo";
-                apikeys[2]="AIzaSyDEGplpvR55QS8vDHYeWbg1miNk_tbDIKk";
-                apikeys[3]="AIzaSyDLm-MfYHcbTHQO1S8ROX2rpvsqd5oYSRI";
-                apikeys[4]="AIzaSyDXv2tB5rEIaf2kPKaIgfNETkI1frePIUI";
-                apikeys[5]="AIzaSyD90pFamOfzJwUD6-JfmxDeyAodvFyajg8";
-                cxs[0]="004407321776517455750:p9yjzmshjac";
-                cxs[1]="004624785437932445001:yqxjjjvmlli";
-                cxs[2]="004407321776517455750:ytotak7ypo8";
-                cxs[3]="004407321776517455750:l1qjyowglrc";
-                cxs[4]="05376466950812159509:5m0ebfn354s";
-                cxs[5]="004624785437932445001:zpkjsoyblfo";
-                
-                int k=0;
-                for(int i=0;i<6;i++){
-                    for(int j=0;j<5;j++){
-                        keys[k]=apikeys[i]+"&cx="+cxs[j];
-                        k++;
-                    }
-                }
-                return keys;
+    public String[] GetKeys(String config_path){
+        Path input_path=Paths.get(config_path);       
+        DataManipulation getfiles=new DataManipulation();//class responsible for the extraction of paths
+        Collection<File> inputs_files;//array to include the paths of the txt files
+        inputs_files=getfiles.getinputfiles(input_path.toString(),"txt");//method to retrieve all the path of the input documents
+        List<String> cxsList = new ArrayList<>();
+        List<String> apikeysList = new ArrayList<>();
+        ReadInput ri = new ReadInput();
+        for (File input : inputs_files) {
+            if(input.getName().contains("google_cxs")){
+                cxsList=ri.GetSEKeys(input);
+            }
+            if(input.getName().contains("google_apikeys")){
+                apikeysList=ri.GetSEKeys(input);
+            }
+        
+        }  
+        String[] cxs = cxsList.toArray(new String[cxsList.size()]);
+        String[] apikeys = apikeysList.toArray(new String[apikeysList.size()]);
+        String[] keys=new String[cxsList.size()*cxsList.size()];
+        
+        int k=0;
+        for(int i=0;i<cxs.length;i++){
+            for(int j=0;j<apikeys.length;j++){
+                keys[k]=apikeys[i]+"&cx="+cxs[j];
+                k++;
+            }
+        }
+        return keys;
     }
 }

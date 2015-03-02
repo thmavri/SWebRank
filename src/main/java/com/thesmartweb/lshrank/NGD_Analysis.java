@@ -16,14 +16,14 @@ public class NGD_Analysis {
      * @param term2
      * @return
      */
-    public double NGD_score(String term1, String term2) {
+    public double NGD_score(String term1, String term2, String config_path) {
             System.out.println("into ngd score");
             Long M = 10000000000L; //802080446201L (2007)
-            double freqx = logResults(term1);
-            double freqy = logResults(term2);
+            double freqx = logResults(term1, config_path);
+            double freqy = logResults(term2, config_path);
             System.out.println("into taking results");
             String xy = term1.concat("+").concat(term2);
-            double freqxy = logResults(xy);
+            double freqxy = logResults(xy, config_path);
             if (freqx == Double.NEGATIVE_INFINITY || freqy == Double.NEGATIVE_INFINITY) {
                 //deal with zero results = infinite logarithms
                 return 1; //return 1 by definition
@@ -41,14 +41,14 @@ public class NGD_Analysis {
      * @param term
      * @return
      */
-    public double logResults(String term) {
+    public double logResults(String term, String config_path) {
         
             
             //GoogleResults gr=new GoogleResults();
             //YahooResults yr = new YahooResults();
             //long sc = yr.Get_Results_Number(term);
             BingResults bg=new BingResults();
-            long sc=bg.Get_Results_Number(term);
+            long sc=bg.Get_Results_Number(term, config_path);
             System.out.println(term+":"+sc);
             return Math.log10(sc);
        

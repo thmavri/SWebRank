@@ -25,7 +25,7 @@ public class BingResults {
      * @param example_dir
      * @return
      */
-    public String[] Get(String query,int bing_results_number,String example_dir){
+    public String[] Get(String query,int bing_results_number,String example_dir,String config_path ){
     String chk="ok";
     String[] links=new String[bing_results_number];
     try {
@@ -33,7 +33,7 @@ public class BingResults {
             String line="fail";
             query=query.replace("+", "%20");
             URL azure_url=new URL("https://api.datamarket.azure.com/Bing/SearchWeb/v1/Web?Query=%27"+query+"%27&$top="+bing_results_number+"&$format=JSON");
-            line=apicon.azureconnect(azure_url);
+            line=apicon.azureconnect(azure_url,config_path);
             if((!line.equalsIgnoreCase("fail"))&&(!line.equalsIgnoreCase("insufficient"))&&(!line.equalsIgnoreCase("provided"))){
                         
                 //write the json-ticket text to a file
@@ -60,7 +60,7 @@ public class BingResults {
      * @param quer
      * @return
      */
-    public Long Get_Results_Number(String quer)
+    public Long Get_Results_Number(String quer,String config_path)
     {   try {
             int azure_flag=1;
             long results_number = 0;
@@ -104,7 +104,7 @@ public class BingResults {
             quer=quer.replace("+", "%20");
             URL azure_url=new URL("https://api.datamarket.azure.com/Bing/Search/Composite?Sources=%27web%27&Query=%27"+quer+"%27&$format=JSON");                       
             APIconn apicon = new APIconn();
-            String line = apicon.azureconnect(azure_url);                 
+            String line = apicon.azureconnect(azure_url,config_path);                 
                     if((!line.equalsIgnoreCase("fail"))&&(!line.equalsIgnoreCase("insufficient"))&&(!line.equalsIgnoreCase("provided"))){
                         //line=apicon.connect(azure_url);
                         //Create a parser

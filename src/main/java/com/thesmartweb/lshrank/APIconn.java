@@ -7,6 +7,11 @@ package com.thesmartweb.lshrank;
 
 import java.net.*;
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.codec.binary.Base64;
@@ -188,45 +193,13 @@ public class APIconn {
      * @param link_ur
      * @return the response of the Search API of Bing
      */
-    public String azureconnect(URL link_ur){
+    public String azureconnect(URL link_ur, String config_path){
         String string_link_ur=link_ur.toString();
         String line="fail";
         if(string_link_ur.substring(23,28).equalsIgnoreCase("azure")){
             HttpsURLConnection[] httpsConn=new HttpsURLConnection[32];
             //String accountKey = "dvr6F3vxbj/LG4TOWzvrOHWOKP3/vGJAwm1bpMaBg+Y=";
-            String[] accKeys = new String[32];//contains the various bing search api keys
-            accKeys[0]="/5a3s9S0ZrmVyZEob/xLWou8p0Sd5cIgBCzpPpR+Y7U=";//thmavrid84
-            accKeys[1]="IRR/3p5Ag4unKUEnXAHqF0u0Bucg8d5adH1Op5TVCgs";//thmavri8436
-            accKeys[2]="dvr6F3vxbj/LG4TOWzvrOHWOKP3/vGJAwm1bpMaBg+Y=";
-            accKeys[3]="oiXaOibBuThBPdtsKOJpIM0LcLxtFX2L8l3lTsVeFTg";//thmavri843
-            accKeys[4]="C1KD6JhkA0dyF7gjqluP0D/+d890wzFdqEp1ART2V8Q";//thmavri84364(outlook)
-            accKeys[5]="3ZQEDS1AE3ukOKCEwbY/uL/GiMSF9pyKqGOJZxO1K3A";//thmavrid@843
-            accKeys[6]="T/HTri4fu4FXIDfMK0VOUwzBIbIE4WUvWgp2ZKXSQvc";//thmavrid8436
-            accKeys[7]="yVHjEHf2a9XN6BV1fI0Oqp7lINf8br5A6kjVmfQWUF0";
-            accKeys[8]="QPl9Wjb5rxN0s0zxmNq3qFWG4IMvXcTWwB7nNa5w32E";//tmavrid84
-            accKeys[9]="d7i2JqDvq8fBCYsQ1QAEkybeKpz6YY/5RzsvLm/N4PM";//tmavri843
-            accKeys[10]="akKudvJ2/+aFcR/l2pMDqb0nZSmwEoIS+SNUdyMrfAA";//tmavrid8436@OUTLOOK
-            accKeys[11]="0LWLD/Krc8onakw2mTD7017vScu7hcn1ocrc5Y4yHHU";//tmavrid84364
-            accKeys[12]="rHppuc0aLG/FipWx3X9TJaRx1+purV84WjvT/2iwtus";//tmavrid8436
-            accKeys[13]="L7yMjge0M8eR0C5YJycTWKVvOTm4vs0fX9QbHlr3Nz8";//tmavrid84 outlook
-            accKeys[14]="v8u9ratqQrUq49/lOw4ZxgScnXMSatR0tSLM06ri1Tw";//tmavrid843 outlook
-            accKeys[15]="RIRN9XMJfH9MoLIUR4jp/EgrvPpYyLieh16aJS4vnFw";//tmavrid8436 outlook
-            accKeys[16]="WMbmT68sfvBdEH9No+B13ScmKaqGs98qLI5YlxQWnMM";//tmavrid84364 outlook
-            accKeys[17]="IA1xbnFzI7GtVo8uZPlqxAMMZVFgQqBk783FmnliniY";//tmavrid843647 outlook
-            accKeys[18]="mBynBAjzMMTZrBiG01j7GCIUw9wNE26R085JSW+ZSaY";//tmavrid84 live
-            accKeys[19]="84KePB+IGuxG6Rs9UkhgpJ2rzSjy3gfe8hN/3ri0XkY";//tmavrid843 live
-            accKeys[20]="mwrL9MvphfbGUWthEAoMVur8IosvhxzwGhOphMOQeol";//tmavrid8436 live
-            accKeys[21]="AsTZ3Xn2/JzmyyJEcw7DztQc7+TM+aX1/ObdlZHpCMQ";//tmavrid84364 live
-            accKeys[22]="s2c7LOjHWvca9BRYZPuBr6Nyw5nF+vIRJuRXcTg8Cr";//tmavrid843647 live*/
-            accKeys[23]="cwPF/62/5GaZPZ6Id3Bmier6+VJLihUnfpOai9Ep71s";//ttmavrid outlook
-            accKeys[24]="YD1nY7Z9hAT9H0P4OtO3iwIUDkcuEW+3xx9XAVVRpOI";//ttmavrid hotmail
-            accKeys[25]="+eDZxz198zokCwchuevKO5HZ0XaPZoFD3hgD4fCkalg";//ttmavrid live
-            accKeys[26]="FXb8Sm/1F+dYrKbHsEgCArNiY8NYDmGXlbUml4BmROA";//tthmavrid outlook
-            accKeys[27]="yarxtng53tLALDKP1RlzMCvuaHy2wTE49N1QMHSO7Ls";//tthmavrid hotmail
-            accKeys[28]="8Fkt4bwa9riv4g1SOYsBH+AwfF/A8w8bHbNF50zfLO4";//tthmavrid live
-            accKeys[29]="GEWTCUtmDlxr+W8VzG+GTg7XmDV77TYUnVijyg+UFJY";//tthmavri outlook
-            accKeys[30]="K4Jjq9oGz0fiU2uEU1/rIyc+wSGw9qtZkTvpyPvF9kU";//tthmavri hotmail
-            accKeys[31]="J8HH3xFTZxX6AXK2rx8hSSPYQ6pXPZuVqa6SgE6Clhk";//tthmavri live
+            String[] accKeys = GetBingKeys(config_path);//contains the various bing search api keys
             int i=-1;
             int respp=0;
             do{//we are going to try all the keys
@@ -294,5 +267,22 @@ public class APIconn {
         }
         return line;
 }
+    
+    public String[] GetBingKeys(String config_path){
+        Path input_path=Paths.get(config_path);       
+        DataManipulation getfiles=new DataManipulation();//class responsible for the extraction of paths
+        Collection<File> inputs_files;//array to include the paths of the txt files
+        inputs_files=getfiles.getinputfiles(input_path.toString(),"txt");//method to retrieve all the path of the input documents
+        List<String> bingkeysList = new ArrayList<>();
+        ReadInput ri = new ReadInput();
+        for (File input : inputs_files) {
+            System.out.println(input.getName());
+            if(input.getName().contains("bingkeys")){
+                bingkeysList=ri.GetSEKeys(input);
+            }
+        }  
+        String[] apikeys = bingkeysList.toArray(new String[bingkeysList.size()]);
+        return apikeys;
+    }
 
 }
