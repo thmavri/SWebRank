@@ -23,17 +23,22 @@ public class TwitterAnalysis {
      * @param query_string
      * @return
      */
-    public String perform(String query_string){    
-try {
+    public String perform(String query_string, String config_path){    
+        try {
+            List<String> twitterkeys = GetKeys(config_path);
             //configuration builder in order to set the keys of twitter
             ConfigurationBuilder cb = new ConfigurationBuilder();
+            String consumerkey=twitterkeys.get(0);
+            String consumersecret = twitterkeys.get(1);
+            String accesstoken = twitterkeys.get(2);
+            String accesstokensecret = twitterkeys.get(3);
             cb.setDebugEnabled(true)
-                .setOAuthConsumerKey("jVCbXgpQ5f3wslVL7JUMg")
-                .setOAuthConsumerSecret("sxKLAYuaIPw8f3qmzlMTHIIxVuFpDBOEALMMFuMwFMM")
-                .setOAuthAccessToken("31549851-uUoLosdDwOzM0JuSiAYAyEsONRrcQ6Dpvj01i7zqk")
-                .setOAuthAccessTokenSecret("DBnaggNPKXYskl6SdJ2dKIGw9jvtBvbfy6YRdPg0UU");
+                .setOAuthConsumerKey(consumerkey)
+                .setOAuthConsumerSecret(consumersecret )
+                .setOAuthAccessToken(accesstoken)
+                .setOAuthAccessTokenSecret(accesstokensecret);
             TwitterFactory tf = new TwitterFactory(cb.build());
-            AccessToken acc=new AccessToken("31549851-uUoLosdDwOzM0JuSiAYAyEsONRrcQ6Dpvj01i7zqk","DBnaggNPKXYskl6SdJ2dKIGw9jvtBvbfy6YRdPg0UU");
+            AccessToken acc=new AccessToken(accesstoken,accesstokensecret);
             
             Twitter twitter = tf.getInstance(acc);
                    
@@ -65,5 +70,10 @@ try {
             Logger.getLogger(TwitterAnalysis.class.getName()).log(Level.SEVERE, null, ex);
              return tweet_txt="fail";
         }
+    }
+     public List<String> GetKeys(String config_path){
+        ReadInput ri = new ReadInput();
+        List<String> twitterkeysList = ri.GetKeyFile(config_path, "twitterkeys");
+        return twitterkeysList;
     }
 }

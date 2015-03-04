@@ -102,7 +102,7 @@ public class Main {
             if(mozMetrics.get(0)){
               Moz Moz = new Moz();
               //---if it works, moz remains true, otherwise it is set to false
-              mozMetrics.add(0,Moz.check());
+              mozMetrics.add(0,Moz.check(config_path));
               //if it is false and we have chosen to use Visibility score with Moz, we reset back to the standard settings (ranking and not merged)
               //therefore, we reset the number of results from 50 to the top_count_moz which contained the original number of results
               if(!mozMetrics.get(0)){

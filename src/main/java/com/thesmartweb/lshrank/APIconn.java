@@ -269,18 +269,8 @@ public class APIconn {
 }
     
     public String[] GetBingKeys(String config_path){
-        Path input_path=Paths.get(config_path);       
-        DataManipulation getfiles=new DataManipulation();//class responsible for the extraction of paths
-        Collection<File> inputs_files;//array to include the paths of the txt files
-        inputs_files=getfiles.getinputfiles(input_path.toString(),"txt");//method to retrieve all the path of the input documents
-        List<String> bingkeysList = new ArrayList<>();
         ReadInput ri = new ReadInput();
-        for (File input : inputs_files) {
-            System.out.println(input.getName());
-            if(input.getName().contains("bingkeys")){
-                bingkeysList=ri.GetSEKeys(input);
-            }
-        }  
+        List<String> bingkeysList = ri.GetKeyFile(config_path, "bingkeys");
         String[] apikeys = bingkeysList.toArray(new String[bingkeysList.size()]);
         return apikeys;
     }

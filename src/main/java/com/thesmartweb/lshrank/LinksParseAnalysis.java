@@ -54,7 +54,7 @@ public class LinksParseAnalysis {
      * @param total_catent
      * @return
      */
-    public String perform(String[] total_links, String domain, String engine, String example_dir,String quer,int nTopics,double alpha,double beta,int niters,int top_words,String search_engine,boolean LDAflag,boolean TFIDFflag){
+    public String perform(String[] total_links, String domain, String engine, String example_dir,String quer,int nTopics,double alpha,double beta,int niters,int top_words,String search_engine,boolean LDAflag,boolean TFIDFflag, String config_path){
         try {
             System.gc();
             WebParser web = new WebParser();
@@ -125,7 +125,7 @@ public class LinksParseAnalysis {
             node.close();
             String output_string_content = Integer.toString(counter_LDA_documents);
             TwitterAnalysis tw=new TwitterAnalysis();
-            String twitter_txt=tw.perform(quer);
+            String twitter_txt=tw.perform(quer,config_path);
             for (int i = 0; i < parse_output.length; i++) {
                 if (parse_output[i]!=null) {
                     output_string_content = output_string_content + "\n" + parse_output[i];

@@ -9,7 +9,10 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.List;
@@ -64,24 +67,26 @@ public class Sensebot {
      * @param links
      * @param directory
      * @param SensebotConcepts
+     * @param config_path
      * @return
      */
-    public List<String> compute (String[] links,String directory,int SensebotConcepts){
+    public List<String> compute (String[] links,String directory,int SensebotConcepts, String config_path){
        List<String> wordList=new ArrayList<String>();
        try{
            URL diff_url = null;
            String stringtosplit="";
-           for(int i=0;i<links.length;i++){           
-               if(!(links[i]==null)){
-                   diff_url = new URL("http://api.sensebot.net/svc/extconcone.asmx/ExtractConcepts?userName=490b310f-0bdf-4092-afd5-148aa6d95115&numConcepts="+SensebotConcepts+"&artClass=&artLength=0&Lang=English&allURLs="+links[i]);
+           String username = GetUserName(config_path);
+           for (String link : links) {
+               if (!(link == null)) {
+                   diff_url = new URL("http://api.sensebot.net/svc/extconcone.asmx/ExtractConcepts?userName="+username+"&numConcepts="+SensebotConcepts+"&artClass=&artLength=0&Lang=English&allURLs=" + link);
                    stringtosplit=connect(diff_url);
                    if(!(stringtosplit==null)&&(!(stringtosplit.equalsIgnoreCase("")))){       
                        stringtosplit=stringtosplit.replaceAll("[\\W&&[^\\s]]", "");
                        if(!(stringtosplit==null)&&(!(stringtosplit.equalsIgnoreCase("")))){
                            String[] tokenizedTerms=stringtosplit.split("\\W+");    //to get individual terms
-                           for(int j=0;j<tokenizedTerms.length;j++){
-                               if(!(tokenizedTerms[j]==null)&&(!(tokenizedTerms[j].equalsIgnoreCase("")))){
-                                   wordList.add(tokenizedTerms[j]);
+                           for (String tokenizedTerm : tokenizedTerms) {
+                               if (!(tokenizedTerm == null) && (!(tokenizedTerm.equalsIgnoreCase("")))) {
+                                   wordList.add(tokenizedTerm);
                                }    
                            }
                        }
@@ -100,4 +105,24 @@ public class Sensebot {
            return wordList;
        }
    }
+    public String GetUserName(String config_path){
+        Path input_path=Paths.get(config_path);       
+        DataManipulation getfiles=new DataManipulation();//class responsible for the extraction of paths
+        Collection<File> inputs_files;//array to include the paths of the txt files
+        inputs_files=getfiles.getinputfiles(input_path.toString(),"txt");//method to retrieve all the path of the input documents
+        List<String> tokenList = new ArrayList<>();
+        ReadInput ri = new ReadInput();
+        for (File input : inputs_files) {
+            if(input.getName().contains("sensebotUsername")){
+                tokenList=ri.GetAPICredentials(input);
+            }
+        }
+        if(tokenList.size()>0){
+            return tokenList.get(0);
+        }
+        else{
+            String output="";
+            return output;
+        }
+    }
 }

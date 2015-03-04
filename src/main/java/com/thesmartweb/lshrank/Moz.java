@@ -17,6 +17,9 @@ import com.seomoz.api.authentication.Authenticator;
 import com.seomoz.api.service.URLMetricsService;
 import com.seomoz.api.response.UrlResponse;
 import com.google.gson.*;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  *
@@ -33,7 +36,7 @@ public class Moz {
      * @param mozMetrics
      * @return
      */
-    public String[] perform(String[] links,int top_count,Double moz_threshold,Boolean moz_threshold_option,List<Boolean> mozMetrics){
+    public String[] perform(String[] links,int top_count,Double moz_threshold,Boolean moz_threshold_option,List<Boolean> mozMetrics, String config_path){
     long upa=34359738368L;
     long pda=68719476736L;
     long uemrp=1048576;
@@ -51,7 +54,7 @@ public class Moz {
                 try{
                     Thread.sleep(10000);
                     URLMetricsService urlMetricsservice;
-                    urlMetricsservice = authenticate();
+                    urlMetricsservice = authenticate(config_path);
                     if(urlMetricsservice!=null){
                         String objectURL =links[i].substring(0, links[i].length());
                     }
@@ -228,40 +231,50 @@ public class Moz {
      *
      * @return
      */
-    public boolean check(){
-    boolean moz=false;
-    String accessID = "member-87c6a749b0";
-    //Add your secretKey here
-    String secretKey = "46fed510cc0c03a934b65ddc5ca54cfa";
-    System.setProperty("log4j.logger.org.apache.http","ERROR");
-    Authenticator authenticator = new Authenticator();
-    authenticator.setAccessID(accessID);
-    authenticator.setSecretKey(secretKey);
-    String objectURL ="www.sei.org";
-    URLMetricsService urlMetricsService = new URLMetricsService(authenticator);
-    String response = urlMetricsService.getUrlMetrics(objectURL);
-    //if moz fails we set the moz option "false" and if we do not have merged option as true we set the results number=top_count_seomoz
-    if(response.length()!=0){
-        moz=true;
+    public boolean check(String config_path){
+        boolean moz=false;
+        String accessID = "member-87c6a749b0";
+        //Add your secretKey here
+        String secretKey = "46fed510cc0c03a934b65ddc5ca54cfa";
+        System.setProperty("log4j.logger.org.apache.http","ERROR");
+        Authenticator authenticator = new Authenticator();
+        authenticator.setAccessID(accessID);
+        authenticator.setSecretKey(secretKey);
+        String objectURL ="www.sei.org";
+        URLMetricsService urlMetricsService = new URLMetricsService(authenticator);
+        String response = urlMetricsService.getUrlMetrics(objectURL);
+        //if moz fails we set the moz option "false" and if we do not have merged option as true we set the results number=top_count_seomoz
+        if(response.length()!=0){
+            moz=true;
+        }
+        return moz;
     }
-    return moz;
-}
 
     /**
      *
      * @return
      */
-    public URLMetricsService authenticate(){
-    //Add your accessID here
-    String accessID = "member-87c6a749b0";
-    //Add your secretKey here
-    String secretKey = "46fed510cc0c03a934b65ddc5ca54cfa";
-    System.setProperty("log4j.logger.org.apache.http","ERROR");
-    Authenticator authenticator = new Authenticator();
-    authenticator.setAccessID(accessID);
-    authenticator.setSecretKey(secretKey);
-    String SEOmozAPISign="http://lsapi.seomoz.com/linkscape/url-metrics/www.seomoz.org%2fblog?Cols=2048&Cols=16384&Cols=131072&Cols=1048576&Cols=34359738368&Cols=68719476736&Cols=131072&Cols=32768&AccessID=member-87c6a749b0&Expires=1353362399&Signature=rLWrFGFil%2Bt56DbIuZNgZhoNxew%3D";
-    URLMetricsService urlMetricsService = new URLMetricsService(authenticator);
-    return urlMetricsService;
-}
+    public URLMetricsService authenticate(String config_path){
+        List<String> apikeys = GetKeys(config_path);
+        //Add your accessID here
+        String accessID="";
+        String secretKey="";
+        if(apikeys.size()==2){
+            accessID = apikeys.get(0);
+            //Add your secretKey here
+            secretKey = apikeys.get(1);
+        }
+        System.setProperty("log4j.logger.org.apache.http","ERROR");
+        Authenticator authenticator = new Authenticator();
+        authenticator.setAccessID(accessID);
+        authenticator.setSecretKey(secretKey);
+        String SEOmozAPISign="http://lsapi.seomoz.com/linkscape/url-metrics/www.seomoz.org%2fblog?Cols=2048&Cols=16384&Cols=131072&Cols=1048576&Cols=34359738368&Cols=68719476736&Cols=131072&Cols=32768&AccessID=member-87c6a749b0&Expires=1353362399&Signature=rLWrFGFil%2Bt56DbIuZNgZhoNxew%3D";
+        URLMetricsService urlMetricsService = new URLMetricsService(authenticator);
+        return urlMetricsService;
+    }
+    public List<String> GetKeys(String config_path){
+        ReadInput ri = new ReadInput();
+        List<String> apikeysList=ri.GetKeyFile(config_path, "mozkeys");
+        return apikeysList;
+    }
 }

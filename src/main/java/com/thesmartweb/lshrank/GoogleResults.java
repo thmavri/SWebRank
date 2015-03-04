@@ -151,22 +151,9 @@ public class GoogleResults {
      * @return
      */
     public String[] GetKeys(String config_path){
-        Path input_path=Paths.get(config_path);       
-        DataManipulation getfiles=new DataManipulation();//class responsible for the extraction of paths
-        Collection<File> inputs_files;//array to include the paths of the txt files
-        inputs_files=getfiles.getinputfiles(input_path.toString(),"txt");//method to retrieve all the path of the input documents
-        List<String> cxsList = new ArrayList<>();
-        List<String> apikeysList = new ArrayList<>();
         ReadInput ri = new ReadInput();
-        for (File input : inputs_files) {
-            if(input.getName().contains("google_cxs")){
-                cxsList=ri.GetSEKeys(input);
-            }
-            if(input.getName().contains("google_apikeys")){
-                apikeysList=ri.GetSEKeys(input);
-            }
-        
-        }  
+        List<String> cxsList = ri.GetKeyFile(config_path, "google_cxs");
+        List<String> apikeysList = ri.GetKeyFile(config_path, "google_apikeys");
         String[] cxs = cxsList.toArray(new String[cxsList.size()]);
         String[] apikeys = apikeysList.toArray(new String[apikeysList.size()]);
         String[] keys=new String[cxsList.size()*cxsList.size()];

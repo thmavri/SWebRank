@@ -10,16 +10,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
-
-import java.net.*;
-
-
 import org.json.simple.parser.*;
-
-
-
 import java.util.*;
-
 
 /**
  *
@@ -34,28 +26,20 @@ public class YahooResults {
      * @param example_dir
      * @return
      */
-    public String[] Get(String quer,int yahoo_results_number,String example_dir){
-     String chk="ok";
+    public String[] Get(String quer,int yahoo_results_number,String example_dir, String config_path){
      String[] links=new String[yahoo_results_number];
      try {
-            //counter is set in order to get the first something results of Yahoo
-            //we connect through the Yahoo BOSS API
-            //URL link_ur = new URL("http://boss.yahooapis.com/ysearch/web/v1/" + quer + "?appid=zrmigQ3V34FAyR9Nc4_EK91CP3Iw0Qa48QSgKqAvl2jLAo.rx97cmpgqW_ovGHvwjH.KgNQ-&format=json&count=" + yahoo_results_number);
-            //APIconn apicon = new APIconn();
-            //String line = apicon.connect(link_ur);
             quer=quer.replace("+","%20"); 
             YahooConn yc=new YahooConn();
-            String line=yc.connect(quer);   
+            String line=yc.connect(quer, config_path);   
             if(!line.equalsIgnoreCase("fail")){
             //write the json-ticket text to a file
-                //***********************textualmanipulation
             File json_t = new File(example_dir + "yahoo/" + quer + "/json" + ".txt");
             FileUtils.writeStringToFile(json_t, line);
             //initialize JSONparsing
             JSONparsing gg = new JSONparsing(yahoo_results_number);
             //get the links in an array
             links = gg.YahooJsonParsing(line, yahoo_results_number);
-            
          }
             return links;
         } catch (IOException ex) {
@@ -71,7 +55,7 @@ public class YahooResults {
      * @param quer
      * @return
      */
-    public Long Get_Results_Number(String quer) 
+    public Long Get_Results_Number(String quer, String config_path) 
     {   try {
             long results_number = 0;
             //we connect through 
@@ -85,7 +69,7 @@ public class YahooResults {
             //URL link_ur = new URL("http://boss.yahooapis.com/ysearch/web/v1/" + quer + "?appid=zrmigQ3V34FAyR9Nc4_EK91CP3Iw0Qa48QSgKqAvl2jLAo.rx97cmpgqW_ovGHvwjH.KgNQ-&format=json");
             //APIconn apicon = new APIconn();
             YahooConn yc=new YahooConn();
-            String line=yc.connect(quer);
+            String line=yc.connect(quer,config_path);
             //String line = apicon.connect(link_ur);
             if(!line.equalsIgnoreCase("fail")){
             JSONParser parser = new JSONParser();
@@ -109,18 +93,8 @@ public class YahooResults {
              you = entry.getValue().toString();
             results_number = Long.parseLong(you);}
             return results_number;
-        }  catch (ParseException ex) {
+        }  catch (ParseException | java.lang.ArrayIndexOutOfBoundsException | java.lang.NullPointerException ex) {
             Logger.getLogger(YahooResults.class.getName()).log(Level.SEVERE, null, ex);
-            long results_number = 0;
-            return results_number;
-        }
-         catch(java.lang.ArrayIndexOutOfBoundsException ex){
-         Logger.getLogger(YahooResults.class.getName()).log(Level.SEVERE, null, ex);
-            long results_number = 0;
-            return results_number;
-        }
-         catch(java.lang.NullPointerException ex){
-         Logger.getLogger(YahooResults.class.getName()).log(Level.SEVERE, null, ex);
             long results_number = 0;
             return results_number;
         }

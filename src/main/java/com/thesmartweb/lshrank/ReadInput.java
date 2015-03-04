@@ -12,6 +12,8 @@ package com.thesmartweb.lshrank;
  */
 import java.io.*;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.*;
@@ -313,7 +315,21 @@ public class ReadInput {
         }
         return false;
     }
-    public List<String> GetSEKeys(File Input){
+     public List<String> GetKeyFile(String config_path,String name){
+        Path input_path=Paths.get(config_path);       
+        DataManipulation getfiles=new DataManipulation();//class responsible for the extraction of paths
+        Collection<File> inputs_files;//array to include the paths of the txt files
+        inputs_files=getfiles.getinputfiles(input_path.toString(),"txt");//method to retrieve all the path of the input documents
+        List<String> apikeysList = new ArrayList<>();
+        ReadInput ri = new ReadInput();
+        for (File input : inputs_files) {
+            if(input.getName().contains(name)){
+                apikeysList=ri.GetAPICredentials(input);
+            }
+        }
+        return apikeysList;
+    }
+    public List<String> GetAPICredentials(File Input){
     
         FileInputStream inputStream=null;
         Scanner sc=null;

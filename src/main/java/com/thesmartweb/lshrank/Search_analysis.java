@@ -75,7 +75,9 @@ public class Search_analysis {
 
     /**
      *
+     * @param iteration_counter
      * @param example_dir
+     * @param domain
      * @param enginechoice
      * @param quer
      * @param results_number
@@ -88,6 +90,7 @@ public class Search_analysis {
      * @param moz_threshold
      * @param ContentSemantics
      * @param SensebotConcepts
+     * @param config_path
      * @return
      */
     public List<String> perform(int iteration_counter,String example_dir, String domain, List<Boolean> enginechoice, String quer, int results_number, int top_visible,List<Double> LSHrankSettings,double alpha, List<Boolean> mozMetrics, int top_count_moz, boolean moz_threshold_option,double moz_threshold, List<Boolean> ContentSemantics, int SensebotConcepts, String config_path){ 
@@ -124,7 +127,7 @@ public class Search_analysis {
             if(enginechoice.get(2)){
                 //get yahoo results
                 YahooResults yr = new YahooResults();
-                links_yahoo=yr.Get(quer,results_number,example_dir);                    
+                links_yahoo=yr.Get(quer,results_number,example_dir,config_path);                    
             }
             
             //*************
@@ -133,17 +136,17 @@ public class Search_analysis {
                 if(mozMetrics.get(0)){
                     //we check if moz works
                     Moz moz=new Moz();
-                    boolean checkmoz=moz.check();
+                    boolean checkmoz=moz.check(config_path);
                     if(checkmoz){
                          //perform 
                          if(links_yahoo.length>0){
-                             links_yahoo=moz.perform(links_yahoo,top_count_moz,moz_threshold,moz_threshold_option,mozMetrics);
+                             links_yahoo=moz.perform(links_yahoo,top_count_moz,moz_threshold,moz_threshold_option,mozMetrics, config_path);
                          }
                          if(links_google.length>0){
-                             links_google=moz.perform(links_google,top_count_moz,moz_threshold,moz_threshold_option,mozMetrics);
+                             links_google=moz.perform(links_google,top_count_moz,moz_threshold,moz_threshold_option,mozMetrics, config_path);
                          }
                          if(links_bing.length>0){
-                             links_bing=moz.perform(links_bing,top_count_moz,moz_threshold,moz_threshold_option,mozMetrics);
+                             links_bing=moz.perform(links_bing,top_count_moz,moz_threshold,moz_threshold_option,mozMetrics, config_path);
                          }
                     }
                 }
@@ -173,11 +176,11 @@ public class Search_analysis {
                     links_total=vb.perform(links_google, links_yahoo, links_bing, top_visible);
                     //if we have Moz option set to true we have to get the results rearranged according to the moz metric selected
                     if(mozMetrics.get(0)){
-                        CheckMoz checkSEOmoz=new CheckMoz();
-                        boolean check_seo=checkSEOmoz.check();
+                        Moz checkMoz=new Moz();
+                        boolean check_seo=checkMoz.check(config_path);
                         if (check_seo){
                             Moz MOZ=new Moz();                      
-                            links_total=MOZ.perform(links_total,top_count_moz,moz_threshold,moz_threshold_option,mozMetrics);
+                            links_total=MOZ.perform(links_total,top_count_moz,moz_threshold,moz_threshold_option,mozMetrics, config_path);
                         }
                     }
                     //here we calculate the visibility score
@@ -873,21 +876,21 @@ public class Search_analysis {
                 //we perform LDA or TFIDF analysis to the links obtained
                     if(!enginechoice.get(3)){
                         if(enginechoice.get(2)){
-                            ychk=ld.perform(links_yahoo, domain, "yahoo", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"yahoo",ContentSemantics.get(1),ContentSemantics.get(3));
+                            ychk=ld.perform(links_yahoo, domain, "yahoo", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"yahoo",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
                             System.gc();
                         }
                         if(enginechoice.get(1)){
-                            gchk=ld.perform(links_google, domain, "google", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"google",ContentSemantics.get(1),ContentSemantics.get(3));
+                            gchk=ld.perform(links_google, domain, "google", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"google",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
                             System.gc();
                         }
                         if(enginechoice.get(0)){
-                            bchk=ld.perform(links_bing, domain, "bing", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"bing",ContentSemantics.get(1),ContentSemantics.get(3));
+                            bchk=ld.perform(links_bing, domain, "bing", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"bing",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
                             System.gc();
                         }
                     }
                     else{
                         System.gc();//links_total
-                        tchk=ld.perform(links_total, domain, "merged", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"Merged",ContentSemantics.get(1),ContentSemantics.get(3));
+                        tchk=ld.perform(links_total, domain, "merged", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"Merged",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
                         System.gc();
                     }
                 }
@@ -903,11 +906,11 @@ public class Search_analysis {
             }
             else if (ContentSemantics.get(0)){
                 Diffbot db=new Diffbot();
-                wordList=db.compute(links_total, example_dir);
+                wordList=db.compute(links_total, example_dir, config_path);
             }
             else if (ContentSemantics.get(2)){
                 Sensebot sb=new Sensebot();
-                wordList=sb.compute(links_total, example_dir,SensebotConcepts);
+                wordList=sb.compute(links_total, example_dir,SensebotConcepts, config_path);
             }
             else {
                 //get the top content from LDA
