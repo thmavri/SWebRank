@@ -15,6 +15,9 @@ import java.util.List;
 import org.apache.commons.io.FilenameUtils;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.dbpedia.spotlight.exceptions.AnnotationException;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
@@ -32,6 +35,13 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        DBpediaSpotlightClient dbclient = new DBpediaSpotlightClient();
+        try {
+            dbclient.extract("http://grantland.com/the-triangle/nba-shootaround-physical-graffiti/");
+        } catch (AnnotationException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         Path input_path=Paths.get("//mnt//var//DBs//inputs//basketball//");//input directory
         String output_parent_directory="//mnt//var//DBs//outputs//basketball//";//output directory
         String config_path="//mnt//var//DBs//config//";//input directory

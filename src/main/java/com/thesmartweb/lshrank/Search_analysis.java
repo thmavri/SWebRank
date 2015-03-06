@@ -98,8 +98,10 @@ public class Search_analysis {
             Connection conn = null;
             PreparedStatement stmt = null;
             String url = "jdbc:mysql://localhost:3306/LSHrankDB?zeroDateTimeBehavior=convertToNull";
-            String user = "lshrankAdmin";
-            String password = "843647";
+            ReadInput ri = new ReadInput();
+            List<String> mysqlAdminSettings= ri.GetKeyFile(config_path, "mysqlAdmin");
+            String user = mysqlAdminSettings.get(0);
+            String password = mysqlAdminSettings.get(1);
             System.out.println("Connecting to database...");
             conn = DriverManager.getConnection(url,user,password);
             LinksParseAnalysis ld=new LinksParseAnalysis();
@@ -322,7 +324,6 @@ public class Search_analysis {
                             stmt.executeUpdate();
                             System.out.println("I inserted the semantic triples number in the DB\n");
                             //---namespaces-----
-                            
                             System.out.println("I am going to insert the namespaces in the DB\n");
                             if(striple.namespaces[0]){
                                 stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/vocab/bio/0.1/` = ?  WHERE `url` = ? AND `query`=? AND `search_engine`=? AND `domain`=?" );
@@ -701,6 +702,10 @@ public class Search_analysis {
                             aye.connect(links_total[j], quer);
                             int cat_cnt_ay=aye.getCat();
                             int ent_cnt_ay=aye.getEnt();
+                            DBpediaSpotlightClient dbpspot = new DBpediaSpotlightClient();
+                            dbpspot.countEntCat(links_total[j], quer);
+                            int cat_cnt_dbpspot = dbpspot.getcountCat();
+                            int ent_cnt_dbpspot = dbpspot.getcountEnt();
                             System.out.println("I insert the semantic entities and categories stats in the DB\n");
                             stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Categories_Contained_Query_Y`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                             stmt.setInt(1,cat_cnt);
@@ -766,7 +771,7 @@ public class Search_analysis {
                             stmt.setString(5,domain);
                             stmt.executeUpdate();
                             
-                            stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Categories_Contained_Query_Y`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
+                            stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Categories_Contained_Query_A`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                             stmt.setInt(1,cat_cnt_ay);
                             stmt.setString(2,links_total[j]);
                             stmt.setString(3,quer);
@@ -782,8 +787,40 @@ public class Search_analysis {
                             stmt.setString(5,domain);
                             stmt.executeUpdate();
                             
-                            stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Entities_Contained_Query_Y`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
+                            stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Entities_Contained_Query_A`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                             stmt.setInt(1,ent_cnt_ay);
+                            stmt.setString(2,links_total[j]);
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
+                            stmt.setString(5,domain);
+                            stmt.executeUpdate();
+                            
+                            stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Categories_Contained_Query_DBPspot`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
+                            stmt.setInt(1,cat_cnt_dbpspot);
+                            stmt.setString(2,links_total[j]);
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
+                            stmt.setString(5,domain);
+                            stmt.executeUpdate();
+                            
+                            stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Entities_Contained_Query_DBPspot`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
+                            stmt.setInt(1,ent_cnt_dbpspot);
                             stmt.setString(2,links_total[j]);
                             stmt.setString(3,quer);
                             if(j<results_number){
