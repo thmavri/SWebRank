@@ -10,6 +10,7 @@ package com.thesmartweb.lshrank;
  * @author themis
  */
 
+
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.dbpedia.spotlight.exceptions.AnnotationException;
@@ -44,6 +45,8 @@ public class DBpediaSpotlightClient extends AnnotationClient {
         private static List<String> typesDBspot;
         private int ent_cnt_dbpspot=0;
         private int cat_cnt_dbpspot=0;
+        private int ent_cnt_dbpspot_whole=0;
+        private int cat_cnt_dbpspot_whole=0;
 	@Override
 	public List<DBpediaResource> extract(Text text) throws AnnotationException {
 
@@ -187,12 +190,42 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                             cat_cnt_dbpspot++;
                         }
                     }
-                }   } catch (Exception ex) {
+                }
+                String[] split = query.split("\\+");
+                int ent_count=0;
+                for(String s:entitiesString){
+                    ent_count=0;
+                    for(String splitStr:split){
+                        if(s.contains(splitStr)){
+                            ent_cnt_dbpspot++;
+                            ent_count++;
+                        }
+                    }
+                    if(ent_count==split.length){
+                        ent_cnt_dbpspot_whole++;
+                    }
+                }
+                int cat_count=0;
+                for(String s:typesDBspot){
+                    cat_count=0;
+                    for(String splitStr:split){
+                        if(s.contains(splitStr)){
+                            cat_cnt_dbpspot++;
+                            cat_count++;
+                        }
+                    }
+                    if(cat_count==split.length){
+                        cat_cnt_dbpspot_whole++;
+                    }
+                }
+            } catch (Exception ex) {
                 Logger.getLogger(DBpediaSpotlightClient.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
     public int getcountEnt(){return ent_cnt_dbpspot;}
     public int getcountCat(){return cat_cnt_dbpspot;}
+    public int getcountEntWhole(){return ent_cnt_dbpspot_whole;}
+    public int getcountCatWhole(){return cat_cnt_dbpspot_whole;}
 
 
 }

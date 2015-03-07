@@ -26,6 +26,8 @@ import java.util.logging.Logger;
 public class AylienEntities {
     public static int ent_query_cnt_ay=0;
     public static int cat_query_cnt_ay=0;
+    public static int ent_query_cnt_ay_whole=0;
+    public static int cat_query_cnt_ay_whole=0;
     public void connect(String urlcheck, String quer) {  
   
         try {
@@ -41,12 +43,18 @@ public class AylienEntities {
                 conceptsText.add(c.getUri().substring(28));
             });
             String[] split = quer.split("\\+");
-            for(String splitStr:split){
-                conceptsText.stream().forEach((s) -> {
+            int cat_count=0;
+            for(String s:conceptsText){
+                cat_count=0;
+                for(String splitStr:split){
                     if(s.contains(splitStr)){
                         cat_query_cnt_ay++;
+                        cat_count++;
                     }
-                });
+                }
+                if(cat_count==split.length){
+                    cat_query_cnt_ay_whole++;
+                }
             }
             EntitiesParams.Builder builderEntities = EntitiesParams.newBuilder();
             builderEntities.setUrl(url);
@@ -68,6 +76,19 @@ public class AylienEntities {
                         ent_query_cnt_ay++;
                     }
                 });
+            }
+            int ent_count=0;
+            for(String s:entitiesText){
+                ent_count=0;
+                for(String splitStr:split){
+                    if(s.contains(splitStr)){
+                        ent_query_cnt_ay++;
+                        ent_count++;
+                    }
+                }
+                if(ent_count==split.length){
+                    ent_query_cnt_ay_whole++;
+                }
             }
             
         } catch (MalformedURLException | TextAPIException ex) {

@@ -752,8 +752,7 @@ public class JSONparsing {
      * @param input
      * @return
      */
-    public int[] DandelionParsing(String input, String query){
-        int[] output=new int[2]; 
+    public void DandelionParsing(String input, String query){ 
         try {
             List<String> entities = new ArrayList<>();
             List<String> categories = new ArrayList<>();
@@ -790,34 +789,76 @@ public class JSONparsing {
                         }
                     }
                 }
+                
                 String[] split = query.split("\\+");
-                for(String splitStr:split){
-                    entities.stream().forEach((s) -> {
+                int ent_count=0;
+                for(String s:entities){
+                    ent_count=0;
+                    for(String splitStr:split){
                         if(s.contains(splitStr)){
                             ent_query_cnt_dand++;
+                            ent_count++;
                         }
-                    });
-                    categories.stream().forEach((s) -> {
+                    }
+                    if(ent_count==split.length){
+                        ent_query_cnt_dand_whole++;
+                    }
+                }
+                int cat_count=0;
+                for(String s:categories){
+                    cat_count=0;
+                    for(String splitStr:split){
                         if(s.contains(splitStr)){
                             cat_query_cnt_dand++;
+                            cat_count++;
                         }
-                    });
+                    }
+                    if(cat_count==split.length){
+                        cat_query_cnt_dand_whole++;
+                    }
                 }
                 
             }
-            output[0]=ent_query_cnt_dand;
-            output[1]=cat_query_cnt_dand;
-            return output;
         }
           catch (ParseException ex) {
             Logger.getLogger(JSONparsing.class.getName()).log(Level.SEVERE, null, ex);
-            output[0]=0;
-            output[1]=0;
-            return output;
+            
         }
 
 
     }
+    /**
+     *
+     * @return
+     */
+    public int GetEntQuerCntDand(){
+    return ent_query_cnt_dand;
+}
+
+    /**
+     *
+     * @return
+     */
+    public int GetCatQuerCntDand(){
+    return cat_query_cnt_dand;
+    
+}
+    /**
+     *
+     * @return
+     */
+    public int GetEntQuerCntDandWhole(){
+    return ent_query_cnt_dand_whole;
+}
+
+    /**
+     *
+     * @return
+     */
+    public int GetCatQuerCntDandWhole(){
+    return cat_query_cnt_dand_whole;
+    
+}
 }
 
 
