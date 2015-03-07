@@ -62,6 +62,24 @@ public class JSONparsing {
      *
      */
     public static int cat_query_cnt_dand=0;
+    /**
+     *
+     */
+    public static int ent_query_cnt_whole=0;
+
+    /**
+     *
+     */
+    public static int cat_query_cnt_whole=0;
+    
+    /**
+     *
+     */
+    public static int ent_query_cnt_dand_whole=0;
+    /**
+     *
+     */
+    public static int cat_query_cnt_dand_whole=0;
     
     JSONparsing(){links=new String[10];}
     JSONparsing(int results_number){links_yahoo_bing=new String[results_number];}
@@ -586,18 +604,33 @@ public class JSONparsing {
                 }
             }
             String[] split = quer.split("\\+");
-            for(String splitStr:split){
-                entities.stream().forEach((s) -> {
+            int ent_count=0;
+            for(String s:entities){
+                ent_count=0;
+                for(String splitStr:split){
                     if(s.contains(splitStr)){
                         ent_query_cnt++;
+                        ent_count++;
                     }
-                });
-                categories.stream().forEach((s) -> {
+                }
+                if(ent_count==split.length){
+                    ent_query_cnt_whole++;
+                }
+            }
+            int cat_count=0;
+            for(String s:categories){
+                cat_count=0;
+                for(String splitStr:split){
                     if(s.contains(splitStr)){
                         cat_query_cnt++;
+                        cat_count++;
                     }
-                });
+                }
+                if(cat_count==split.length){
+                    cat_query_cnt_whole++;
+                }
             }
+            
             
             output[0]="ok";
             output[1]="ok";
@@ -625,6 +658,23 @@ public class JSONparsing {
      */
     public int GetCatQuerCnt(){
     return cat_query_cnt;
+    
+}
+    /**
+     *
+     * @return
+     */
+    public int GetEntQuerCntWhole(){
+    return ent_query_cnt_whole;
+}
+
+    /**
+     *
+     * @return
+     */
+    public int GetCatQuerCntWhole(){
+    return cat_query_cnt_whole;
+    
 }
 
     /**
