@@ -694,18 +694,26 @@ public class Search_analysis {
                             yec.connect(links_total[j],quer);
                             int cat_cnt=yec.GetCatQuerCnt();
                             int ent_cnt=yec.GetEntQuerCnt();
+                            int cat_cnt_whole=yec.GetCatQuerCntWhole();
+                            int ent_cnt_whole=yec.GetEntQuerCntWhole();
                             DandelionEntities dec = new DandelionEntities();
                             dec.connect(links_total[j], quer);
                             int cat_cnt_dand=dec.getCat();
                             int ent_cnt_dand=dec.getEnt();
+                            int cat_cnt_dand_whole=dec.getCatWhole();
+                            int ent_cnt_dand_whole=dec.getEntWhole();
                             AylienEntities aye = new AylienEntities();
                             aye.connect(links_total[j], quer);
                             int cat_cnt_ay=aye.getCat();
                             int ent_cnt_ay=aye.getEnt();
+                            int cat_cnt_ay_whole=aye.getCatWhole();
+                            int ent_cnt_ay_whole=aye.getEntWhole();
                             DBpediaSpotlightClient dbpspot = new DBpediaSpotlightClient();
                             dbpspot.countEntCat(links_total[j], quer);
                             int cat_cnt_dbpspot = dbpspot.getcountCat();
                             int ent_cnt_dbpspot = dbpspot.getcountEnt();
+                            int cat_cnt_dbpspot_whole = dbpspot.getcountCatWhole();
+                            int ent_cnt_dbpspot_whole = dbpspot.getcountEntWhole();
                             System.out.println("I insert the semantic entities and categories stats in the DB\n");
                             stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Categories_Contained_Query_Y`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                             stmt.setInt(1,cat_cnt);
@@ -725,6 +733,37 @@ public class Search_analysis {
                             
                             stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Entities_Contained_Query_Y`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                             stmt.setInt(1,ent_cnt);
+                            stmt.setString(2,links_total[j]);
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
+                            stmt.setString(5,domain);
+                            stmt.executeUpdate();
+                            stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Categories_Contained_Query_Y_W`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
+                            stmt.setInt(1,cat_cnt_whole);
+                            stmt.setString(2,links_total[j]);
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
+                            stmt.setString(5,domain);
+                            stmt.executeUpdate();
+                            
+                            stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Entities_Contained_Query_Y_W`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
+                            stmt.setInt(1,ent_cnt_whole);
                             stmt.setString(2,links_total[j]);
                             stmt.setString(3,quer);
                             if(j<results_number){
@@ -771,6 +810,38 @@ public class Search_analysis {
                             stmt.setString(5,domain);
                             stmt.executeUpdate();
                             
+                             stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Categories_Contained_Query_D_W`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
+                            stmt.setInt(1,cat_cnt_dand_whole);
+                            stmt.setString(2,links_total[j]);
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
+                            stmt.setString(5,domain);
+                            stmt.executeUpdate();
+                            
+                            stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Entities_Contained_Query_D_W`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
+                            stmt.setInt(1,ent_cnt_dand_whole);
+                            stmt.setString(2,links_total[j]);
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
+                            stmt.setString(5,domain);
+                            stmt.executeUpdate();
+                            
                             stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Categories_Contained_Query_A`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                             stmt.setInt(1,cat_cnt_ay);
                             stmt.setString(2,links_total[j]);
@@ -803,6 +874,38 @@ public class Search_analysis {
                             stmt.setString(5,domain);
                             stmt.executeUpdate();
                             
+                            stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Categories_Contained_Query_A_W`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
+                            stmt.setInt(1,cat_cnt_ay_whole);
+                            stmt.setString(2,links_total[j]);
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
+                            stmt.setString(5,domain);
+                            stmt.executeUpdate();
+                            
+                            stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Entities_Contained_Query_A_W`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
+                            stmt.setInt(1,ent_cnt_ay_whole);
+                            stmt.setString(2,links_total[j]);
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
+                            stmt.setString(5,domain);
+                            stmt.executeUpdate();
+                            
                             stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Categories_Contained_Query_DBPspot`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                             stmt.setInt(1,cat_cnt_dbpspot);
                             stmt.setString(2,links_total[j]);
@@ -821,6 +924,38 @@ public class Search_analysis {
                             
                             stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Entities_Contained_Query_DBPspot`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                             stmt.setInt(1,ent_cnt_dbpspot);
+                            stmt.setString(2,links_total[j]);
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
+                            stmt.setString(5,domain);
+                            stmt.executeUpdate();
+                            
+                            stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Categories_Contained_Query_DBPspot_W`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
+                            stmt.setInt(1,cat_cnt_dbpspot_whole);
+                            stmt.setString(2,links_total[j]);
+                            stmt.setString(3,quer);
+                            if(j<results_number){
+                                stmt.setInt(4,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(4,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(4,2);//2 for bing
+                            }
+                            stmt.setString(5,domain);
+                            stmt.executeUpdate();
+                            
+                            stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `Entities_Contained_Query_DBPspot_W`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
+                            stmt.setInt(1,ent_cnt_dbpspot_whole);
                             stmt.setString(2,links_total[j]);
                             stmt.setString(3,quer);
                             if(j<results_number){

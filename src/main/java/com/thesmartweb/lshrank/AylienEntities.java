@@ -97,5 +97,7 @@ public class AylienEntities {
     } 
     public int getEnt(){return ent_query_cnt_ay;}
     public int getCat(){return cat_query_cnt_ay;}
+    public int getEntWhole(){return ent_query_cnt_ay_whole;}
+    public int getCatWhole(){return cat_query_cnt_ay_whole;}
     
 }

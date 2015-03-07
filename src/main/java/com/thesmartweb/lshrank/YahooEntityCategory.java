@@ -73,6 +73,8 @@ public class YahooEntityCategory {
                 output= yejson.YahooEntityJsonParsing(line, quer);
                 ent_query_cnt=yejson.GetEntQuerCnt();
                 cat_query_cnt=yejson.GetCatQuerCnt();
+                ent_query_cnt_whole=yejson.GetEntQuerCntWhole();
+                cat_query_cnt_whole=yejson.GetCatQuerCntWhole();
             }
             return output;
         } catch (Exception e) {  
@@ -97,6 +99,21 @@ public class YahooEntityCategory {
      */
     public int GetCatQuerCnt(){
     return cat_query_cnt;
+}
+    /**
+     *
+     * @return
+     */
+    public int GetEntQuerCntWhole(){
+    return ent_query_cnt_whole;
+}
+
+    /**
+     *
+     * @return
+     */
+    public int GetCatQuerCntWhole(){
+    return cat_query_cnt_whole;
 }
   
 } 

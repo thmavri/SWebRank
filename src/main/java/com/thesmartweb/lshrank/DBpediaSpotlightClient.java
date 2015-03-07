@@ -98,13 +98,17 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                 List<String> entitiesString = new ArrayList<>();
                 typesDBspot = new ArrayList<>();
 		try {
-                    
+                    try {
+                        Thread.sleep(1000);                 //1000 milliseconds is one second.
+                    } catch(InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
                     LOG.info("Querying API.");
                     String spotlightResponse;
                     GetMethod getMethod = new GetMethod(API_URL + "rest/annotate/?" +
                             "confidence=" + CONFIDENCE
                             + "&support=" + SUPPORT
-                            + "&url=" + URLEncoder.encode(url_check, "utf-8"));
+                            + "&url=" + URLEncoder.encode(url_check.trim(), "utf-8"));
                     getMethod.addRequestHeader(new Header("Accept", "application/json"));
                     spotlightResponse = request(getMethod);
                     

@@ -36,11 +36,11 @@ public class Main {
      */
     public static void main(String[] args) {
         DBpediaSpotlightClient dbclient = new DBpediaSpotlightClient();
-        try {
+        /*try {
             dbclient.extract("http://grantland.com/the-triangle/nba-shootaround-physical-graffiti/");
         } catch (AnnotationException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         
         Path input_path=Paths.get("//mnt//var//DBs//inputs//basketball//");//input directory
         String output_parent_directory="//mnt//var//DBs//outputs//basketball//";//output directory
