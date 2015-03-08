@@ -467,7 +467,7 @@ public class JSONparsing {
      * @param quer
      * @return
      */
-    public String[] YahooEntityJsonParsing(String input, String quer){
+    public String[] YahooEntityJsonParsing(String input, String quer,boolean StemFlag){
         try {
             ent_query_cnt=0;
             cat_query_cnt=0;
@@ -525,7 +525,7 @@ public class JSONparsing {
                                             for(int kj=0;kj<arr_cat.length;kj++){
                                                 entry = (Map.Entry) arr_cat[kj];
                                                 if(entry.getKey().toString().contains("content")){
-                                                    categories.add(entry.getValue().toString());
+                                                    categories.add(entry.getValue().toString().toLowerCase());
 
                                                 }
                                             }
@@ -538,7 +538,20 @@ public class JSONparsing {
                                     for(int ka=0;ka<arr_cat.length;ka++){
                                         entry = (Map.Entry) arr_cat[ka];
                                         if(entry.getKey().toString().contains("content")){
-                                            categories.add(entry.getValue().toString());
+                                            String categoryString=entry.getValue().toString().toLowerCase();
+                                            if(StemFlag){
+                                                String[] splitEntity = categoryString.split(" ");
+                                                categoryString="";
+                                                StemmerSnow stemmer = new StemmerSnow();
+                                                List<String> splitEntityList=stemmer.stem(Arrays.asList(splitEntity));
+                                                StringBuilder sb = new StringBuilder();
+                                                for(String s:splitEntityList){
+                                                    sb.append(s.trim());
+                                                    sb.append(" ");
+                                                }
+                                                categoryString = sb.toString().trim();
+                                            }
+                                            categories.add(categoryString);
                                         }
                                     }
                                 }     
@@ -592,7 +605,20 @@ public class JSONparsing {
                                             for(int kai=0;kai<arr_ent.length;kai++){
                                                 entry = (Map.Entry) arr_ent[kai];
                                                 if(entry.getKey().toString().contains("content")){
-                                                    entities.add(entry.getValue().toString().toLowerCase()); 
+                                                    String entityString =entry.getValue().toString().toLowerCase();
+                                                    if(StemFlag){
+                                                        String[] splitEntity = entityString.split(" ");
+                                                        entityString="";
+                                                        StemmerSnow stemmer = new StemmerSnow();
+                                                        List<String> splitEntityList=stemmer.stem(Arrays.asList(splitEntity));
+                                                        StringBuilder sb = new StringBuilder();
+                                                        for(String s:splitEntityList){
+                                                            sb.append(s.trim());
+                                                            sb.append(" ");
+                                                        }
+                                                        entityString = sb.toString().trim();
+                                                    }
+                                                    entities.add(entityString);
                                                 }
                                             }
                                         }
@@ -603,6 +629,11 @@ public class JSONparsing {
                     }
                 }
             }
+            ent_query_cnt=0;
+            ent_query_cnt_whole=0;
+            cat_query_cnt_whole=0;
+            cat_query_cnt_whole=0;
+            quer =quer.toLowerCase();
             String[] split = quer.split("\\+");
             int ent_count=0;
             for(String s:entities){
@@ -752,7 +783,7 @@ public class JSONparsing {
      * @param input
      * @return
      */
-    public void DandelionParsing(String input, String query){ 
+    public void DandelionParsing(String input, String query, boolean StemFlag){ 
         try {
             List<String> entities = new ArrayList<>();
             List<String> categories = new ArrayList<>();
@@ -780,16 +811,46 @@ public class JSONparsing {
                 while(iteratorarray.hasNext()&&!flagfound){
                     JSONObject next = (JSONObject) iteratorarray.next();
                     if(next.containsKey("label")){
-                       entities.add(next.get("label").toString().toLowerCase());
+                        String entityString =next.get("label").toString().toLowerCase();
+                        if(StemFlag){
+                            String[] splitEntity = entityString.split(" ");
+                            entityString="";
+                            StemmerSnow stemmer = new StemmerSnow();
+                            List<String> splitEntityList=stemmer.stem(Arrays.asList(splitEntity));
+                            StringBuilder sb = new StringBuilder();
+                            for(String s:splitEntityList){
+                                sb.append(s.trim());
+                                sb.append(" ");
+                            }
+                            entityString = sb.toString().trim();
+                        }
+                        entities.add(entityString);
                     }
                     if(next.containsKey("categories")){
                         jsonarray = (JSONArray) next.get("categories");
                         for(int i=0;i<jsonarray.size();i++){
-                            categories.add(jsonarray.get(i).toString().toLowerCase());
+                            String categoryString =jsonarray.get(i).toString().toLowerCase();
+                            if(StemFlag){
+                                String[] splitEntity = categoryString.split(" ");
+                                categoryString="";
+                                StemmerSnow stemmer = new StemmerSnow();
+                                List<String> splitEntityList=stemmer.stem(Arrays.asList(splitEntity));
+                                StringBuilder sb = new StringBuilder();
+                                for(String s:splitEntityList){
+                                    sb.append(s.trim());
+                                    sb.append(" ");
+                                }
+                                categoryString = sb.toString().trim();
+                            }
+                            categories.add(categoryString);
                         }
                     }
                 }
-                
+                ent_query_cnt_dand=0;
+                cat_query_cnt_dand=0;
+                ent_query_cnt_dand_whole=0;
+                cat_query_cnt_dand_whole=0;
+                query =query.toLowerCase();
                 String[] split = query.split("\\+");
                 int ent_count=0;
                 for(String s:entities){

@@ -10,6 +10,13 @@
             <id>clojars.org</id>
             <url>http://clojars.org/repo</url>
         </repository>
+        <repository>
+            <id>snowtide-releases</id>
+            <url>http://maven.snowtide.com/releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
     </repositories>
     <dependencies>
         <dependency>
@@ -195,7 +202,7 @@
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-core</artifactId>
         <version>4.10.3</version>
-</dependency>
+        </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -231,6 +238,11 @@
             <groupId>org.dbpedia</groupId>
             <artifactId>spotlight</artifactId>
             <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.snowtide</groupId>
+            <artifactId>pdfxstream</artifactId>
+            <version>3.1.2</version>
         </dependency>
     </dependencies>
     <properties>

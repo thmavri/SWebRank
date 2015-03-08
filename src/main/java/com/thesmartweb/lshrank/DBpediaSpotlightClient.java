@@ -29,6 +29,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import scala.actors.threadpool.Arrays;
 
 /**
  * Simple web service-based annotation client for DBpedia Spotlight.
@@ -40,9 +41,10 @@ public class DBpediaSpotlightClient extends AnnotationClient {
 
 	//private final static String API_URL = "http://jodaiber.dyndns.org:2222/";
         private final static String API_URL = "http://spotlight.dbpedia.org/";
-	private static final double CONFIDENCE = 0.15;
+	private static final double CONFIDENCE = 0.10;
 	private static final int SUPPORT = 5;
         private static List<String> typesDBspot;
+        private static List<String> entitiesString;
         private int ent_cnt_dbpspot=0;
         private int cat_cnt_dbpspot=0;
         private int ent_cnt_dbpspot_whole=0;
@@ -93,22 +95,18 @@ public class DBpediaSpotlightClient extends AnnotationClient {
 	}
         
         @Override
-	public List<String> extract(String url_check) throws AnnotationException {
+	public void extract(String url_check,boolean StemFlag) throws AnnotationException {
                 LinkedList<DBpediaResource> resources = new LinkedList<DBpediaResource>();
-                List<String> entitiesString = new ArrayList<>();
+                entitiesString = new ArrayList<>();
                 typesDBspot = new ArrayList<>();
 		try {
-                    try {
-                        Thread.sleep(1000);                 //1000 milliseconds is one second.
-                    } catch(InterruptedException ex) {
-                        Thread.currentThread().interrupt();
-                    }
+                    
                     LOG.info("Querying API.");
                     String spotlightResponse;
                     GetMethod getMethod = new GetMethod(API_URL + "rest/annotate/?" +
                             "confidence=" + CONFIDENCE
                             + "&support=" + SUPPORT
-                            + "&url=" + URLEncoder.encode(url_check.trim(), "utf-8"));
+                            + "&url=" + URLEncoder.encode(url_check, "utf-8"));
                     getMethod.addRequestHeader(new Header("Accept", "application/json"));
                     spotlightResponse = request(getMethod);
                     
@@ -121,7 +119,19 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                     for(int i = 0; i < entities.length(); i++) {
                         try {
                             JSONObject entity = entities.getJSONObject(i);
-                            String entityString = entity.getString("@URI").substring(28);
+                            String entityString = entity.getString("@URI").substring(28).toLowerCase().replaceAll("[\\_,\\%28,\\%29]", " ");
+                            if(StemFlag){
+                                String[] splitEntity = entityString.split(" ");
+                                entityString="";
+                                StemmerSnow stemmer = new StemmerSnow();
+                                List<String> splitEntityList=stemmer.stem(Arrays.asList(splitEntity));
+                                StringBuilder sb = new StringBuilder();
+                                for(String s:splitEntityList){
+                                    sb.append(s.trim());
+                                    sb.append(" ");
+                                }
+                                entityString = sb.toString().trim();
+                            }
                             if(!entitiesString.contains(entityString)){
                                 entitiesString.add(entityString);
                             }
@@ -136,7 +146,19 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                                     delimiter = "\\/";
                                 }
                                 String[] typeStrings = type.split(delimiter);
-                                String typeString = typeStrings[typeStrings.length-1];
+                                String typeString = typeStrings[typeStrings.length-1].toLowerCase().replaceAll("[\\_,\\%28,\\%29]", " ");
+                                if(StemFlag){
+                                    String[] splitType = typeString.split(" ");
+                                    typeString="";
+                                    StemmerSnow stemmer = new StemmerSnow();
+                                    List<String> splitTypeList=stemmer.stem(Arrays.asList(splitType));
+                                    StringBuilder sb = new StringBuilder();
+                                    for(String s:splitTypeList){
+                                        sb.append(s.trim());
+                                        sb.append(" ");
+                                    }
+                                    typeString = sb.toString().trim();
+                                }
                                 if(!typesDBspot.contains(typeString)){
                                     typesDBspot.add(typeString);
                                 }
@@ -148,14 +170,11 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                         }
                     }
                     
-                    
-                    return entitiesString;
                 } catch (UnsupportedEncodingException | JSONException ex) {
                     Logger.getLogger(DBpediaSpotlightClient.class.getName()).log(Level.SEVERE, null, ex);
-                    return entitiesString;
 		}
 	}
-    public List<String> run(String url_check) throws Exception {
+    public List<String> run(String url_check,boolean StemFlag) throws Exception {
 
 
         DBpediaSpotlightClient c = new DBpediaSpotlightClient ();
@@ -168,7 +187,7 @@ public class DBpediaSpotlightClient extends AnnotationClient {
 //        File output = new File("/home/pablo/eval/wikify/systems/Spotlight.list");
             //File input = new File("/home/alexandre/Projects/test-files-spotlight/ExternalClients_TestFiles/Berlin.txt");
             //File output = new File("/home/alexandre/Projects/test-files-spotlight/ExternalClients_TestFiles/Spotlight.list");
-            List<String> entitiesString = c.extract(url_check);
+            c.extract(url_check,StemFlag);
             return entitiesString;
             //c.evaluate(input, output);
 //        SpotlightClient c = new SpotlightClient(api_key);
@@ -178,50 +197,43 @@ public class DBpediaSpotlightClient extends AnnotationClient {
 
     }
     
-    public void countEntCat(String url_check,String query) {
+    public void countEntCat(String url_check,String query,boolean StemFlag) {
         
             try {
-                List<String> entitiesString = run(url_check);
+                ent_cnt_dbpspot=0;
+                cat_cnt_dbpspot=0;
+                ent_cnt_dbpspot_whole=0;
+                cat_cnt_dbpspot_whole=0;
+                entitiesString = run(url_check,StemFlag);
+                query = query.toLowerCase();
                 String[] splitQuery = query.split("\\+");
-                for(String q:splitQuery){
-                    for(String s: entitiesString){
-                        if(s.contains(q)){
-                            ent_cnt_dbpspot++;
-                        }
-                    }
-                    for(String s: typesDBspot){
-                        if(s.contains(q)){
-                            cat_cnt_dbpspot++;
-                        }
-                    }
-                }
-                String[] split = query.split("\\+");
                 int ent_count=0;
                 for(String s:entitiesString){
                     ent_count=0;
-                    for(String splitStr:split){
+                    for(String splitStr:splitQuery){
                         if(s.contains(splitStr)){
                             ent_cnt_dbpspot++;
                             ent_count++;
                         }
                     }
-                    if(ent_count==split.length){
+                    if(ent_count==splitQuery.length){
                         ent_cnt_dbpspot_whole++;
                     }
                 }
                 int cat_count=0;
                 for(String s:typesDBspot){
                     cat_count=0;
-                    for(String splitStr:split){
+                    for(String splitStr:splitQuery){
                         if(s.contains(splitStr)){
                             cat_cnt_dbpspot++;
                             cat_count++;
                         }
                     }
-                    if(cat_count==split.length){
+                    if(cat_count==splitQuery.length){
                         cat_cnt_dbpspot_whole++;
                     }
                 }
+                int h=0;
             } catch (Exception ex) {
                 Logger.getLogger(DBpediaSpotlightClient.class.getName()).log(Level.SEVERE, null, ex);
             }

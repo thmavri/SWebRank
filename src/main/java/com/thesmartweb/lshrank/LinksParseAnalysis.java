@@ -9,9 +9,13 @@ package com.thesmartweb.lshrank;
  *
  * @author Themis Mavridis
  */
+import com.snowtide.PDF;
+import com.snowtide.pdf.Document;
+import com.snowtide.pdf.OutputTarget;
 import java.io.*;
 import java.util.*;
 import java.io.IOException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
@@ -83,6 +87,30 @@ public class LinksParseAnalysis {
                                     counter_LDA_documents++;
                                     String directory = example_dir+ search_engine + "/" + i + "/";
                                     File file_content_lda = new File(directory + "youtube_content.txt");
+                                    FileUtils.writeStringToFile(file_content_lda, parse_output[i]);
+                                }
+                            }
+                            if (total_links[i].contains(".pdf")) {
+                                String ventry = total_links[i].substring(31);
+                                JSONparsing ypr = new JSONparsing();
+                                url_check=total_links[i];
+                                File current_url = new File(example_dir+ search_engine +"/" + i + "/"+ "current_url.txt");
+                                FileUtils.writeStringToFile(current_url ,url_check);
+                                File current_pdf = new File(example_dir+ search_engine +"/" + i + "/"+ "current_pdf.txt");
+                                URL URLlink = new  URL(url_check);
+                                FileUtils.copyURLToFile(URLlink, current_pdf);
+                                Document pdf = PDF.open(current_pdf);
+                                StringWriter buffer = new StringWriter();
+                                pdf.pipe(new OutputTarget(buffer));
+                                pdf.close();
+                                parse_output[i] = buffer.toString().replace("\n", "").replace("\r", "");
+                                System.gc();
+                                chk = "ok";
+                                boolean deleteQuietly = FileUtils.deleteQuietly(current_pdf);
+                                if (parse_output[i]!=null) {
+                                    counter_LDA_documents++;
+                                    String directory = example_dir+ search_engine + "/" + i + "/";
+                                    File file_content_lda = new File(directory + "pdf_content.txt");
                                     FileUtils.writeStringToFile(file_content_lda, parse_output[i]);
                                 }
                             }

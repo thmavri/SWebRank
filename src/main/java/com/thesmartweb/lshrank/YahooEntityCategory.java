@@ -51,7 +51,7 @@ public class YahooEntityCategory {
      * @param quer
      * @return
      */
-    public String[] connect(String urlcheck,String quer) {  
+    public String[] connect(String urlcheck,String quer, boolean StemFlag) {  
 
         try {  
             cat_query_cnt=0;
@@ -70,7 +70,7 @@ public class YahooEntityCategory {
             if(!line.equalsIgnoreCase("fail")){
                 JSONparsing yejson= new JSONparsing();
                 //get the links in an array
-                output= yejson.YahooEntityJsonParsing(line, quer);
+                output= yejson.YahooEntityJsonParsing(line, quer, StemFlag);
                 ent_query_cnt=yejson.GetEntQuerCnt();
                 cat_query_cnt=yejson.GetCatQuerCnt();
                 ent_query_cnt_whole=yejson.GetEntQuerCntWhole();

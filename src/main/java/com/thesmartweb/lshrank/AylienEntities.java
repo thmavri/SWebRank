@@ -40,8 +40,9 @@ public class AylienEntities {
             //System.out.println(concepts.getText());
             List<String> conceptsText = new ArrayList<>();
             concepts.getConcepts().stream().forEach((c) -> {
-                conceptsText.add(c.getUri().substring(28));
+                conceptsText.add(c.getUri().substring(28).toLowerCase());
             });
+            quer=quer.toLowerCase();
             String[] split = quer.split("\\+");
             int cat_count=0;
             for(String s:conceptsText){
@@ -64,7 +65,7 @@ public class AylienEntities {
                 if(c.getType().equalsIgnoreCase("organization")||c.getType().equalsIgnoreCase("location")||c.getType().equalsIgnoreCase("products")||c.getType().equalsIgnoreCase("people")){
                     List<String> surfaceForms = c.getSurfaceForms();
                     surfaceForms.stream().forEach((s) -> {
-                        entitiesText.add(s);
+                        entitiesText.add(s.toLowerCase());
                     });                    
                 }
                 System.out.println(c.getType());

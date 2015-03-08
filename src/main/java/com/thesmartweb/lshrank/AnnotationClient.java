@@ -182,5 +182,5 @@ public abstract class AnnotationClient {
      * @return
      */
     public abstract List<DBpediaResource> extract(Text text) throws AnnotationException;
-    public abstract List<String> extract(String url_check) throws AnnotationException;
+    public abstract void extract(String url_check,boolean StemFlag) throws AnnotationException;
 }
