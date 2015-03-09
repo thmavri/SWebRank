@@ -207,6 +207,12 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                 entitiesString = run(url_check,StemFlag);
                 query = query.toLowerCase();
                 String[] splitQuery = query.split("\\+");
+                if(StemFlag){
+                    List<String> splitQuerylist = java.util.Arrays.asList(splitQuery);
+                    StemmerSnow stemmer = new StemmerSnow();
+                    splitQuerylist = stemmer.stem(splitQuerylist);
+                    splitQuery = splitQuerylist.toArray(new String[splitQuerylist.size()]);
+                }
                 int ent_count=0;
                 for(String s:entitiesString){
                     ent_count=0;

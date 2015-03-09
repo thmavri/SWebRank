@@ -711,12 +711,12 @@ public class Search_analysis {
                             int ent_cnt_dand_stem=dec.getEnt();
                             int cat_cnt_dand_whole_stem=dec.getCatWhole();
                             int ent_cnt_dand_whole_stem=dec.getEntWhole();
-                            AylienEntities aye = new AylienEntities();
+                            /*AylienEntities aye = new AylienEntities();
                             aye.connect(links_total[j], quer);
                             int cat_cnt_ay=aye.getCat();
                             int ent_cnt_ay=aye.getEnt();
                             int cat_cnt_ay_whole=aye.getCatWhole();
-                            int ent_cnt_ay_whole=aye.getEntWhole();
+                            int ent_cnt_ay_whole=aye.getEntWhole();*/
                             DBpediaSpotlightClient dbpspot = new DBpediaSpotlightClient();
                             dbpspot.countEntCat(links_total[j], quer,false);//false is not stemming
                             int cat_cnt_dbpspot = dbpspot.getcountCat();

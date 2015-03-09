@@ -635,6 +635,12 @@ public class JSONparsing {
             cat_query_cnt_whole=0;
             quer =quer.toLowerCase();
             String[] split = quer.split("\\+");
+            if(StemFlag){
+                List<String> splitQuery = Arrays.asList(split);
+                StemmerSnow stemmer = new StemmerSnow();
+                splitQuery = stemmer.stem(splitQuery);
+                split = splitQuery.toArray(new String[splitQuery.size()]);
+            }
             int ent_count=0;
             for(String s:entities){
                 ent_count=0;
@@ -852,6 +858,12 @@ public class JSONparsing {
                 cat_query_cnt_dand_whole=0;
                 query =query.toLowerCase();
                 String[] split = query.split("\\+");
+                if(StemFlag){
+                    List<String> splitQuery = Arrays.asList(split);
+                    StemmerSnow stemmer = new StemmerSnow();
+                    splitQuery = stemmer.stem(splitQuery);
+                    split = splitQuery.toArray(new String[splitQuery.size()]);
+                }
                 int ent_count=0;
                 for(String s:entities){
                     ent_count=0;
