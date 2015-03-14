@@ -43,8 +43,8 @@ public class DBpediaSpotlightClient extends AnnotationClient {
         private final static String API_URL = "http://spotlight.dbpedia.org/";
 	private static final double CONFIDENCE = 0.10;
 	private static final int SUPPORT = 5;
-        private static List<String> typesDBspot;
-        private static List<String> entitiesString;
+        private List<String> typesDBspot;
+        private List<String> entitiesString;
         private int ent_cnt_dbpspot=0;
         private int cat_cnt_dbpspot=0;
         private int ent_cnt_dbpspot_whole=0;
@@ -169,12 +169,12 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                             LOG.error("JSON exception "+e);
                         }
                     }
-                    
+                    int jk=0;
                 } catch (UnsupportedEncodingException | JSONException ex) {
                     Logger.getLogger(DBpediaSpotlightClient.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
-    public List<String> run(String url_check,boolean StemFlag) throws Exception {
+    public void run(String url_check,boolean StemFlag) throws Exception {
 
 
         DBpediaSpotlightClient c = new DBpediaSpotlightClient ();
@@ -188,7 +188,6 @@ public class DBpediaSpotlightClient extends AnnotationClient {
             //File input = new File("/home/alexandre/Projects/test-files-spotlight/ExternalClients_TestFiles/Berlin.txt");
             //File output = new File("/home/alexandre/Projects/test-files-spotlight/ExternalClients_TestFiles/Spotlight.list");
             c.extract(url_check,StemFlag);
-            return entitiesString;
             //c.evaluate(input, output);
 //        SpotlightClient c = new SpotlightClient(api_key);
 //        List<DBpediaResource> response = c.extract(new Text(text));
@@ -204,7 +203,7 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                 cat_cnt_dbpspot=0;
                 ent_cnt_dbpspot_whole=0;
                 cat_cnt_dbpspot_whole=0;
-                entitiesString = run(url_check,StemFlag);
+                extract(url_check,StemFlag);
                 query = query.toLowerCase();
                 String[] splitQuery = query.split("\\+");
                 if(StemFlag){
@@ -248,6 +247,8 @@ public class DBpediaSpotlightClient extends AnnotationClient {
     public int getcountCat(){return cat_cnt_dbpspot;}
     public int getcountEntWhole(){return ent_cnt_dbpspot_whole;}
     public int getcountCatWhole(){return cat_cnt_dbpspot_whole;}
-
+    public List<String> getEntities(){return entitiesString;}
+    public List<String> getCategories(){return typesDBspot;}
+    
 
 }

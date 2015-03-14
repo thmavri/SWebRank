@@ -132,7 +132,14 @@ public class Search_analysis {
                 YahooResults yr = new YahooResults();
                 links_yahoo=yr.Get(quer,results_number,example_dir,config_path);                    
             }
-            
+            HashMap<Integer,List<String>> EntitiesMapDBP = new HashMap<>();
+            HashMap<Integer,List<String>> CategoriesMapDBP = new HashMap<>();
+            HashMap<Integer,List<String>> EntitiesMapDand = new HashMap<>();
+            HashMap<Integer,List<String>> CategoriesMapDand = new HashMap<>();
+            HashMap<Integer,String> parseOutputList = new HashMap<>();
+            for(int i=0;i<results_number*3;i++){
+                parseOutputList.put(i,"");
+            }
             //*************
             boolean false_flag=true;
             if(false_flag){
@@ -194,7 +201,6 @@ public class Search_analysis {
                     total_catent[r][0]="";
                     total_catent[r][1]="";
                 }
-                
                 for(int j=0;j<links_total.length;j++){
                     if(links_total[j]!=null){
                         int rank=-1;
@@ -702,6 +708,8 @@ public class Search_analysis {
                             int ent_cnt_whole_stem=yec.GetEntQuerCntWhole();
                             DandelionEntities dec = new DandelionEntities();
                             dec.connect(links_total[j], quer,false);//without stemming
+                            EntitiesMapDand.put(j, dec.GetEntitiesDand());
+                            CategoriesMapDand.put(j, dec.GetCategoriesDand());
                             int cat_cnt_dand=dec.getCat();
                             int ent_cnt_dand=dec.getEnt();
                             int cat_cnt_dand_whole=dec.getCatWhole();
@@ -719,6 +727,8 @@ public class Search_analysis {
                             int ent_cnt_ay_whole=aye.getEntWhole();*/
                             DBpediaSpotlightClient dbpspot = new DBpediaSpotlightClient();
                             dbpspot.countEntCat(links_total[j], quer,false);//false is not stemming
+                            EntitiesMapDBP.put(j, dbpspot.getEntities());
+                            CategoriesMapDBP.put(j, dbpspot.getCategories());
                             int cat_cnt_dbpspot = dbpspot.getcountCat();
                             int ent_cnt_dbpspot = dbpspot.getcountEnt();
                             int cat_cnt_dbpspot_whole = dbpspot.getcountCatWhole();
@@ -870,33 +880,50 @@ public class Search_analysis {
                         }
                     } 
                 }
-
+                String[] parse_output;
                 if(ContentSemantics.get(3)||ContentSemantics.get(1)){
                 //we perform LDA or TFIDF analysis to the links obtained
                     if(!enginechoice.get(3)){
                         if(enginechoice.get(2)){
-                            ychk=ld.perform(links_yahoo, domain, "yahoo", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"yahoo",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                            parse_output=ld.perform(links_yahoo, domain, "yahoo", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"yahoo",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                            int j=0;
+                            for(String s:parse_output){
+                                parseOutputList.put(j,s);
+                                j++;
+                            }
                             System.gc();
                         }
                         if(enginechoice.get(1)){
-                            gchk=ld.perform(links_google, domain, "google", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"google",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                            parse_output=ld.perform(links_google, domain, "google", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"google",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                            int j=results_number;
+                            for(String s:parse_output){
+                                parseOutputList.put(j, s);
+                                j++;
+                            }
                             System.gc();
                         }
                         if(enginechoice.get(0)){
-                            bchk=ld.perform(links_bing, domain, "bing", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"bing",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                            parse_output=ld.perform(links_bing, domain, "bing", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"bing",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                            int j=results_number*2;
+                            for(String s:parse_output){
+                                parseOutputList.put(j, s);
+                                j++;
+                            }
                             System.gc();
                         }
                     }
-                    else{
+                    /*else{
                         System.gc();//links_total
-                        tchk=ld.perform(links_total, domain, "merged", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"Merged",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                        parse_output=ld.perform(links_total, domain, "merged", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"Merged",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                        Collections.addAll(parseOutputList, parse_output);
                         System.gc();
-                    }
+                    }*/
                 }
             }
             System.gc();
             List<String> wordList=null;
             HashMap<String,HashMap<Integer,HashMap<String,Double>>> enginetopicwordprobmap = new HashMap<>();
+            List<String> lda_output = new ArrayList<>();
             if(ContentSemantics.get(3)){
                 //get the top content from TFIDF
                 System.out.println("i ll try to read the keys");
@@ -917,7 +944,6 @@ public class Search_analysis {
                 ReadKeys rk = new ReadKeys();
                 enginetopicwordprobmap= rk.readFile(example_dir, LSHrankSettings.get(4),LSHrankSettings.get(3).intValue(), LSHrankSettings.get(1).intValue());
                 // on startup of elastic search
-              
                 //obj.put("query",quer);
                 //obj.put("Domain",domain);
                 JSONArray ArrayEngineLevel = new JSONArray();
@@ -933,6 +959,14 @@ public class Search_analysis {
                         JSONObject objTopicLevel = new JSONObject();
                         objTopicLevel.put("topic",topicindex);
                         JSONObject objmap = new JSONObject(topicwordprobmap.get(topicindex));
+                        Set keySet = objmap.keySet();
+                        Iterator iterator = keySet.iterator();
+                        while(iterator.hasNext()){
+                            String word = iterator.next().toString();
+                            if(!lda_output.contains(word)){
+                                lda_output.add(word);
+                            }
+                        }
                         objTopicLevel.put("wordsmap",objmap);
                         ArrayTopicLevel.add(objTopicLevel);
                     }
@@ -947,8 +981,6 @@ public class Search_analysis {
                     IndexRequest indexReq=new IndexRequest("lshranklda","content",id);
                     indexReq.source(objEngineLevel);
                     IndexResponse indexRes = client.index(indexReq).actionGet();
-                    
-                    
                 }
                 node.close();
                 ElasticGetWordList elasticGetwordList=new ElasticGetWordList();
@@ -956,6 +988,120 @@ public class Search_analysis {
                 DataManipulation datamanipulation = new  DataManipulation();
                 wordList=datamanipulation.clearListString(wordList);
                 System.out.println("i returned the wordlist to search analysis");
+            }
+            for(int j=0;j<links_total.length;j++){
+                int rank=-1;
+                int engine=-1;//0 for yahoo,1 for google,2 for bing
+                if(j<results_number){
+                    rank=j;
+                    engine=0;
+                }
+                else if(j<results_number*2){
+                    rank=j-results_number;
+                    engine=1;
+                }
+                else if(j<results_number*3){
+                    rank=j-results_number*2;
+                    engine=2;
+                }
+                LDAsemStats ldaSemStats = new LDAsemStats();
+                ldaSemStats.getTopWordsStats(parseOutputList.get(j), lda_output, false);
+                int top_words_lda = ldaSemStats.getTopStats();
+                int top_words_lda_per = ldaSemStats.getTopPercentageStats();
+                StringBuilder webstatsStmBuild = new StringBuilder();
+                webstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
+                webstatsStmBuild.append("`top_words_lda`=? , ");
+                webstatsStmBuild.append("`top_words_lda_per`=? ");
+                webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                stmt = conn.prepareStatement(webstatsStmBuild.toString());
+                stmt.setInt(1,top_words_lda);
+                stmt.setInt(2,top_words_lda_per);
+                stmt.setString(3,links_total[j]);
+                stmt.setString(4,quer);
+                stmt.setInt(5,engine);
+                stmt.setString(6,domain);
+                stmt.executeUpdate();
+                ldaSemStats.getTopWordsStats(parseOutputList.get(j), lda_output, true);
+                int top_words_lda_stem = ldaSemStats.getTopStats();
+                int top_words_lda_per_stem = ldaSemStats.getTopPercentageStats();
+                webstatsStmBuild = new StringBuilder();
+                webstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
+                webstatsStmBuild.append("`top_words_lda_stem`=? , ");
+                webstatsStmBuild.append("`top_words_lda_per_stem`=? ");
+                webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                stmt = conn.prepareStatement(webstatsStmBuild.toString());
+                stmt.setInt(1,top_words_lda_stem);
+                stmt.setInt(2,top_words_lda_per_stem);
+                stmt.setString(3,links_total[j]);
+                stmt.setString(4,quer);
+                stmt.setInt(5,engine);
+                stmt.setString(6,domain);
+                stmt.executeUpdate();
+                ldaSemStats.getEntCatStats(EntitiesMapDBP.get(j), CategoriesMapDBP.get(j), lda_output, false);
+                int ent_cnt_dbpspot_lda = ldaSemStats.getEntStats();
+                int cat_cnt_dbpspot_lda = ldaSemStats.getCategoryStats();
+                webstatsStmBuild = new StringBuilder();
+                webstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
+                webstatsStmBuild.append("`ent_cnt_dbpspot_lda`=? , ");
+                webstatsStmBuild.append("`cat_cnt_dbpspot_lda`=? ");
+                webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                stmt = conn.prepareStatement(webstatsStmBuild.toString());
+                stmt.setInt(1,ent_cnt_dbpspot_lda);
+                stmt.setInt(2,cat_cnt_dbpspot_lda);
+                stmt.setString(3,links_total[j]);
+                stmt.setString(4,quer);
+                stmt.setInt(5,engine);
+                stmt.setString(6,domain);
+                stmt.executeUpdate();
+                ldaSemStats.getEntCatStats( EntitiesMapDBP.get(j), CategoriesMapDBP.get(j), lda_output, true);
+                int ent_cnt_dbpspot_lda_stem = ldaSemStats.getEntStats();
+                int cat_cnt_dbpspot_lda_stem = ldaSemStats.getCategoryStats();
+                webstatsStmBuild = new StringBuilder();
+                webstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
+                webstatsStmBuild.append("`top_cnt_dbpspot_lda_stem`=? , ");
+                webstatsStmBuild.append("`ent_cnt_dbpspot_lda_stem`=? , ");
+                webstatsStmBuild.append("`cat_cnt_dbpspot_lda_stem`=? ");
+                webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                stmt = conn.prepareStatement(webstatsStmBuild.toString());
+                stmt.setInt(1,ent_cnt_dbpspot_lda_stem);
+                stmt.setInt(2,cat_cnt_dbpspot_lda_stem);
+                stmt.setString(3,links_total[j]);
+                stmt.setString(4,quer);
+                stmt.setInt(5,engine);
+                stmt.setString(6,domain);
+                stmt.executeUpdate();
+                ldaSemStats.getEntCatStats(EntitiesMapDand.get(j), CategoriesMapDand.get(j), lda_output, false);;
+                int ent_cnt_dand_lda = ldaSemStats.getEntStats();
+                int cat_cnt_dand_lda = ldaSemStats.getCategoryStats();
+                webstatsStmBuild = new StringBuilder();
+                webstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
+                webstatsStmBuild.append("`ent_cnt_dand_lda`=? , ");
+                webstatsStmBuild.append("`cat_cnt_dand_lda`=? ");
+                webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                stmt = conn.prepareStatement(webstatsStmBuild.toString());
+                stmt.setInt(1,ent_cnt_dand_lda);
+                stmt.setInt(2,cat_cnt_dand_lda);
+                stmt.setString(3,links_total[j]);
+                stmt.setString(4,quer);
+                stmt.setInt(5,engine);
+                stmt.setString(6,domain);
+                stmt.executeUpdate();
+                ldaSemStats.getEntCatStats(EntitiesMapDand.get(j), CategoriesMapDand.get(j), lda_output, true);
+                int ent_cnt_dand_lda_stem = ldaSemStats.getEntStats();
+                int cat_cnt_dand_lda_stem = ldaSemStats.getCategoryStats();
+                webstatsStmBuild = new StringBuilder();
+                webstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
+                webstatsStmBuild.append("`ent_cnt_dand_lda_stem`=? , ");
+                webstatsStmBuild.append("`cat_cnt_dand_lda_stem`=? ");
+                webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                stmt = conn.prepareStatement(webstatsStmBuild.toString());
+                stmt.setInt(1,ent_cnt_dand_lda_stem);
+                stmt.setInt(2,cat_cnt_dand_lda_stem);
+                stmt.setString(3,links_total[j]);
+                stmt.setString(4,quer);
+                stmt.setInt(5,engine);
+                stmt.setString(6,domain);
+                stmt.executeUpdate();
             }
             return wordList;
         }  

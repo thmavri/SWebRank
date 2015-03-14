@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,6 +22,8 @@ public class DandelionEntities {
     public static int cat_query_cnt=0;
     public static int ent_query_cnt_whole=0;
     public static int cat_query_cnt_whole=0;
+    private List<String> entities;
+    private List<String> categories;
     public void connect(String urlcheck, String quer, boolean StemFlag) {  
   
         try {  
@@ -42,6 +45,8 @@ public class DandelionEntities {
                 cat_query_cnt=jsonParser.GetCatQuerCntDand();
                 ent_query_cnt_whole=jsonParser.GetEntQuerCntDandWhole();
                 cat_query_cnt_whole=jsonParser.GetCatQuerCntDandWhole();
+                entities = jsonParser.GetEntitiesDand();
+                categories = jsonParser.GetCategoriesDand();
             }
         } catch (MalformedURLException | UnsupportedEncodingException ex) {
             Logger.getLogger(DandelionEntities.class.getName()).log(Level.SEVERE, null, ex);
@@ -51,6 +56,13 @@ public class DandelionEntities {
     public int getCat(){return cat_query_cnt;}
     public int getEntWhole(){return ent_query_cnt_whole;}
     public int getCatWhole(){return cat_query_cnt_whole;}
+     public List<String> GetEntitiesDand(){
+    return entities;
+}
+    
+      public List<String> GetCategoriesDand(){
+    return categories;
+}
 }
 
   

@@ -789,11 +789,10 @@ public class JSONparsing {
      * @param input
      * @return
      */
+    private List<String> entitiesDand = new ArrayList<>();
+    private List<String> categoriesDand = new ArrayList<>();
     public void DandelionParsing(String input, String query, boolean StemFlag){ 
         try {
-            List<String> entities = new ArrayList<>();
-            List<String> categories = new ArrayList<>();
-           
             //Create a parser
             JSONParser parser = new JSONParser();
             //Create the map
@@ -830,7 +829,7 @@ public class JSONparsing {
                             }
                             entityString = sb.toString().trim();
                         }
-                        entities.add(entityString);
+                        entitiesDand.add(entityString);
                     }
                     if(next.containsKey("categories")){
                         jsonarray = (JSONArray) next.get("categories");
@@ -848,7 +847,7 @@ public class JSONparsing {
                                 }
                                 categoryString = sb.toString().trim();
                             }
-                            categories.add(categoryString);
+                            categoriesDand.add(categoryString);
                         }
                     }
                 }
@@ -865,7 +864,7 @@ public class JSONparsing {
                     split = splitQuery.toArray(new String[splitQuery.size()]);
                 }
                 int ent_count=0;
-                for(String s:entities){
+                for(String s:entitiesDand){
                     ent_count=0;
                     for(String splitStr:split){
                         if(s.contains(splitStr)){
@@ -878,7 +877,7 @@ public class JSONparsing {
                     }
                 }
                 int cat_count=0;
-                for(String s:categories){
+                for(String s:categoriesDand){
                     cat_count=0;
                     for(String splitStr:split){
                         if(s.contains(splitStr)){
@@ -931,6 +930,17 @@ public class JSONparsing {
     public int GetCatQuerCntDandWhole(){
     return cat_query_cnt_dand_whole;
     
+}
+    /**
+     *
+     * @return
+     */
+    public List<String> GetEntitiesDand(){
+    return entitiesDand;
+}
+    
+      public List<String> GetCategoriesDand(){
+    return categoriesDand;
 }
 }
 
