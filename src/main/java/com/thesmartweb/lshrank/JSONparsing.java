@@ -761,7 +761,9 @@ public class JSONparsing {
                     title=get.get("title").toString();
                 }
                     output = description + " " + title;
-                }
+            }
+            Stopwords stopwords = new Stopwords();
+            output = stopwords.stop(output);
             return output;
         } catch (IOException ex) {
             Logger.getLogger(JSONparsing.class.getName()).log(Level.SEVERE, null, ex);

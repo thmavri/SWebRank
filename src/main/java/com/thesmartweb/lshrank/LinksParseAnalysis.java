@@ -101,6 +101,8 @@ public class LinksParseAnalysis {
                             pdf.pipe(new OutputTarget(buffer));
                             pdf.close();
                             parse_output[i] = buffer.toString().replace("\n", "").replace("\r", "");
+                            Stopwords stopwords = new Stopwords();
+                            parse_output[i] = stopwords.stop(parse_output[i]);
                             System.gc();
                             boolean deleteQuietly = FileUtils.deleteQuietly(current_pdf);
                             if (parse_output[i]!=null) {
