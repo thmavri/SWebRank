@@ -4,43 +4,34 @@
  */
 
 package com.thesmartweb.lshrank;
-/**
- *
- * @author Themis Mavridis
- */
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Class to check the convergence percentage between the words of two rounds
  * @author themis
  */
 public class CheckConvergence {
 
     /**
-     *
+     * Method to check the convergence by simply comparing the amount of words of the new round that existed in the previous round
+     * employing Porter Stemmer
      * @param wordList_new
      * @param wordList_previous
-     * @return
+     * @return a number with value in a range 0 - 1 with 1 to that all the words in the new wordlist existed in the old
      */
     public double performOld(List<String> wordList_new,List<String> wordList_previous/*,List<String> finalList*/){
         try {
-            //System.out.print("\n" + "_______________________________________" + conversion_percentage+ "_____________________");
-
             String[] stringlist = wordList_new.toArray(new String[wordList_new.size()]);
             PorterStemmer sm = new PorterStemmer();
             stringlist = sm.process(stringlist);
             double conversion_percentage = 0;
             String[] stringlist_previous = wordList_previous.toArray(new String[wordList_previous.size()]);
-            for (int i = 0; i < stringlist_previous.length; i++) {
-                for (int j = 0; j < stringlist.length; j++) {
-                    if (stringlist[j].equalsIgnoreCase(stringlist_previous[i])) {
+            for (String string_previous : stringlist_previous) {
+                for (String string : stringlist) {
+                    if (string.equalsIgnoreCase(string_previous)) {
                         conversion_percentage++;
                     }
                 }
@@ -54,18 +45,16 @@ public class CheckConvergence {
         }
     
     }
-    /*public double perform(List<String> wordList_new,List<String> wordList_previous){
-        
-            StemmerSnow sm = new StemmerSnow();
-            wordList_new = sm.stem(wordList_new);
-            NMIcalculator nmicalculator = new NMIcalculator();
-            double nmi=nmicalculator.calculate(wordList_new, wordList_previous);
-            return nmi;
-        
-    }*/
+    /**
+     * Method to check the convergence using F1 score
+     * employing Snowball stemmer
+     * @param wordList_new
+     * @param wordList_previous
+     * @return return the F1 score 0 - 1 with 1 to that all the words in the new wordlist existed in the old
+     */
     public double F1Calc(List<String> wordList_new,List<String> wordList_previous){
         
-            StemmerSnow sm = new StemmerSnow();
+            StemmerSnow sm = new StemmerSnow();//employ stemming
             wordList_new = sm.stem(wordList_new);
             double F1;
             double precision=0;

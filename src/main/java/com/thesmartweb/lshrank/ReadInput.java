@@ -117,7 +117,7 @@ public class ReadInput {
     }
 
     /**
-     *
+     * Method to read LSHrank's settings
      * @param Input The file that contains the input settings to be read
      * @return True/False if everything was read correctly
      */
@@ -315,6 +315,12 @@ public class ReadInput {
         }
         return false;
     }
+    /**
+     * Method to get the api credentials in a list from a directory that contains multiple txt files
+     * @param config_path the directory to read
+     * @param name the name of the file that we would like to read
+     * @return a list with the credentials
+     */
      public List<String> GetKeyFile(String config_path,String name){
         Path input_path=Paths.get(config_path);       
         DataManipulation getfiles=new DataManipulation();//class responsible for the extraction of paths
@@ -329,6 +335,11 @@ public class ReadInput {
         }
         return apikeysList;
     }
+     /**
+      * Get the API credentials from a given file
+      * @param Input the file to read
+      * @return a List with the credentials in strings
+      */
     public List<String> GetAPICredentials(File Input){
     
         FileInputStream inputStream=null;

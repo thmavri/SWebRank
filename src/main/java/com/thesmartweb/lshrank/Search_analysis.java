@@ -885,7 +885,7 @@ public class Search_analysis {
                 //we perform LDA or TFIDF analysis to the links obtained
                     if(!enginechoice.get(3)){
                         if(enginechoice.get(2)){
-                            parse_output=ld.perform(links_yahoo, domain, "yahoo", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"yahoo",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                            parse_output=ld.perform(links_yahoo, domain, "yahoo", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),ContentSemantics.get(1),ContentSemantics.get(3), config_path);
                             int j=0;
                             for(String s:parse_output){
                                 parseOutputList.put(j,s);
@@ -894,7 +894,7 @@ public class Search_analysis {
                             System.gc();
                         }
                         if(enginechoice.get(1)){
-                            parse_output=ld.perform(links_google, domain, "google", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"google",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                            parse_output=ld.perform(links_google, domain, "google", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),ContentSemantics.get(1),ContentSemantics.get(3), config_path);
                             int j=results_number;
                             for(String s:parse_output){
                                 parseOutputList.put(j, s);
@@ -903,7 +903,7 @@ public class Search_analysis {
                             System.gc();
                         }
                         if(enginechoice.get(0)){
-                            parse_output=ld.perform(links_bing, domain, "bing", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"bing",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                            parse_output=ld.perform(links_bing, domain, "bing", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),ContentSemantics.get(1),ContentSemantics.get(3), config_path);
                             int j=results_number*2;
                             for(String s:parse_output){
                                 parseOutputList.put(j, s);
@@ -941,7 +941,7 @@ public class Search_analysis {
             else {
                 //get the top content from LDA
                 System.out.println("i ll try to read the keys");
-                ReadKeys rk = new ReadKeys();
+                LDAtopicsWords rk = new LDAtopicsWords();
                 enginetopicwordprobmap= rk.readFile(example_dir, LSHrankSettings.get(4),LSHrankSettings.get(3).intValue(), LSHrankSettings.get(1).intValue());
                 // on startup of elastic search
                 //obj.put("query",quer);
@@ -1009,14 +1009,14 @@ public class Search_analysis {
                 if(!parseOutputList.get(j).equalsIgnoreCase("")){
                     ldaSemStats.getTopWordsStats(parseOutputList.get(j), lda_output, false);
                     int top_words_lda = ldaSemStats.getTopStats();
-                    int top_words_lda_per = ldaSemStats.getTopPercentageStats();
+                    double top_words_lda_per = ldaSemStats.getTopPercentageStats();
                     webstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
                     webstatsStmBuild.append("`top_words_lda`=? , ");
                     webstatsStmBuild.append("`top_words_lda_per`=? ");
                     webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
                     stmt = conn.prepareStatement(webstatsStmBuild.toString());
                     stmt.setInt(1,top_words_lda);
-                    stmt.setInt(2,top_words_lda_per);
+                    stmt.setDouble(2,top_words_lda_per);
                     stmt.setString(3,links_total[j]);
                     stmt.setString(4,quer);
                     stmt.setInt(5,engine);
@@ -1024,7 +1024,7 @@ public class Search_analysis {
                     stmt.executeUpdate();
                     ldaSemStats.getTopWordsStats(parseOutputList.get(j), lda_output, true);
                     int top_words_lda_stem = ldaSemStats.getTopStats();
-                    int top_words_lda_per_stem = ldaSemStats.getTopPercentageStats();
+                    double top_words_lda_per_stem = ldaSemStats.getTopPercentageStats();
                     webstatsStmBuild = new StringBuilder();
                     webstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
                     webstatsStmBuild.append("`top_words_lda_stem`=? , ");
@@ -1032,7 +1032,7 @@ public class Search_analysis {
                     webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
                     stmt = conn.prepareStatement(webstatsStmBuild.toString());
                     stmt.setInt(1,top_words_lda_stem);
-                    stmt.setInt(2,top_words_lda_per_stem);
+                    stmt.setDouble(2,top_words_lda_per_stem);
                     stmt.setString(3,links_total[j]);
                     stmt.setString(4,quer);
                     stmt.setInt(5,engine);
@@ -1112,12 +1112,12 @@ public class Search_analysis {
         }  
         catch (NullPointerException ex) {
             Logger.getLogger(Search_analysis.class.getName()).log(Level.SEVERE, null, ex);
-            ArrayList<String> finalList = new ArrayList<String>();
+            ArrayList<String> finalList = new ArrayList<>();
             return finalList;
         } 
         catch (SQLException | ElasticsearchException ex) {
             Logger.getLogger(Search_analysis.class.getName()).log(Level.SEVERE, null, ex);
-            ArrayList<String> finalList = new ArrayList<String>();
+            ArrayList<String> finalList = new ArrayList<>();
             return finalList;
         }
     }

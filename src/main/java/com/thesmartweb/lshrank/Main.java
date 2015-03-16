@@ -32,7 +32,8 @@ import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 import org.json.simple.JSONObject;
 
 /**
- *
+ * Main class of LSHrank that gets the settings and get the results of every iteration.
+ * It calls the process to create new queries and to check if we converge.
  * @author themis
  */
 public class Main {
@@ -132,35 +133,12 @@ public class Main {
             DataManipulation wordsmanipulation=new DataManipulation();//method to manipulate various word data (String, list<String>, etc)
             do{ //if we run the algorithm for the 1st time we already have the query so we skip the loop below that produces the new array of query
                 if(iteration_counter!=0){
-                    //we set an Iterator in order to obtain access to every wordList
-                    ListIterator iter = array_wordLists.listIterator(array_wordLists.size()-queries.size());
                     wordList_previous = wordList_new;
                     //we add the previous wordList to the finalList
                     finalList=wordsmanipulation.AddAList(wordList_previous, finalList);
-                    List<String> query_new_list_total = new ArrayList<String>();
-                    /*int query_new_index = 0;//variable that counts the number of the queries for which combinations and permutations are calculated
-                    while (iter.hasNext()) {
-                        //we calculate all the combinations and then the permutations of the terms and then we calculate
-                        //the NGD scores of them comparing to the query that all these terms are produced by
-                        Combinations_Engine cn = new Combinations_Engine();//class used for the combinations
-                        System.out.println("---------------comb engine iter---------");
-                        //if the length of the query array is more than the query_pointer we calculate the combinations/permuations/ngd
-                        if(queries.size()>query_new_index){
-                            //we create the query array
-                            //we know that iter.next is List<String> therefore we surrpress the warning of unchecked cast
-                            @SuppressWarnings("unchecked")
-                            List<String> query_new_list = cn.perform((List<String>) iter.next(), LSHrankSettings.get(7), queries, LSHrankSettings.get(6), query_new_index);
-                            //we transform the query array to list
-                            //List<String> query_new_list = Arrays.asList(query_new);
-                            //we add the list of new queries to the total list that containas all the new queries
-                            query_new_list_total.addAll(query_new_list);
-                            query_new_index++;//we increase the query_new_index
-                            System.out.println("query pointer=" + query_new_index + "");
-                        }
-                    }
-                    */
+                    List<String> query_new_list_total = new ArrayList<>();
                     int iteration_previous=iteration_counter-1;
-                    Combinations_Engine cn = new Combinations_Engine();
+                    Combinations_Engine cn = new Combinations_Engine();//call the class to combine the terms produced
                     for(String query:queries){
                         List<String> ids=new ArrayList<>();
                         if(enginechoice.get(0)){
@@ -175,28 +153,24 @@ public class Main {
                             String id=domain+"/"+query+"/yahoo"+"/"+iteration_previous;
                             ids.add(id);
                         }
-                        ElasticGetWordList ESget=new ElasticGetWordList();
-                        List<String> maxWords = ESget.getMaxWords(ids, LSHrankSettings.get(9).intValue());
+                        ElasticGetWordList ESget=new ElasticGetWordList();//we call this class to get the wordlist from the Elastic Search
+                        List<String> maxWords = ESget.getMaxWords(ids, LSHrankSettings.get(9).intValue());//we are going to get a max amount of words
                         int query_index=queries.indexOf(query);
-                        int size_query_new = LSHrankSettings.get(10).intValue();
+                        int size_query_new = LSHrankSettings.get(10).intValue();//the amount of new queries we are willing to create
+                        //we create the new queries for every query of the previous round by combining the words produced from this query
                         List<String> query_new_list = cn.perform(maxWords, LSHrankSettings.get(7), queries, LSHrankSettings.get(6), query_index, size_query_new, config_path);
-                        //we transform the query array to list
-                        //List<String> query_new_list = Arrays.asList(query_new);
                         //we add the list of new queries to the total list that containas all the new queries
                         query_new_list_total.addAll(query_new_list);
                         System.out.println("query pointer=" + query_index + "");
                     }
                     //---------------------the following cleans a list from null and duplicates
                     query_new_list_total=wordsmanipulation.clearListString(query_new_list_total);
-                    //-------we  create an array from the list of the new queries
-                    //String[] query_new_total = query_new_list_total.toArray(new String[query_new_list_total.size()]);
                     //--------------we create the new directory that our files are going to be saved 
                     String txt_directory=FilenameUtils.getBaseName(input.getName());
                     output_child_directory=output_parent_directory+txt_directory+"_level_"+iteration_counter+"//";
-                    //----------------append the wordlist to a file
+                    //----------------append the wordlist to a file------------------
                     wordsmanipulation.AppendWordList(query_new_list_total, output_child_directory+"queries_"+iteration_counter+".txt");
                     if(query_new_list_total.size()<1){break;}//if we don't create new queries we end the while loop
-                    //-----------------------------------------
                     //total analysis' function is going to do all the work and return back what we need
                     ta = new Total_analysis();
                     ta.perform(wordList_previous,iteration_counter,output_child_directory,domain,enginechoice, query_new_list_total, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings, config_path);
@@ -204,12 +178,12 @@ public class Main {
                     array_wordLists=ta.getarray_wordLists();
                     //get the wordlist that includes all the new queries
                     wordList_new=ta.getwordList_total();
-                    //---------------------the following cleans a list from null and duplicates
+                    //---------------------the following cleans a list from null and duplicates-------------
                     wordList_new=wordsmanipulation.clearListString(wordList_new);
-                    //----------------append the wordlist to a file
+                    //----------------append the wordlist to a file--------------------
                     wordsmanipulation.AppendWordList(wordList_new, output_child_directory+ "wordList.txt");
                     //the concergence percentage of this iteration
-                    F1 = ta.getF1();
+                    F1 = ta.getF1();//we are going to use F1 score to check the convergence
                     //a string that contains all the convergence percentage for each round separated by \n character
                     conv_percentages = conv_percentages + "\n" + F1;
                     //a file that is going to include the convergence percentages
@@ -252,12 +226,13 @@ public class Main {
                         System.out.print("can not create the content file for: "+output_parent_directory+"total_content.txt");
                     }
                 }
+                //we are going to save the total content with its convergence on the ElasticSearch cluster in a separated index
                 Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
                 Client client = node.client();
                 JSONObject objEngineLevel = new JSONObject();
-                objEngineLevel.put("TotalContent", finalList);
-                objEngineLevel.put("Convergences", conv_percentages);
-                IndexRequest indexReq=new IndexRequest("lshrankgeneratedcontent","content",domain);
+                objEngineLevel.put("TotalContent", finalList);//we save the total content
+                objEngineLevel.put("Convergences", conv_percentages);//we save the convergence percentages
+                IndexRequest indexReq=new IndexRequest("lshrankgeneratedcontent","content",domain);//we save also the domain 
                 indexReq.source(objEngineLevel);
                 IndexResponse indexRes = client.index(indexReq).actionGet();
                 node.close();

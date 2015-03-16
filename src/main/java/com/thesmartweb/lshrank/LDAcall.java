@@ -11,19 +11,19 @@ import jgibblda.LDACmdOption;
 import jgibblda.Model;
 import jgibblda.*;
 /**
- *
- * @author Themis Mavridis
+ * Class for the use of Latent Dirichlet Allocation
+ * @author Themistoklis Mavridis
  */
 public class LDAcall {
 
     /**
-     *
-     * @param nTopics
-     * @param alpha
-     * @param beta
-     * @param niters
-     * @param top_words
-     * @param directory
+     * Method to setup LDA
+     * @param nTopics number of Topics top recognize
+     * @param alpha alpha value of LDA
+     * @param beta beta value of LDA
+     * @param niters number of iterations the algorithm to run
+     * @param top_words the amount of top words per topic to get
+     * @param directory the directory to save the output
      */
     public void call(int nTopics,double alpha,double beta,int niters,int top_words,String directory){
         //run the LDA
@@ -31,16 +31,16 @@ public class LDAcall {
         System.gc();
         LDAestimate( nTopics, directory_LDA , alpha,beta,niters, top_words);
         System.gc();
-        }
+    }
 
     /**
-     *
-     * @param nTopics
-     * @param directory
-     * @param alpha
-     * @param beta
-     * @param niters
-     * @param top_words
+     * Method to run LDA
+     * @param nTopics number of Topics top recognize
+     * @param alpha alpha value of LDA
+     * @param beta beta value of LDA
+     * @param niters number of iterations the algorithm to run
+     * @param top_words the amount of top words per topic to get
+     * @param directory the directory to save the output
      */
     public void LDAestimate(int nTopics, String directory, double alpha, double beta, int niters,int top_words){
         System.gc();

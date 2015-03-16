@@ -1,19 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package com.thesmartweb.lshrank;
-/**
- *
- * @author Themis Mavridis
- */
+
 import java.util.*;
 import java.util.List;
 
 /**
  * A class that is used to create all the possible combinations
- * @author themis
+ * @author Themistoklis Mavridis
  */
 public class Combinations_Engine {//function that calculates all the possible combinations and permutations and ranks them according to NGD threshold value
 
@@ -25,78 +18,78 @@ public class Combinations_Engine {//function that calculates all the possible co
      * @param nwd_threshold It contains the threshold for NWD
      * @param i It denotes the query against which NWD is going to be calculated
      * @param size_quer_new It contains the number of new queries to be calculated
-     * @return A List<String> that contains the top new queries for the i query
+     * @return A List<> that contains the top new queries for the i query
      */
     public List<String> perform(List<String> wordList,Double combine_limit,List<String> queries,Double nwd_threshold,int i, int size_quer_new, String config_path){
-    int[] indices;
-    System.gc();
-    List<String> queries_new = new LinkedList<String>();
-    System.out.println("into comb engine");
-    if(queries.size()>0){
-        //we create an array of strings from the wordlist that is given as input
-        String[] sl = (String[]) wordList.toArray(new String[wordList.size()]);
-        //String example_dir = "/diplomatiki/examples-results/" + quer[i] + "-query/";
-        List<String> wordList_new = new ArrayList<String>();
-        //we are going to create all the possible combinations considering the combine limit
-        //Combination Generator is going to do the work for us
-        for (int slcnt = 1; slcnt <= combine_limit.intValue(); slcnt++) {
-            if(sl.length>slcnt&&sl.length>1){
-                System.out.println("into comb generator");
-                CombinationGenerator x = new CombinationGenerator(sl.length, slcnt);
-                System.out.println("out of comb generator");
-                System.out.println("total combinations:"+x.getTotal());
-                StringBuffer combination;
-                while (x.hasMore()) {
-                    System.out.println("total combinations left:"+x.getNumLeft());
-                    combination = new StringBuffer();
-                    indices = x.getNext();
-                    for (int i2 = 0; i2 < indices.length; i2++) {
-                        combination.append(sl[indices[i2]]);
-                        combination.append(" ");
+        int[] indices;
+        System.gc();
+        List<String> queries_new = new LinkedList<>();
+        System.out.println("into comb engine");
+        if(queries.size()>0){
+            //we create an array of strings from the wordlist that is given as input
+            String[] sl = (String[]) wordList.toArray(new String[wordList.size()]);
+            //String example_dir = "/diplomatiki/examples-results/" + quer[i] + "-query/";
+            List<String> wordList_new = new ArrayList<>();
+            //we are going to create all the possible combinations considering the combine limit
+            //Combination Generator is going to do the work for us
+            for (int slcnt = 1; slcnt <= combine_limit.intValue(); slcnt++) {
+                if(sl.length>slcnt&&sl.length>1){
+                    System.out.println("into comb generator");
+                    CombinationGenerator x = new CombinationGenerator(sl.length, slcnt);
+                    System.out.println("out of comb generator");
+                    System.out.println("total combinations:"+x.getTotal());
+                    StringBuffer combination;
+                    while (x.hasMore()) {
+                        System.out.println("total combinations left:"+x.getNumLeft());
+                        combination = new StringBuffer();
+                        indices = x.getNext();
+                        for (int i2 = 0; i2 < indices.length; i2++) {
+                            combination.append(sl[indices[i2]]);
+                            combination.append(" ");
+                        }
+                        String phrase = combination.toString().trim();
+                        wordList_new.add(phrase);
                     }
-                    String phrase = combination.toString().trim();
-                    wordList_new.add(phrase);
                 }
             }
-        }
-        //get all the possible permutations of the words in wordList_new
-        System.out.println("into permutation generator");
-        List<String> combList = new ArrayList<>();
-        if(!wordList_new.isEmpty()){
-            combList = Calculate_Permutations(wordList_new);
-        }
-        //the comblist is going to include all the permutations
-        System.out.println("out of permute generator");
-        if (!combList.isEmpty()) {
-                //remove the duplicates from the list above
-                //Create a HashSet which allows no duplicates
-                HashSet<String> hashSet = new HashSet<String>(combList);
-                //Assign the HashSet to a new ArrayList
-                ArrayList<String> ngd_in = new ArrayList<String>(hashSet);
-                //get input(words) for ngd
-                String[] ngd_array = ngd_in.toArray(new String[ngd_in.size()]);
-                //NGD call, get the top words and run Search analysis and LDA on them
-                NGD_total ngt = new NGD_total();
-                if(queries.get(i)!=null){
-                    int[] origIndex = ngt.call(ngd_array, queries, nwd_threshold, i, config_path);
-                    //****max number of new queries*****
-                    //for (int kk=0;kk<origIndex.length;kk++){
-                    //    queries_new.add(kk,ngd_array[origIndex[kk]]);
-                    //}
-                    
-                    //int size_quer_new=1;
-                    if(origIndex.length<size_quer_new){
-                        size_quer_new=origIndex.length;
+            //get all the possible permutations of the words in wordList_new
+            System.out.println("into permutation generator");
+            List<String> combList = new ArrayList<>();
+            if(!wordList_new.isEmpty()){
+                combList = Calculate_Permutations(wordList_new);
+            }
+            //the comblist is going to include all the permutations
+            System.out.println("out of permute generator");
+            if (!combList.isEmpty()) {
+                    //remove the duplicates from the list above
+                    //Create a HashSet which allows no duplicates
+                    HashSet<String> hashSet = new HashSet<>(combList);
+                    //Assign the HashSet to a new ArrayList
+                    ArrayList<String> ngd_in = new ArrayList<>(hashSet);
+                    //get input(words) for ngd
+                    String[] ngd_array = ngd_in.toArray(new String[ngd_in.size()]);
+                    //NGD call, get the top words and run Search analysis and LDA on them
+                    NGD_total ngt = new NGD_total();
+                    if(queries.get(i)!=null){
+                        int[] origIndex = ngt.call(ngd_array, queries, nwd_threshold, i, config_path);
+                        //**** if we have max number of new queries*****
+                        //for (int kk=0;kk<origIndex.length;kk++){
+                        //    queries_new.add(kk,ngd_array[origIndex[kk]]);
+                        //}
+
+                        //int size_quer_new=1;
+                        if(origIndex.length<size_quer_new){
+                            size_quer_new=origIndex.length;
+                        }
+                        for (int kk=0;kk<size_quer_new;kk++){
+                            queries_new.add(kk,ngd_array[origIndex[kk]]);
+                        }
                     }
-                    for (int kk=0;kk<size_quer_new;kk++){
-                        queries_new.add(kk,ngd_array[origIndex[kk]]);
-                    }
-                }
+            }
         }
-    }
-    System.out.println("I sorted the combinations");
-    System.gc();
-    return queries_new;
+        System.out.println("I sorted the combinations");
+        System.gc();
+        return queries_new;
 }
 
     /**

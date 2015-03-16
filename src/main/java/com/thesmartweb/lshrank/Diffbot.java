@@ -14,57 +14,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
 /**
- *
- * @author Administrator
+ * class for diffbot article apiu usage
+ * @author Themistoklis Mavridis
  */
 public class Diffbot {
 
     /**
-     *
+     * url connection
      */
     public HttpURLConnection httpCon;
 
     /**
-     *
-     * @param link_ur
-     * @return
-     */
-    public String connect(URL link_ur) {
-        try{
-            String line="";
-            httpCon = (HttpURLConnection) link_ur.openConnection();
-            if (httpCon.getResponseCode() != 200) {
-                line = "fail";
-                return line;
-                // throw new IOException(httpCon.getResponseMessage());
-            }
-            else{
-                try (BufferedReader rd = new BufferedReader(new InputStreamReader(httpCon.getInputStream()))) {
-                    StringBuilder sb = new StringBuilder();
-                    while ((line = rd.readLine()) != null) {
-                        sb.append(line);
-                    }
-                    line = sb.toString();
-                }
-                JSONparsing jp=new JSONparsing();
-                String output=jp.DiffbotParsing(line);
-                return output;
-            }
-        }
-        catch (IOException ex) {
-            Logger.getLogger(APIconn.class.getName()).log(Level.SEVERE, null, ex);
-            String line="fail";
-            return line;
-        }
-    
-    }
-
-    /**
-     *
-     * @param links
-     * @param directory
-     * @param config_path
-     * @return
+     * Method to get the words recognized by Diffbot as important in given urls
+     * @param links the urls to analyzes
+     * @param directory the directory to save the output
+     * @param config_path the configuration path to get the diffbot key
+     * @return a list of the words
      */
     public List<String> compute (String[] links,String directory, String config_path){
         List<String> wordList=null;
@@ -75,7 +40,10 @@ public class Diffbot {
             for (String link : links) {
                 if (!(link == null)) {
                     diff_url = new URL("http://api.diffbot.com/v2/article?token="+token+"&fields=tags,meta&url=" + link);
-                    stringtosplit=connect(diff_url);
+                    APIconn apiconn = new APIconn();
+                    String line = apiconn.connect(diff_url);
+                    JSONparsing jp=new JSONparsing();
+                    stringtosplit=jp.DiffbotParsing(line);
                     if(!(stringtosplit==null)&&(!(stringtosplit.equalsIgnoreCase("")))){       
                         stringtosplit=stringtosplit.replaceAll("[\\W&&[^\\s]]", "");
                         if(!(stringtosplit==null)&&(!(stringtosplit.equalsIgnoreCase("")))){
@@ -101,6 +69,11 @@ public class Diffbot {
             return wordList;
         }
     }
+    /**
+     * Method to the token of diffbot
+     * @param config_path the configuration path to get the diffbot key
+     * @return the token in a string
+     */
     public String GetToken(String config_path){
         Path input_path=Paths.get(config_path);       
         DataManipulation getfiles=new DataManipulation();//class responsible for the extraction of paths

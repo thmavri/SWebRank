@@ -17,15 +17,11 @@ package com.thesmartweb.lshrank;
 
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.params.HttpMethodParams;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.dbpedia.spotlight.exceptions.AnnotationException;
 import org.dbpedia.spotlight.model.DBpediaResource;
 import org.dbpedia.spotlight.model.Text;
-
 import java.io.*;
-import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +32,7 @@ import org.apache.commons.io.IOUtils;
  * (AnnotationClientScala.scala is at eval/src/main/scala/org/dbpedia/spotlight/evaluation/external/)
  *
  * @author pablomendes
+ * @author Themistoklis Mavridis (extension to extract annotations for a url)
  */
 
 public abstract class AnnotationClient {
@@ -172,15 +169,17 @@ public abstract class AnnotationClient {
          saveExtractedEntitiesSet(inputFile, outputFile, new LineParser.ManualDatasetLineParser(), restartFrom);
     }
 
-//    public void evaluateCurcerzan(File inputFile, File outputFile) throws Exception {
-//         saveExtractedEntitiesSet(inputFile, outputFile, new LineParser.OccTSVLineParser());
-//    }
-
     /**
      * Entity extraction code.
      * @param text
      * @return
      */
     public abstract List<DBpediaResource> extract(Text text) throws AnnotationException;
+    /**
+     * Entity extraction code.
+     * @param url_check the url to extract entities from
+     * @param StemFlag the boolean flag to declare if we are going to use Stemming or not
+     * @return
+     */
     public abstract void extract(String url_check,boolean StemFlag) throws AnnotationException;
 }

@@ -19,10 +19,7 @@ import org.dbpedia.spotlight.model.Text;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -34,66 +31,84 @@ import scala.actors.threadpool.Arrays;
 /**
  * Simple web service-based annotation client for DBpedia Spotlight.
  *
- * @author pablomendes, Joachim Daiber
+ * @author pablomendes, Joachim Daiber, Themistoklis Mavridis
  */
 
 public class DBpediaSpotlightClient extends AnnotationClient {
-
+        /**
+        * @param API_URL the url of the api
+        * @param CONFIDENCE the confidence value for the DBpedia spotlight API
+        * @param SUPPORT the support value for the DBpedia spotlight API
+        * @param typesDBspot the list to contain all the semantic types (categories) 
+        * @param entitiesString the list to contain all the semantic entities
+        * @param ent_cnt_dbpspot the number of entities that contained a term of the query 
+        * @param cat_cnt_dbpspot the number of categories that contained a term of the query
+        * @param ent_cnt_dbpspot_whole the number of entities that contained the query as a whole
+        * @param cat_cnt_dbpspot_whole the number of categories that contained  the query as a whole
+        */
 	//private final static String API_URL = "http://jodaiber.dyndns.org:2222/";
         private final static String API_URL = "http://spotlight.dbpedia.org/";
 	private static final double CONFIDENCE = 0.10;
 	private static final int SUPPORT = 5;
-        private List<String> typesDBspot;
+        private List<String> typesDBspot; 
         private List<String> entitiesString;
         private int ent_cnt_dbpspot=0;
         private int cat_cnt_dbpspot=0;
         private int ent_cnt_dbpspot_whole=0;
         private int cat_cnt_dbpspot_whole=0;
+        /**
+        * Method that recognizes the entities through DBpedia spotlight a given text
+        * @param Text the text to be annotated
+        * @return a list with the dbpedia resources
+        */
 	@Override
 	public List<DBpediaResource> extract(Text text) throws AnnotationException {
 
-        LOG.info("Querying API.");
-		String spotlightResponse;
-		try {
-			GetMethod getMethod = new GetMethod(API_URL + "rest/annotate/?" +
-					"confidence=" + CONFIDENCE
-					+ "&support=" + SUPPORT
-					+ "&text=" + URLEncoder.encode(text.text(), "utf-8"));
-			getMethod.addRequestHeader(new Header("Accept", "application/json"));
+            LOG.info("Querying API.");
+            String spotlightResponse;
+            try {
+                    GetMethod getMethod = new GetMethod(API_URL + "rest/annotate/?" +
+                                    "confidence=" + CONFIDENCE
+                                    + "&support=" + SUPPORT
+                                    + "&text=" + URLEncoder.encode(text.text(), "utf-8"));
+                    getMethod.addRequestHeader(new Header("Accept", "application/json"));
 
-			spotlightResponse = request(getMethod);
-		} catch (UnsupportedEncodingException e) {
-			throw new AnnotationException("Could not encode text.", e);
-		}
+                    spotlightResponse = request(getMethod);
+            } catch (UnsupportedEncodingException e) {
+                    throw new AnnotationException("Could not encode text.", e);
+            }
 
-		assert spotlightResponse != null;
+            assert spotlightResponse != null;
 
-		JSONObject resultJSON = null;
-		JSONArray entities = null;
+            JSONObject resultJSON = null;
+            JSONArray entities = null;
 
-		try {
-			resultJSON = new JSONObject(spotlightResponse);
-			entities = resultJSON.getJSONArray("Resources");
-		} catch (JSONException e) {
-			throw new AnnotationException("Received invalid response from DBpedia Spotlight API.");
-		}
+            try {
+                    resultJSON = new JSONObject(spotlightResponse);
+                    entities = resultJSON.getJSONArray("Resources");
+            } catch (JSONException e) {
+                    throw new AnnotationException("Received invalid response from DBpedia Spotlight API.");
+            }
 
-		LinkedList<DBpediaResource> resources = new LinkedList<DBpediaResource>();
-		for(int i = 0; i < entities.length(); i++) {
-			try {
-				JSONObject entity = entities.getJSONObject(i);
-				resources.add(new DBpediaResource(entity.getString("@URI"),Integer.parseInt(entity.getString("@support"))));
+            LinkedList<DBpediaResource> resources = new LinkedList<DBpediaResource>();
+            for(int i = 0; i < entities.length(); i++) {
+                    try {
+                            JSONObject entity = entities.getJSONObject(i);
+                            resources.add(new DBpediaResource(entity.getString("@URI"),Integer.parseInt(entity.getString("@support"))));
 
-			} catch (JSONException e) {
-                        LOG.error("JSON exception "+e);
-                    }
+                    } catch (JSONException e) {
+                    LOG.error("JSON exception "+e);
+                }
 
-		}
-
-
-		return resources;
+            }
+            return resources;
 	}
-        
+        /**
+        * Method that recognizes the entities through DBpedia spotlight the content of a given URL
+        * @param url_check the url to be annotated
+        * @param StemFlag a flag to determine if we want to use stemming
+        * @return a list with the dbpedia resources
+        */
         @Override
 	public void extract(String url_check,boolean StemFlag) throws AnnotationException {
                 LinkedList<DBpediaResource> resources = new LinkedList<DBpediaResource>();
@@ -119,8 +134,9 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                     for(int i = 0; i < entities.length(); i++) {
                         try {
                             JSONObject entity = entities.getJSONObject(i);
+                            //get the entity string by getting the last part of the URI
                             String entityString = entity.getString("@URI").substring(28).toLowerCase().replaceAll("[\\_,\\%28,\\%29]", " ");
-                            if(StemFlag){
+                            if(StemFlag){//if we use stemming, we use Snowball stemmr of both entities and queries
                                 String[] splitEntity = entityString.split(" ");
                                 entityString="";
                                 StemmerSnow stemmer = new StemmerSnow();
@@ -133,21 +149,21 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                                 entityString = sb.toString().trim();
                             }
                             if(!entitiesString.contains(entityString)){
-                                entitiesString.add(entityString);
+                                entitiesString.add(entityString);//if we have found a unique entity we include it in the list
                             }
-                            String typesString = entity.getString("@types");
+                            String typesString = entity.getString("@types");//we get the semantic types
                             String[] types = typesString.split("\\,");
-                            String delimiter="";
+                            String delimiter="";//the delimiter is different according to the type
                             for(String type :types){
-                                if(type.contains("DBpedia")||type.contains("Schema")){
+                                if(type.contains("DBpedia")||type.contains("Schema")){ //if it is DBpedia or Schema
                                     delimiter = "\\:";
                                 }
-                                if(type.contains("Freebase")){
+                                if(type.contains("Freebase")){//if it is Freebase
                                     delimiter = "\\/";
                                 }
                                 String[] typeStrings = type.split(delimiter);
                                 String typeString = typeStrings[typeStrings.length-1].toLowerCase().replaceAll("[\\_,\\%28,\\%29]", " ");
-                                if(StemFlag){
+                                if(StemFlag){//if we choose to use stemming
                                     String[] splitType = typeString.split(" ");
                                     typeString="";
                                     StemmerSnow stemmer = new StemmerSnow();
@@ -163,39 +179,22 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                                     typesDBspot.add(typeString);
                                 }
                             }
-                            resources.add(new DBpediaResource(entity.getString("@URI"),Integer.parseInt(entity.getString("@support"))));
-                            
+                            //resources.add(new DBpediaResource(entity.getString("@URI"),Integer.parseInt(entity.getString("@support"))));
                         } catch (JSONException e) {
                             LOG.error("JSON exception "+e);
                         }
                     }
-                    int jk=0;
                 } catch (UnsupportedEncodingException | JSONException ex) {
                     Logger.getLogger(DBpediaSpotlightClient.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
-    public void run(String url_check,boolean StemFlag) throws Exception {
-
-
-        DBpediaSpotlightClient c = new DBpediaSpotlightClient ();
-
-//        File input = new File("/home/pablo/eval/manual/AnnotationText.txt");
-//        File output = new File("/home/pablo/eval/manual/systems/Spotlight.list");
-            //File input = new File("/home/pablo/eval/cucerzan/cucerzan.txt");
-            //File output = new File("/home/pablo/eval/cucerzan/systems/cucerzan-Spotlight.set");
-//        File input = new File("/home/pablo/eval/wikify/gold/WikifyAllInOne.txt");
-//        File output = new File("/home/pablo/eval/wikify/systems/Spotlight.list");
-            //File input = new File("/home/alexandre/Projects/test-files-spotlight/ExternalClients_TestFiles/Berlin.txt");
-            //File output = new File("/home/alexandre/Projects/test-files-spotlight/ExternalClients_TestFiles/Spotlight.list");
-            c.extract(url_check,StemFlag);
-            //c.evaluate(input, output);
-//        SpotlightClient c = new SpotlightClient(api_key);
-//        List<DBpediaResource> response = c.extract(new Text(text));
-//        PrintWriter out = new PrintWriter(manualEvalDir+"AnnotationText-Spotlight.txt.set");
-//        System.out.println(response);
-
-    }
-    
+    /**
+     * Method to count the statistics for the entities and categories
+     * @param url_check the url to count the statistics for
+     * @param query the query term that which the url was a result of
+     * @param StemFlag flag to use stemming or not
+     * @return 
+     */
     public void countEntCat(String url_check,String query,boolean StemFlag) {
         
             try {
@@ -203,16 +202,16 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                 cat_cnt_dbpspot=0;
                 ent_cnt_dbpspot_whole=0;
                 cat_cnt_dbpspot_whole=0;
-                extract(url_check,StemFlag);
+                extract(url_check,StemFlag);//we get the entities and categoriss
                 query = query.toLowerCase();
-                String[] splitQuery = query.split("\\+");
-                if(StemFlag){
+                String[] splitQuery = query.split("\\+");//we split the query with + because the queries to the Search APIs have + between the terms
+                if(StemFlag){//we stem the query
                     List<String> splitQuerylist = java.util.Arrays.asList(splitQuery);
                     StemmerSnow stemmer = new StemmerSnow();
                     splitQuerylist = stemmer.stem(splitQuerylist);
                     splitQuery = splitQuerylist.toArray(new String[splitQuerylist.size()]);
                 }
-                int ent_count=0;
+                int ent_count=0;//counter to count if we matched the whole query to an entity
                 for(String s:entitiesString){
                     ent_count=0;
                     for(String splitStr:splitQuery){
@@ -221,14 +220,14 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                             ent_count++;
                         }
                     }
-                    if(ent_count==splitQuery.length){
+                    if(ent_count==splitQuery.length){//if the counter is equal to the splitQuery length, it means that all the query terms are included in the entity
                         ent_cnt_dbpspot_whole++;
                     }
                 }
-                int cat_count=0;
+                int cat_count=0;//counter to count if we matched the whole query to a category
                 for(String s:typesDBspot){
                     cat_count=0;
-                    for(String splitStr:splitQuery){
+                    for(String splitStr:splitQuery){//if the counter is equal to the splitQuery length, it means that all the query terms are included in the category
                         if(s.contains(splitStr)){
                             cat_cnt_dbpspot++;
                             cat_count++;
@@ -238,16 +237,39 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                         cat_cnt_dbpspot_whole++;
                     }
                 }
-                int h=0;
             } catch (Exception ex) {
                 Logger.getLogger(DBpediaSpotlightClient.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
+    /**
+     * Method to get the entities counter (partial query match)
+     * @return entities counter
+     */
     public int getcountEnt(){return ent_cnt_dbpspot;}
+    /**
+     * Method to get the categories counter (partial query match)
+     * @return categories counter that have a partial query match
+     */
     public int getcountCat(){return cat_cnt_dbpspot;}
+    /**
+     * Method to get the entities counter (whole query match)
+     * @return entities counter that have whole query match
+     */
     public int getcountEntWhole(){return ent_cnt_dbpspot_whole;}
+    /**
+     * Method to get the categories counter (whole query match)
+     * @return categories counter that have whole query match
+     */
     public int getcountCatWhole(){return cat_cnt_dbpspot_whole;}
+    /**
+     * Method to get the entities List
+     * @return entities List
+     */
     public List<String> getEntities(){return entitiesString;}
+    /**
+     * Method to get the categories List
+     * @return categories List
+     */
     public List<String> getCategories(){return typesDBspot;}
     
 

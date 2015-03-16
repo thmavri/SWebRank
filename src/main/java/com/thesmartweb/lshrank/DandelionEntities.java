@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.thesmartweb.lshrank;
 
 import java.io.UnsupportedEncodingException;
@@ -14,16 +9,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author themis
+ * Class to deal with the semantic entities and concepts (categories) of Dandelion named Entity Extraction API
+ * @see https://dandelion.eu/products/datatxt/nex/demo/?text=The+Mona+Lisa+is+a+16th+century+oil+painting+created+by+Leonardo.+It%27s+held+at+the+Louvre+in+Paris.&lang=auto&min_confidence=0.6&exec=true#results
+ * @author Themistoklis Mavridis
  */
 public class DandelionEntities {
-    public static int ent_query_cnt=0;
-    public static int cat_query_cnt=0;
-    public static int ent_query_cnt_whole=0;
-    public static int cat_query_cnt_whole=0;
-    private List<String> entities;
-    private List<String> categories;
+    
+    public static int ent_query_cnt=0;// the number of entities that contained a term of the query 
+    public static int cat_query_cnt=0;// the number of categories that contained a term of the query
+    public static int ent_query_cnt_whole=0;//the number of entities that contained the query as a whole
+    public static int cat_query_cnt_whole=0;//the number of categories that contained  the query as a whole
+    private List<String> entities;//the list to contain all the semantic entities
+    private List<String> categories;//the list to contain all the semantic categories 
+    /**
+     * Method that recognizes the entities through Dandelion named Entity Extraction API of the content of a given URL
+     * @param urlcheck the url to be annotated
+     * @param quer the query term that which the url was a result of
+     * @param StemFlag a flag to determine if we want to use stemming
+     */
     public void connect(String urlcheck, String quer, boolean StemFlag) {  
   
         try {  
@@ -52,19 +55,34 @@ public class DandelionEntities {
             Logger.getLogger(DandelionEntities.class.getName()).log(Level.SEVERE, null, ex);
         }  
     } 
+    /**
+     * Method to get the entities counter (partial query match)
+     * @return entities counter
+     */
     public int getEnt(){return ent_query_cnt;}
+    /**
+     * Method to get the categories counter (partial query match)
+     * @return categories counter that have a partial query match
+     */
     public int getCat(){return cat_query_cnt;}
+    /**
+     * Method to get the entities counter (whole query match)
+     * @return entities counter that have whole query match
+     */
     public int getEntWhole(){return ent_query_cnt_whole;}
+    /**
+     * Method to get the categories counter (whole query match)
+     * @return categories counter that have whole query match
+     */
     public int getCatWhole(){return cat_query_cnt_whole;}
-     public List<String> GetEntitiesDand(){
-    return entities;
+    /**
+     * Method to get the entities List
+     * @return entities List
+     */
+    public List<String> GetEntitiesDand(){return entities;}
+    /**
+     * Method to get the categories List
+     * @return categories List
+     */
+    public List<String> GetCategoriesDand(){return categories;}
 }
-    
-      public List<String> GetCategoriesDand(){
-    return categories;
-}
-}
-
-  
-  
-

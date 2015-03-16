@@ -5,19 +5,14 @@
 
 package com.thesmartweb.lshrank;
 /**
- *
- * @author Themis Mavridis
+ * @author Michael Gilleland - http://www.merriampark.com/comb.htm
+ * http://www.ccs.neu.edu/home/lieber/courses/csu670/f08/sdg-players/winning-player/src/logic/CombinationGenerator.java
+ * 
+ * Method to Systematically generate combinations.
  */
-//--------------------------------------
-// Systematically generate combinations.
-//--------------------------------------
 
 import java.math.BigInteger;
 
-/**
- *
- * @author themis
- */
 public class CombinationGenerator {
 
   private int[] a;

@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 /**
- *
- * @author themis
+ * Class to perform lemmatization using Stanford Core NLP
+ * @author Themistoklis Mavridis
  */
 public class Lemmatizer {
     
@@ -47,7 +47,11 @@ public class Lemmatizer {
          */
         this.pipeline = new StanfordCoreNLP(props);
     }
-
+    /**
+     * Method to perform lemmatization on a given text
+     * @param documentText the text to lemmatize
+     * @return a List with all the words' lemmas
+     */
     public List<String> lemmatize(String documentText)
     {
         List<String> lemmas = new ArrayList<>();

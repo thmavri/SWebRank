@@ -25,23 +25,18 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.node.Node;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Multiset;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.common.collect.TreeMultimap;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.stream.Stream;
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
 /**
  * Class that contains method that retrieve words from an index in the cluster of ElasticSearch where the content is saved
- * @author themis
+ * @author Themistoklis Mavridis
  */
 public class ElasticGetWordList {
     /**
@@ -50,11 +45,9 @@ public class ElasticGetWordList {
      * @return All the words in a List<String>
      */
     public List<String> get(List<String> ids) {
-            
         try {
             Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
             Client client = node.client();
-            
             List<String> wordList=new ArrayList<>();
             for(String id:ids){
                 SearchResponse responseSearch = client.prepareSearch("lshranklda")
@@ -98,41 +91,43 @@ public class ElasticGetWordList {
         
     }
     /**
-     * Method gets all the top N max words for each topic of all the documents for the ids passed as input.
+     * Method gets all the top N max words for each topic of all the documents with their IDs (of the documents) passed as input.
      * @param ids It contains all the ids for which the words are going to be captured
      * @param top It contains the number of max words to be returned
      * @return All the words in a List<String>
      */
     public List<String> getMaxWords(List<String> ids, int top) {
-            
        try {
             Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
             Client client = node.client();
             List<String> MaxwordList=new ArrayList<>();
             HashMap<String,Double> wordsMap=new HashMap<>();
             SortedSetMultimap<Double,String> wordsMultisorted=TreeMultimap.create();
-            for(String id:ids){
+            for(String id:ids){//for every id loop
                 SearchResponse responseSearch = client.prepareSearch("lshranklda")
                         .setSearchType(SearchType.QUERY_AND_FETCH)
                         .setQuery(QueryBuilders.idsQuery().ids(id))
                         .execute()
-                        .actionGet();
+                        .actionGet();//search for this id
+                //----build an object with the response
                 XContentBuilder builder = XContentFactory.jsonBuilder();
                 builder.startObject();
                 responseSearch.toXContent(builder, ToXContent.EMPTY_PARAMS);
                 builder.endObject();
                 String JSONresponse=builder.string();
+                //----parse the JSON response
                 JsonParser parser = new JsonParser();
                 JsonObject JSONobject = (JsonObject)parser.parse(JSONresponse);
                 JsonObject hitsJsonObject = JSONobject.getAsJsonObject("hits");
                 JsonArray hitsJsonArray = hitsJsonObject.getAsJsonArray("hits");
+                //get all the JSON hits (check ElasticSearch typical response format for more)
                 for(JsonElement hitJsonElement:hitsJsonArray){
                     JsonObject jsonElementObj= hitJsonElement.getAsJsonObject();
                     jsonElementObj=jsonElementObj.getAsJsonObject("_source");
-                    JsonArray TopicsArray=jsonElementObj.getAsJsonArray("TopicsWordMap");
-                    for(JsonElement Topic:TopicsArray){
+                    JsonArray TopicsArray=jsonElementObj.getAsJsonArray("TopicsWordMap");//get the topics word map (every word has a probability
+                    for(JsonElement Topic:TopicsArray){//for every topic I get the word with the max score
                         JsonObject TopicObj=Topic.getAsJsonObject();
-                        JsonObject wordsmap = TopicObj.getAsJsonObject("wordsmap");
+                        JsonObject wordsmap = TopicObj.getAsJsonObject("wordsmap");//get the wordmap
                         Set<Map.Entry<String,JsonElement>> entrySet=wordsmap.entrySet();
                         Iterator<Map.Entry<String, JsonElement>> iterator = entrySet.iterator();
                         double max=0.0;
@@ -152,31 +147,31 @@ public class ElasticGetWordList {
                         else{
                             wordsMap.put(maxword, max);
                         }
-                        //wordsMultisorted.put(max,maxword);
-                        //MaxwordList.add(maxword);
                     }
                 }
             }
+            //we are going to sort all the max words
             Map<String,Double> wordsMapsorted = new HashMap<>();
-            wordsMapsorted=sortByValue(wordsMap);
+            wordsMapsorted=sortByValue(wordsMap);//sorts the map in ascending fashion
             Iterator<Entry<String, Double>> iterator = wordsMapsorted.entrySet().iterator();
-            
+            //we are going to get the first top words from the list of Max words
             int beginindex=0;
+            //===we find the beginning index
             if(wordsMapsorted.entrySet().size()>top){
                 beginindex=wordsMapsorted.entrySet().size()-top;
             }
             int index=0;
+            //if the beginning index is larger we try to find the element
             while(index<beginindex){
                 iterator.next();
                 index++;
             }
+            //while the maxword list size is smaller than the top number and we have an extra value, add this word
             while(MaxwordList.size()<top && iterator.hasNext()){
                 String word=iterator.next().getKey();
                 MaxwordList.add(word);
                 
             }
-            //Set<Double> keySet = wordsMultisorted.keySet();
-            //Multiset<Double> keys = wordsMultisorted.keys();
             node.close();
             return MaxwordList;
         } catch (IOException ex) {

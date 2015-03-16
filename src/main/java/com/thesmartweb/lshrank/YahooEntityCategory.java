@@ -11,6 +11,8 @@ package com.thesmartweb.lshrank;
  */
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;import java.net.URLEncoder;  
  
   
@@ -51,12 +53,11 @@ public class YahooEntityCategory {
      * @param quer
      * @return
      */
-    public String[] connect(String urlcheck,String quer, boolean StemFlag) {  
+    public void connect(String urlcheck,String quer, boolean StemFlag) {  
 
         try {  
             cat_query_cnt=0;
             ent_query_cnt=0;
-            String[] output=new String[2];
             String line="";
             String baseUrl = "http://query.yahooapis.com/v1/public/yql?q=";
             String query = "select * from contentanalysis.analyze where url='"+urlcheck+"'";
@@ -70,18 +71,14 @@ public class YahooEntityCategory {
             if(!line.equalsIgnoreCase("fail")){
                 JSONparsing yejson= new JSONparsing();
                 //get the links in an array
-                output= yejson.YahooEntityJsonParsing(line, quer, StemFlag);
+                yejson.YahooEntityJsonParsing(line, quer, StemFlag);
                 ent_query_cnt=yejson.GetEntQuerCnt();
                 cat_query_cnt=yejson.GetCatQuerCnt();
                 ent_query_cnt_whole=yejson.GetEntQuerCntWhole();
                 cat_query_cnt_whole=yejson.GetCatQuerCntWhole();
             }
-            return output;
-        } catch (Exception e) {  
-                String[] output=new String[2];
-                output[0]="fail";
-                output[1]="fail";
-                return output;
+        } catch (UnsupportedEncodingException | MalformedURLException e) {  
+                
         }  
 } 
 

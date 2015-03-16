@@ -27,7 +27,7 @@ public class NGD_total {
     public int[] call(String[] ngd_arr,List<String> queries,Double ngd_threshold,int i, String config_path) {
         //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ NGD @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         //get all ngd scores for all the words comparing to the current query term
-        NGD_Analysis ngd=new NGD_Analysis();
+        NWD_Analysis ngd=new NWD_Analysis();
         Double[] ngd_scores=new Double[ngd_arr.length];
         System.out.println("into ngd total");
         for(int j=0;j<ngd_scores.length;j++)
@@ -37,7 +37,7 @@ public class NGD_total {
           for(int k=0;k<queries.size();k++){
                 if (ngd_arr[j].equalsIgnoreCase(queries.get(k))){flag=1;}
           }
-          if (flag==0){ngd_scores[j]=ngd.NGD_score(queries.get(i),ngd_arr[j], config_path);}
+          if (flag==0){ngd_scores[j]=ngd.NWD_score(queries.get(i),ngd_arr[j], config_path);}
           if (flag==1){ngd_scores[j]=Double.parseDouble("10000000000000000");}
         }
         //get the scores to a list

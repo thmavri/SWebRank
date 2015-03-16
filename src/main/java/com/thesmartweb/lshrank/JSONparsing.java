@@ -9,6 +9,7 @@ package com.thesmartweb.lshrank;
  * @author Themis Mavridis
  */
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,75 +20,75 @@ import java.util.*;
 import java.util.Iterator;
 
 /**
- *
+ * Class for parsing JSON responses
  * @author themis
  */
 public class JSONparsing {
 
     /**
-     *
+     * The total links 
      */
     public static String[] links;
 
     /**
-     *
+     * The links by yahoo or bing
      */
     public static String[] links_yahoo_bing;
 
     /**
-     *
+     * The entries by yahoo or bing
      */
     public static Map.Entry[] entries_yahoo_bing;
 
     /**
-     *
+     * The amount of semantic triples
      */
     public static int triple_cnt;
 
     /**
-     *
+     * The amount of entities by Yahoo Content Analysis service that contained a word of a query
      */
     public static int ent_query_cnt=0;
 
     /**
-     *
+     *The amount of categories by Yahoo Content Analysis service that contained a word of a query
      */
     public static int cat_query_cnt=0;
     
     /**
-     *
+     * The amount of entities by Dandelion named Entity Extraction API that contained a word of a query
      */
     public static int ent_query_cnt_dand=0;
     /**
-     *
+     * The amount of categories by Dandelion named Entity Extraction API that contained a word of a query
      */
     public static int cat_query_cnt_dand=0;
     /**
-     *
+     * The amount of entities by Yahoo Content Analysis service that contained the whole query
      */
     public static int ent_query_cnt_whole=0;
 
     /**
-     *
+     * The amount of categories by Yahoo Content Analysis service that contained the whole query
      */
     public static int cat_query_cnt_whole=0;
     
     /**
-     *
+     * The amount of entities by Dandelion named Entity Extraction API that contained the whole query
      */
     public static int ent_query_cnt_dand_whole=0;
     /**
-     *
+     * The amount of categories by Dandelion named Entity Extraction API that contained the whole query
      */
     public static int cat_query_cnt_dand_whole=0;
     
-    JSONparsing(){links=new String[10];}
-    JSONparsing(int results_number){links_yahoo_bing=new String[results_number];}
+    JSONparsing(){links=new String[10];}//used for Google
+    JSONparsing(int results_number){links_yahoo_bing=new String[results_number];}//used for Yahoo
 
     /**
-     *
-     * @param input
-     * @return
+     * Method to get the links from Google Search API (google gets every time only 10 results)
+     * @param input the JSON response
+     * @return an array of the urls of the results
      */
     public String[] GoogleJsonParsing(String input)  {
         try {
@@ -122,10 +123,10 @@ public class JSONparsing {
     }
 
     /**
-     *
-     * @param input
-     * @param yahoo_result_number
-     * @return
+     * Method to get the links from Yahoo Search API
+     * @param input the JSON response
+     * @param yahoo_result_number the number of results to get
+     * @return an array of the urls of the results
      */
     public String[] YahooJsonParsing(String input,int yahoo_result_number){
         try {
@@ -175,10 +176,10 @@ public class JSONparsing {
 }
 
     /**
-     *
-     * @param input
-     * @param bing_result_number
-     * @return
+     * Method to get Bing Search API results
+     * @param input the JSON response
+     * @param bing_result_number the results number
+     * @return an array with the urls of the results
      */
     public String[] BingAzureJsonParsing(String input,int bing_result_number) {
         try {
@@ -213,9 +214,9 @@ public class JSONparsing {
 }
 
     /**
-     *
-     * @param input
-     * @return
+     * Method to get the semantic namespaces by SINDICE JSON response
+     * @param input the JSON response by the Sindice API
+     * @return a boolean array for all the namespaces
      */
     public boolean[] TripleParse(String input) {
         try {
@@ -430,9 +431,9 @@ public class JSONparsing {
 }
 
     /**
-     *
-     * @param input
-     * @return
+     * Method to parse the JSON response by Diffbot
+     * @param input the JSON response of Diffbot
+     * @return a String containing all the Diffbot tags
      */
     public String DiffbotParsing(String input){
         String output=""; 
@@ -462,19 +463,19 @@ public class JSONparsing {
     }
 
     /**
-     *
-     * @param input
-     * @param quer
-     * @return
+     * Method to get all the Entities and Categories (and the corresponding stats) by Yahoo Content Analysis API
+     * @param input the JSON response by the Yahoo Content Analysis API
+     * @param quer the query to count the stats for
+     * @param StemFlag flag for stemming
+     * @return 
      */
-    public String[] YahooEntityJsonParsing(String input, String quer,boolean StemFlag){
+    public void YahooEntityJsonParsing(String input, String quer,boolean StemFlag){
         try {
             ent_query_cnt=0;
             cat_query_cnt=0;
-            List<String> entities = new ArrayList<>();
-            List<String> categories = new ArrayList<>();
+            List<String> entities = new ArrayList<>();//it is going to contain all the entities
+            List<String> categories = new ArrayList<>();//it is going to contain all the categories
             
-            String[] output=new String[2];
             //Create a parser
             JSONParser parser = new JSONParser();
             //Create the map
@@ -667,47 +668,38 @@ public class JSONparsing {
                     cat_query_cnt_whole++;
                 }
             }
-            
-            
-            output[0]="ok";
-            output[1]="ok";
-            return output;
         } catch (ParseException ex) {
             Logger.getLogger(JSONparsing.class.getName()).log(Level.SEVERE, null, ex);
-            String[] output=new String[2];
-            output[0]="fail";
-            output[1]="fail";
-            return output;
         }
 }
 
     /**
-     *
-     * @return
+     * Method to get the entities counter with partial match query
+     * @return entities counter with partial match query
      */
     public int GetEntQuerCnt(){
     return ent_query_cnt;
 }
 
     /**
-     *
-     * @return
+     * Method to get the categories counter with partial match query
+     * @return categories counter with partial match query
      */
     public int GetCatQuerCnt(){
     return cat_query_cnt;
     
 }
     /**
-     *
-     * @return
+     * Method to get the entities counter containing the whole query
+     * @return entities counter containing the whole query
      */
     public int GetEntQuerCntWhole(){
     return ent_query_cnt_whole;
 }
 
     /**
-     *
-     * @return
+     * Method to get the categories counter containing the whole query
+     * @return categories counter containing the whole query
      */
     public int GetCatQuerCntWhole(){
     return cat_query_cnt_whole;
@@ -715,9 +707,9 @@ public class JSONparsing {
 }
 
     /**
-     *
-     * @param ventry
-     * @return
+     * Get meta info for a Youtube link
+     * @param ventry the id of the Youtube video
+     * @return a String with all the meta info about the youtube video
      */
     public String GetYoutubeDetails(String ventry) {
         try {
@@ -765,34 +757,21 @@ public class JSONparsing {
             Stopwords stopwords = new Stopwords();
             output = stopwords.stop(output);
             return output;
-        } catch (IOException ex) {
+        } catch (IOException | ArrayIndexOutOfBoundsException | ParseException ex) {
             Logger.getLogger(JSONparsing.class.getName()).log(Level.SEVERE, null, ex);
             String output = null;
-            return output;
-        } catch(ArrayIndexOutOfBoundsException ex)
-        {
-        Logger.getLogger(JSONparsing.class.getName()).log(Level.SEVERE, null, ex);
-        String output=null;
-        return output;
-        
-        } catch  (ParseException ex) {
-            Logger.getLogger(JSONparsing.class.getName()).log(Level.SEVERE, null, ex);
-            String output = null;
-            return output;
-        } catch(Exception ex)
-        {
-            Logger.getLogger(JSONparsing.class.getName()).log(Level.SEVERE, null, ex);
-            String output=null;
             return output;
         } 
     }
     /**
-     *
-     * @param input
-     * @return
+     * Method to get all the Entities and Categories (and the corresponding stats) by Dandelion named Entity Extraction API
+     * @param input the JSON response by the Yahoo Dandelion named Entity Extraction API
+     * @param quer the query to count the stats for
+     * @param StemFlag flag for stemming
+     * @return 
      */
-    private List<String> entitiesDand = new ArrayList<>();
-    private List<String> categoriesDand = new ArrayList<>();
+    private List<String> entitiesDand = new ArrayList<>();//contain all the entities of Dandelion API
+    private List<String> categoriesDand = new ArrayList<>();//contain all the categories of Dandelion API
     public void DandelionParsing(String input, String query, boolean StemFlag){ 
         try {
             //Create a parser
@@ -804,6 +783,7 @@ public class JSONparsing {
             Iterator iterator=entrySet.iterator();
             Map.Entry entry = null;
             boolean flagfound = false;
+            //we are going to search if we have semantic annotations
             while(iterator.hasNext()&&!flagfound){
                 entry= (Map.Entry) iterator.next();
                 if(entry.getKey().toString().equalsIgnoreCase("annotations")){
@@ -811,6 +791,7 @@ public class JSONparsing {
                 }
             }
             if(flagfound){
+                //if we have annotations we get the value
                 JSONArray jsonarray=(JSONArray) entry.getValue();
                 Iterator iteratorarray = jsonarray.iterator();
                 flagfound=false;
@@ -902,45 +883,48 @@ public class JSONparsing {
 
     }
     /**
-     *
-     * @return
+     * Method to return the entities counter (partial query match)
+     * @return the entities counter (partial query match)
      */
     public int GetEntQuerCntDand(){
     return ent_query_cnt_dand;
 }
 
     /**
-     *
-     * @return
+     * Method to return the categories counter (partial query match)
+     * @return the categories counter (partial query match)
      */
     public int GetCatQuerCntDand(){
     return cat_query_cnt_dand;
     
 }
     /**
-     *
-     * @return
+     * Method to return the the entities counter with whole query match
+     * @return the entities counter with whole query match
      */
     public int GetEntQuerCntDandWhole(){
     return ent_query_cnt_dand_whole;
 }
 
     /**
-     *
-     * @return
+     * Method to return the categories counter with whole query match
+     * @return the categories counter with whole query match
      */
     public int GetCatQuerCntDandWhole(){
     return cat_query_cnt_dand_whole;
     
 }
     /**
-     *
-     * @return
+     * Method to return the entities  by Dandelion API
+     * @return the entities by Dandelion API
      */
     public List<String> GetEntitiesDand(){
     return entitiesDand;
 }
-    
+    /**
+     * Method to return the categories by Dandelion API
+     * @return the categories by Dandelion API
+     */
       public List<String> GetCategoriesDand(){
     return categoriesDand;
 }

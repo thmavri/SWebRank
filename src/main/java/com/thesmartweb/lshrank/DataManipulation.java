@@ -59,17 +59,15 @@ public class DataManipulation {
      * @return True/False 
      */
     public boolean AppendWordList(List<String> wordList, String file_wordlist){
-            //----------------append the wordlist to a file
-                        File wordlist_file = new File(file_wordlist);
-                        try {
-                            FileUtils.writeLines(wordlist_file, wordList);
-                            return true;
-                        } catch (IOException ex) {
-                            Logger.getLogger(DataManipulation.class.getName()).log(Level.SEVERE, null, ex);
-                            return false;
-                        }
-                        //-----------------------------------------        
-                    
+        //----------------append the wordlist to a file
+        File wordlist_file = new File(file_wordlist);
+        try {
+            FileUtils.writeLines(wordlist_file, wordList);
+            return true;
+        } catch (IOException ex) {
+            Logger.getLogger(DataManipulation.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }    
     }
 
     /**
@@ -79,17 +77,14 @@ public class DataManipulation {
      * @return True/False 
      */
     public boolean AppendString(String input, String file_string){
-            //----------------append the wordlist to a file
-                        File string_file = new File(file_string);
-                        try {
-                            FileUtils.writeStringToFile(string_file, input);
-                            return true;
-                        } catch (IOException ex) {
-                            Logger.getLogger(DataManipulation.class.getName()).log(Level.SEVERE, null, ex);
-                            return false;
-                        }
-                        //-----------------------------------------        
-                    
+        File string_file = new File(file_string);
+        try {
+            FileUtils.writeStringToFile(string_file, input);
+            return true;
+        } catch (IOException ex) {
+            Logger.getLogger(DataManipulation.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     /**
@@ -99,12 +94,11 @@ public class DataManipulation {
      * @return wordListTotal which contains the elements already existent in it along with the elements of wordListtoAdd
      */
     public List<String> AddAList(List<String> wordListtoAdd, List<String> wordListTotal){
-            Iterator wordList_new_final_iterator=wordListtoAdd.iterator();
-            while(wordList_new_final_iterator.hasNext()){
-                    wordListTotal.add(wordList_new_final_iterator.next().toString());
-            }
-            return wordListTotal;
-                    
+        Iterator wordList_new_final_iterator=wordListtoAdd.iterator();
+        while(wordList_new_final_iterator.hasNext()){
+                wordListTotal.add(wordList_new_final_iterator.next().toString());
+        }
+        return wordListTotal;
     }
 
     /**
@@ -112,12 +106,12 @@ public class DataManipulation {
      * @param input String of the file
      * @return True/False
      */
-    public boolean FileTypeAnalyzed(String input){
-        List<String> filetypesnotsupported=new ArrayList<String>();
-        filetypesnotsupported.add(".pdf");
-        filetypesnotsupported.add(".ppt");
-        filetypesnotsupported.add(".doc");
-        Iterator filesiterator=filetypesnotsupported.iterator();
+    public boolean StructuredFileCheck(String input){
+        List<String> structuredFileTypes=new ArrayList<String>();
+        structuredFileTypes.add(".pdf");
+        structuredFileTypes.add(".ppt");
+        structuredFileTypes.add(".doc");
+        Iterator filesiterator=structuredFileTypes.iterator();
         boolean flag_found=false;
         while(filesiterator.hasNext()&&flag_found){
             if(filesiterator.next().toString().contains(input)){
@@ -254,21 +248,21 @@ public class DataManipulation {
      * @return a Collection that contains all the files found
      */
     public Collection<File> getinputfiles(String directory_path,String filetype){
-            String[] extensions = {filetype};//set the file extensions you would like to parse, e.g. you could have {txt,jpeg,pdf}
-            File directory = new File(directory_path);
-            //----FileUtils listfiles(File directory, IOFileFilter fileFilter, IOFileFilter dirFilter)
-      
-            //---- file filter is set to the extensions
-            //---- the dirFilter is set to true and it performs recursive search to all the subdirectories
-            String collection = FileUtils.listFiles(directory, extensions, true).toString();
-            Collection<File> Files = FileUtils.listFiles(directory, extensions, true);
-            String[] paths = new String[Files.size()];//----the String array will contain all the paths of the files
-            int j=0;
-            for (File file : Files) {
-                paths[j]=file.getPath();
-                j++;
-            }
-            return Files;
-}
+        String[] extensions = {filetype};//set the file extensions you would like to parse, e.g. you could have {txt,jpeg,pdf}
+        File directory = new File(directory_path);
+        //----FileUtils listfiles(File directory, IOFileFilter fileFilter, IOFileFilter dirFilter)
+
+        //---- file filter is set to the extensions
+        //---- the dirFilter is set to true and it performs recursive search to all the subdirectories
+        String collection = FileUtils.listFiles(directory, extensions, true).toString();
+        Collection<File> Files = FileUtils.listFiles(directory, extensions, true);
+        String[] paths = new String[Files.size()];//----the String array will contain all the paths of the files
+        int j=0;
+        for (File file : Files) {
+            paths[j]=file.getPath();
+            j++;
+        }
+        return Files;
+    }
     
 }

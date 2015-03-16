@@ -7,17 +7,13 @@ package com.thesmartweb.lshrank;
 
 import java.net.*;
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.codec.binary.Base64;
 import javax.net.ssl.HttpsURLConnection;
 /**
- *
+ * Class to connect to various APIs, to establish http and https connections
  * @author Themis Mavridis
  */
 public class APIconn {
@@ -61,34 +57,7 @@ public class APIconn {
             String line="fail";
             return line;
         }
-}
-    public String sslconnectAylien(URL link_ur) {
-        try {
-            httpsCon=(HttpsURLConnection) link_ur.openConnection();
-            System.out.println(httpsCon.getResponseCode());
-            if (httpsCon.getResponseCode() != 200) {
-                String line;
-                line = "fail";
-                return line;
-            } else {
-                String line;
-                try (BufferedReader rd = new BufferedReader(new InputStreamReader(httpsCon.getInputStream()))) {
-                    StringBuilder sb = new StringBuilder();
-                    while ((line = rd.readLine()) != null) {
-                        sb.append(line);
-                    }
-                    line = sb.toString();
-                }
-                return line;
-            } 
-        } catch (IOException ex) {
-            Logger.getLogger(APIconn.class.getName()).log(Level.SEVERE, null, ex);
-            String line="fail";
-            return line;
-        }
-}
-    
-    
+    }
     /**
      * Connects to an http url and GETs the response
      * @param link_ur
@@ -101,7 +70,6 @@ public class APIconn {
                 String line;
                 line = "fail";
                 return line;
-                // throw new IOException(httpCon.getResponseMessage());
             } else {
                 String line;
                 try (BufferedReader rd = new BufferedReader(new InputStreamReader(httpCon.getInputStream()))) {
@@ -122,7 +90,7 @@ public class APIconn {
 }
 
     /**
-     * Checks if a connection to a url gets response code 200
+     * Checks if a connection to a url (http or https) gets response code 200
      * @param link
      * @return a string that contains "ok-conn" if we have response code 200, "fail-conn" if sth else
      */
@@ -190,7 +158,8 @@ public class APIconn {
 
     /**
      * It is used to connect to Azure Marketplace for Bing's search API
-     * @param link_ur
+     * @param link_ur the url to connect to
+     * @param config_path the path with the configuration file for bing (api keys)
      * @return the response of the Search API of Bing
      */
     public String azureconnect(URL link_ur, String config_path){
@@ -198,7 +167,6 @@ public class APIconn {
         String line="fail";
         if(string_link_ur.substring(23,28).equalsIgnoreCase("azure")){
             HttpsURLConnection[] httpsConn=new HttpsURLConnection[32];
-            //String accountKey = "dvr6F3vxbj/LG4TOWzvrOHWOKP3/vGJAwm1bpMaBg+Y=";
             String[] accKeys = GetBingKeys(config_path);//contains the various bing search api keys
             int i=-1;
             int respp=0;
@@ -267,7 +235,11 @@ public class APIconn {
         }
         return line;
 }
-    
+    /**
+     * It is used to get all the keys for Bing
+     * @param config_path the path with the configuration file for bing (api keys) 
+     * @return an array with the keys of bing
+     */
     public String[] GetBingKeys(String config_path){
         ReadInput ri = new ReadInput();
         List<String> bingkeysList = ri.GetKeyFile(config_path, "bingkeys");

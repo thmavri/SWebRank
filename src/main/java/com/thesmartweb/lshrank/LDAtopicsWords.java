@@ -4,34 +4,26 @@
  */
 
 package com.thesmartweb.lshrank;
-/**
- *
- * @author Themis Mavridis
- */
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
-import java.util.ArrayList;
+
 import java.io.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.io.FileUtils;
 import java.util.*;
-import java.util.List;
 
 /**
- *
+ * Class
  * @author themis
  */
-public class ReadKeys {
+public class LDAtopicsWords {
 
     /**
-     *
-     * @param example_dir
-     * @param prob_threshold
-     * @param top_words
-     * @param nTopics
-     * @return
+     * Method that gets the LDA results from the produced file by jgibblda
+     * @param example_dir the directory to get the file from
+     * @param prob_threshold the probability threshold to use in the selection of top words
+     * @param top_words the amount of top words per topic to choose
+     * @param nTopics the number of topics of LDA
+     * @return a hashmap with every engine's topics and words per topic
      */
     public HashMap<String,HashMap<Integer,HashMap<String,Double>>> readFile(String example_dir,Double prob_threshold,int top_words,int nTopics)  {
         DataManipulation getfiles=new DataManipulation();
@@ -43,7 +35,6 @@ public class ReadKeys {
             j++;
         }
         int size = inarr.length * top_words * nTopics;
-        
         String[] line = new String[size];
         File file_words = new File(example_dir + "words.txt");
         int k = 0;
@@ -94,7 +85,7 @@ public class ReadKeys {
                 enginetopicwordprobmap.put(engine, topicwordsmulti);
                 
             } catch (IOException ex) {
-                Logger.getLogger(ReadKeys.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LDAtopicsWords.class.getName()).log(Level.SEVERE, null, ex);
                 HashMap<String,HashMap<Integer,HashMap<String,Double>>> enginetopicswordsprobmapempty = new HashMap<>();
                 return enginetopicswordsprobmapempty;
             }
@@ -103,9 +94,9 @@ public class ReadKeys {
     }
 
     /**
-     *
-     * @param in
-     * @return
+     * Method to check if a string is a number
+     * @param in stirng to check
+     * @return true or false
      */
     public boolean checkIfNumber(String in) {
 
