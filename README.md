@@ -5,6 +5,10 @@ SWebRank is a Topic modeling mechanism (formerly entitled LSHrank - Latent Seman
 ##More details are coming soon....for now check the Javadoc
 <https://github.com/thmavri/SWebRank/blob/master/SWebRank_Javadoc.zip?raw=true>
 
+##Important Library File
+DBpedia Spotlight jar is not in maven repository
+Download it from here: <http://bit.ly/DBpediaSpotlight>
+
 ###Publications
 * Exploring the influence of semantic data on the ranking mechanisms of search engines. T. Mavridis, L. Aroyo, A.L. Symeonidis. ACM Transactions on the Web (submitted Feb 15).
 * Identifying valid search engine ranking factors in a Web 2.0 and Web 3.0 context for building efficient SEO mechanisms. T. Mavridis,
