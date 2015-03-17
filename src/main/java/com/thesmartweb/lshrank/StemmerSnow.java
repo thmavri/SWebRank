@@ -11,11 +11,15 @@ import org.tartarus.snowball.SnowballStemmer;
 import org.tartarus.snowball.ext.englishStemmer;
 
 /**
- *
- * @author themis
+ * Class for using snowball stemmer
+ * @author Themistoklis Mavridis
  */
 public class StemmerSnow {
-    
+     /**
+      * Method to perform stemming 
+      * @param input the words we would like to stem in a list
+      * @return the words stemmed
+      */
      public List<String> stem(List<String> input) {
         List<String> output=new ArrayList<>();
         SnowballStemmer snowballStemmer = new englishStemmer();

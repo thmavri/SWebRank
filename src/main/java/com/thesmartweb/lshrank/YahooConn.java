@@ -5,19 +5,10 @@ package com.thesmartweb.lshrank;
  * and open the template in the editor.
  */
 
-/**
- *
- * @author asymeon
- */
 
-import java.io.File;
 import java.io.IOException;  
 import java.io.UnsupportedEncodingException;  
-import java.net.URLEncoder;  
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.net.URLEncoder; 
 import java.util.List;
   
 import org.apache.log4j.BasicConfigurator;  
@@ -37,7 +28,7 @@ import oauth.signpost.exception.OAuthMessageSignerException;
  * 1. Apache Log4j 
  * 2. oAuth Signpost 
  *  
- * @author xyz 
+ * @author Yahoo! 
  */  
 public class YahooConn {
   

@@ -1,13 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.thesmartweb.lshrank;
 
-/**
- *
- * @author asymeon
- */
 import java.io.BufferedReader;  
 import java.io.IOException;  
 import java.io.InputStreamReader;  
@@ -23,8 +16,8 @@ import oauth.signpost.exception.OAuthMessageSignerException;
   
 /** 
  * @author David Hardtke 
- * @author xyz 
- * Simple HTTP Request implementation 
+ * @author 
+ * Simple HTTP Request implementation used for Yahoo! Search API
  */  
 public class StHttpRequest {  
   

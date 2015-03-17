@@ -1,63 +1,48 @@
 package com.thesmartweb.lshrank;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author themis
- */
-
-
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URL;import java.net.URLEncoder;  
+import java.net.URL;
+import java.net.URLEncoder;  
  
-  
-  
 /** 
- * Sample code to use Yahoo! Search BOSS 
- *  
- * Please include the following libraries  
- * 1. Apache Log4j 
- * 2. oAuth Signpost 
- *  
- * @author xyz 
+ *  Class related to the Yahoo! entities and categories
+ * @author Themistoklis Mavridis
  */  
 public class YahooEntityCategory {
 
     /**
-     *
+     * the amount of terms of the query that occurred in an entity recognized
      */
     public static int ent_query_cnt=0;
 
     /**
-     *
+     * the amount of terms of the query that occurred in a= category recognized
      */
     public static int cat_query_cnt=0;
     /**
-     *
+     * the amount of queries that occurred in an entity recognized
      */
     public static int ent_query_cnt_whole=0;
 
     /**
-     *
+     * the amount of queries that occurred in a category recognized
      */
     public static int cat_query_cnt_whole=0;
   
     /**
-     *
-     * @param urlcheck
-     * @param quer
-     * @return
+     * Method to get the entities and categories counts from Yahoo!
+     * @param urlcheck the url to analyze
+     * @param quer the query term to check for
+     * @param StemFlag flag for stemming
      */
     public void connect(String urlcheck,String quer, boolean StemFlag) {  
 
         try {  
             cat_query_cnt=0;
             ent_query_cnt=0;
+            ent_query_cnt_whole=0;
+            cat_query_cnt_whole=0;
             String line="";
             String baseUrl = "http://query.yahooapis.com/v1/public/yql?q=";
             String query = "select * from contentanalysis.analyze where url='"+urlcheck+"'";
@@ -83,31 +68,31 @@ public class YahooEntityCategory {
 } 
 
     /**
-     *
-     * @return
+     * Getter of the entities counter (partial query match)
+     * @return entities counter (partial query match)
      */
     public int GetEntQuerCnt(){
     return ent_query_cnt;
 }
 
     /**
-     *
-     * @return
+     * Getter of the categories counter (partial query match)
+     * @return categories counter (partial query match)
      */
     public int GetCatQuerCnt(){
     return cat_query_cnt;
 }
     /**
-     *
-     * @return
+     * Getter of the entities counter (whole query match)
+     * @return entities counter (whole query match)
      */
     public int GetEntQuerCntWhole(){
     return ent_query_cnt_whole;
 }
 
     /**
-     *
-     * @return
+     * Getter of the categories counter (whole query match)
+     * @return categories counter (whole query match)
      */
     public int GetCatQuerCntWhole(){
     return cat_query_cnt_whole;

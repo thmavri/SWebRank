@@ -24,21 +24,17 @@ import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 
 /**
- *
+ * Class to deal with the various functionalities related to Sensebot
  * @author Administrator
  */
  
 public class Sensebot {
 
+    
     /**
-     *
-     */
-    public HttpURLConnection httpCon;
-
-    /**
-     *
-     * @param link_ur
-     * @return
+     * Method that connects to the Sensebot url and gets the document using SAXReader
+     * @param link_ur the link to read from
+     * @return the response in a string
      */
     public String connect(URL link_ur) {
         try{
@@ -63,15 +59,15 @@ public class Sensebot {
     }
 
     /**
-     *
-     * @param links
-     * @param directory
-     * @param SensebotConcepts
-     * @param config_path
-     * @return
+     * Method to get the top sensebot concepts recognized for given links
+     * @param links the links to search for
+     * @param directory the directory to save the results to
+     * @param SensebotConcepts the amount of concepts to search for
+     * @param config_path the path to find sensebot's username
+     * @return a list with all the top sensebot concepts recognized for the given links
      */
     public List<String> compute (String[] links,String directory,int SensebotConcepts, String config_path){
-       List<String> wordList=new ArrayList<String>();
+       List<String> wordList=new ArrayList<>();
        try{
            URL diff_url = null;
            String stringtosplit="";
@@ -104,7 +100,12 @@ public class Sensebot {
            Logger.getLogger(Diffbot.class.getName()).log(Level.SEVERE, null, ex);
            return wordList;
        }
-   }
+    }
+    /**
+     * Method to get the userName of sensebot
+     * @param config_path the path to find sensebot's username
+     * @return Sensebot's username
+     */
     public String GetUserName(String config_path){
         Path input_path=Paths.get(config_path);       
         DataManipulation getfiles=new DataManipulation();//class responsible for the extraction of paths

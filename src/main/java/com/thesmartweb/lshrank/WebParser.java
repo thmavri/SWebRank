@@ -8,7 +8,6 @@ package com.thesmartweb.lshrank;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,125 +19,120 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
- *
+ * Class related to the parsing procedures of HTML files by our mechanism
  * @author Themis Mavridis
  */
 public class WebParser {
 
     /**
-     *
+     * The number of embeded videos
      */
     public int number_embeded_videos;
 
     /**
-     *
+     * The number of embeded videos that are internal to the domain links
      */
     public int number_embeded_videos_internal;
 
     /**
-     *
+     * The number of scripts
      */
     public int scripts_number;
 
     /**
-     *
+     * The number of scripts that are internal
      */
     public int scripts_internal;
 
     /**
-     *
+     * The number of frames
      */
     public int frames_number;
 
     /**
-     *
+     * The number of internal frames
      */
     public int frames_internal;
 
     /**
-     *
+     * The number of links
      */
     public int links_number;
 
     /**
-     *
+     * The number of internal links
      */
     public int links_internal;
 
     /**
-     *
-     */
-    public int nauth;
-
-    /**
-     *
+     * The number of schema.org usages
      */
     public int nschem;
 
     /**
-     *
+     * The number of hcards
      */
     public int hcardsn;
 
     /**
-     *
+     * hcalendars
      */
     public int hcalen;
 
     /**
-     *
+     * hreviews
      */
     public int hrevn;
 
     /**
-     *
+     * hevents
      */
     public int hevenn;
 
     /**
-     *
+     *hadresses
      */
     public int haddrn;
 
     /**
-     *
+     * hgeo
      */
     public int hgeon;
 
     /**
-     *
+     *rel tags
      */
     public int hreln;
 
     /**
-     *
+     *total microformats
      */
     public int total_micron;
 
     /**
-     *
+     *microformats-1
      */
     public int micron1;
 
     /**
-     *
+     *microformats-2
      */
     public int micron2;
 
     /**
-     *
+     *microdata
      */
     public int microd;
 
     /**
-     *
+     *number of foaf
      */
     public int foaf;
 
     /**
-     *
-     * @param html_string
-     * @return
+     * Get the text content of a url cleaned from stopwords and symbols and lemmatized
+     * @param html_string the url to parse
+     * @return the content in a string 
      */
     public String Parse(String html_string){
         String content;
@@ -167,9 +161,9 @@ public class WebParser {
     }
 
     /**
-     *
-     * @param link_html
-     * @return
+     * Parse the url and get all the content
+     * @param link_html the url to parse
+     * @return The content parsed
      */
     public String cleanhtml(String link_html)
     { 
@@ -226,9 +220,9 @@ public class WebParser {
     }
     
     /**
-     *
-     * @param link_html
-     * @return
+     * Method to get the number of links (total, internal)
+     * @param link_html the url to parse
+     * @return the number of links
      */
     public int[] getnlinks(String link_html){
         int[] nlinks= new int[2];
@@ -251,9 +245,9 @@ public class WebParser {
     }
        
     /**
-     *
-     * @param link_html
-     * @return
+     * Method to get the various html stats
+     * @param link_html the url to analyze
+     * @return flag if we got all the stats
      */
     public boolean gethtmlstats(String link_html){
         try {
@@ -427,10 +421,10 @@ public class WebParser {
     }  
 
     /**
-     *
-     * @param link_html
-     * @param dir
-     * @return
+     * Method to get all the elements with a specific html feature (not used in LSHrank's current version)
+     * @param link_html the url to check
+     * @param dir the directory to save the file
+     * @return a list with the text of all the elements
      */
     public List<String> getbold(String link_html,String dir)
     {  List<String> SEwords=new ArrayList<String>();
@@ -466,15 +460,14 @@ public class WebParser {
     }
 
     /**
-     *
-     * @param link_html
-     * @return
+     * Method to check if we can connect with JSOUP to a specific url
+     * @param link_html the url to connect
+     * @return true/false
      */
     public boolean checkconn(String link_html){  
         try {
             Connection.Response response = Jsoup.connect(link_html).timeout(10*1000).execute();
-            if(response.statusCode()!=200){return false;}
-            return true;
+            return response.statusCode() == 200;
         }  catch (Exception ex) {
             Logger.getLogger(WebParser.class.getName()).log(Level.SEVERE, null, ex);
             System.out.print("can not connect to:"+link_html);

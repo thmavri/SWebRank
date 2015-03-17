@@ -4,103 +4,56 @@
  */
 
 package com.thesmartweb.lshrank;
-/**
- *
- * @author Themis Mavridis
- */
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
-import com.google.gson.Gson;
 import java.util.*;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.dbpedia.spotlight.exceptions.AnnotationException;
 import org.elasticsearch.ElasticsearchException;
-import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
-import static org.elasticsearch.client.Requests.createIndexRequest;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.node.Node;
 import static org.elasticsearch.node.NodeBuilder.*;
-import static org.elasticsearch.common.xcontent.XContentFactory.*;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.search.SearchType;
-import org.elasticsearch.index.query.FilterBuilders.*;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-//import org.jdom2.input.DOMBuilder;
-//import com.teamdev.jxbrowser.Browser;
-//import com.teamdev.jxbrowser.BrowserFactory;
-//import com.teamdev.jxbrowser.BrowserType;
-//import com.teamdev.jxbrowser.dom.DOMDocument;
 
 /**
- *
- * @author themis
+ * Class for analysis of all the queries through Search APIs and capturing of the result statistics
+ * @author Themistoklis Mavridis
  */
 public class Search_analysis {
-
     /**
-     *
+     * Method to perform the queries to the search engines, get the links and get all the webpage and semantic stats for the links
+     * @param iteration_counter The iteration number of the algorithm (to use it in the id for elasticsearch)
+     * @param directory_save The directory we are going to several files
+     * @param domain The domain that we are searching for (to use it in the id for elasticsearch)
+     * @param enginechoice The search engines that were chosen to be used
+     * @param quer the query we search for
+     * @param results_number the results number that we are going to get from every search engine
+     * @param top_visible the number of results if we use Visibility score
+     * @param LSHrankSettings the settings for LDA and LSHrank in general (check the ReadInput Class)
+     * @param alpha alpha value of LDA
+     * @param mozMetrics the metrics of choice if Moz is going to be used
+     * @param top_count_moz the amount of results if we use Moz
+     * @param moz_threshold_option flag to show if we are going to use a threshold in Moz metrics or not
+     * @param moz_threshold the moz threshold value
+     * @param ContentSemantics get the choice of Content Semantic Analysis algorithm that we are going to use
+     * @param SensebotConcepts the amount of concepts to be recognized if Sensebot is used
+     * @param config_path the configuration path to get all the api keys
+     * @return a list with the words recognized as important by the content semantic analysis algorithm we have chosen 
      */
-    public String ychk;
-
-    /**
-     *
-     */
-    public String gchk;
-
-    /**
-     *
-     */
-    public String bchk;
-
-    /**
-     *
-     */
-    public String tchk;
-
-    /**
-     *
-     * @param iteration_counter
-     * @param example_dir
-     * @param domain
-     * @param enginechoice
-     * @param quer
-     * @param results_number
-     * @param top_visible
-     * @param LSHrankSettings
-     * @param alpha
-     * @param mozMetrics
-     * @param top_count_moz
-     * @param moz_threshold_option
-     * @param moz_threshold
-     * @param ContentSemantics
-     * @param SensebotConcepts
-     * @param config_path
-     * @return
-     */
-    public List<String> perform(int iteration_counter,String example_dir, String domain, List<Boolean> enginechoice, String quer, int results_number, int top_visible,List<Double> LSHrankSettings,double alpha, List<Boolean> mozMetrics, int top_count_moz, boolean moz_threshold_option,double moz_threshold, List<Boolean> ContentSemantics, int SensebotConcepts, String config_path){ 
+    public List<String> perform(int iteration_counter,String directory_save, String domain, List<Boolean> enginechoice, String quer, int results_number, int top_visible,List<Double> LSHrankSettings,double alpha, List<Boolean> mozMetrics, int top_count_moz, boolean moz_threshold_option,double moz_threshold, List<Boolean> ContentSemantics, int SensebotConcepts, String config_path){ 
         try {
+            //=======connect to mysql=========
             Connection conn = null;
             PreparedStatement stmt = null;
             String url = "jdbc:mysql://localhost:3306/LSHrankDB?zeroDateTimeBehavior=convertToNull";
             ReadInput ri = new ReadInput();
-            List<String> mysqlAdminSettings= ri.GetKeyFile(config_path, "mysqlAdmin");
+            List<String> mysqlAdminSettings= ri.GetKeyFile(config_path, "mysqlAdmin");//read the admin details
             String user = mysqlAdminSettings.get(0);
             String password = mysqlAdminSettings.get(1);
             System.out.println("Connecting to database...");
@@ -120,17 +73,17 @@ public class Search_analysis {
             if(enginechoice.get(0)){
                 //get bing results
                 BingResults br = new BingResults();
-                links_bing=br.Get(quer, results_number, example_dir,config_path);                     
+                links_bing=br.Get(quer, results_number, directory_save,config_path);                     
             }
             if(enginechoice.get(1)){
                 //get google results
                 GoogleResults gr = new GoogleResults();
-                links_google=gr.Get(quer,results_number,example_dir,config_path);
+                links_google=gr.Get(quer,results_number,directory_save,config_path);
             }
             if(enginechoice.get(2)){
                 //get yahoo results
                 YahooResults yr = new YahooResults();
-                links_yahoo=yr.Get(quer,results_number,example_dir,config_path);                    
+                links_yahoo=yr.Get(quer,results_number,directory_save,config_path);                    
             }
             HashMap<Integer,List<String>> EntitiesMapDBP = new HashMap<>();
             HashMap<Integer,List<String>> CategoriesMapDBP = new HashMap<>();
@@ -183,7 +136,7 @@ public class Search_analysis {
                 if(enginechoice.get(3)){
                     VisibilityScore vb=new VisibilityScore();//we have a merged engine
                     //erase using vb.perform all the duplicate links
-                    links_total=vb.perform(links_google, links_yahoo, links_bing, top_visible);
+                    links_total=vb.perform(links_google, links_yahoo, links_bing);
                     //if we have Moz option set to true we have to get the results rearranged according to the moz metric selected
                     if(mozMetrics.get(0)){
                         Moz checkMoz=new Moz();
@@ -217,7 +170,7 @@ public class Search_analysis {
                             rank=j-results_number*2;
                             engine=2;
                         }
-                        
+                        //we initialize the row in settings table
                         stmt = conn.prepareStatement("INSERT INTO SETTINGS (url,query,search_engine,search_engine_rank,domain) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine),domain=VALUES(domain)");
                         stmt.setString(1,links_total[j]);
                         stmt.setString(2,quer);
@@ -225,7 +178,7 @@ public class Search_analysis {
                         stmt.setInt(4,rank);
                         stmt.setString(5,domain);
                         stmt.executeUpdate();
-                        
+                        //we initialize the row in semantic stats table 
                         stmt = conn.prepareStatement("INSERT INTO SEMANTICSTATS (url,query,search_engine,search_engine_rank,domain) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine),domain=VALUES(domain)");
                         stmt.setString(1,links_total[j]);
                         stmt.setString(2,quer);
@@ -233,8 +186,7 @@ public class Search_analysis {
                         stmt.setInt(4,rank);
                         stmt.setString(5,domain);
                         stmt.executeUpdate();
-                        
-                        
+                        //we initialize the row in namespaces stats table
                         stmt = conn.prepareStatement("INSERT INTO NAMESPACESSTATS (url,query,search_engine,search_engine_rank,domain) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine),domain=VALUES(domain)");
                         stmt.setString(1,links_total[j]);
                         stmt.setString(2,quer);
@@ -243,6 +195,7 @@ public class Search_analysis {
                         stmt.setString(5,domain);
                         stmt.executeUpdate();
                         
+                        //we put the info inside the settings 
                         StringBuilder settingsStmBuild = new StringBuilder();
                         settingsStmBuild.append("UPDATE SETTINGS SET ");
                         settingsStmBuild.append("`nTopics`=? , ");
@@ -300,7 +253,7 @@ public class Search_analysis {
                         stmt.setString(27,domain);
                         stmt.executeUpdate();
                         
-                        if(htm.checkconn(links_total[j])){
+                        if(htm.checkconn(links_total[j])){//if we can connect to the url we continue to update semantics stats and namespaces stats tables
                             nlinks=htm.getnlinks(links_total[j]);
                             StringBuilder webstatsStmBuild = new StringBuilder();
                             webstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
@@ -309,16 +262,16 @@ public class Search_analysis {
                             webstatsStmBuild.append("`internal_links`=? ");
                             webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
                             stmt = conn.prepareStatement(webstatsStmBuild.toString());
-                            stmt.setInt(1,nlinks[0]);
+                            stmt.setInt(1,nlinks[0]);//total numbers of links
                             stmt.setInt(2,nlinks[0]-nlinks[1]);
-                            stmt.setInt(3,nlinks[1]);
+                            stmt.setInt(3,nlinks[1]);//internal links
                             stmt.setString(4,links_total[j]);
                             stmt.setString(5,quer);
                             stmt.setInt(6,engine);
                             stmt.setString(7,domain);
                             stmt.executeUpdate();
                             System.out.println("I am going to get the stats from Sindice\n");
-                            int ntriples=striple.getsindicestats(links_total[j]);
+                            int ntriples=striple.getsindicestats(links_total[j]);//get the amount of semantic triples using Sindice API
                             System.out.println("I am going insert the semantic triples number in the DB\n");
                             stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `total_semantic_triples`=? WHERE `url` =? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                             stmt.setInt(1,ntriples);
@@ -693,19 +646,20 @@ public class Search_analysis {
                                 stmt.executeUpdate();
                             }
                             System.out.println("I inserted the namespaces in the DB\n");
-                            //we continue only for not null links
                             System.out.println("I will get the semantic entities and categories\n");
+                            //get the semantic entities and categories from Yahoo Content Analysis Service
                             YahooEntityCategory yec=new YahooEntityCategory();
-                            yec.connect(links_total[j],quer, false);
+                            yec.connect(links_total[j],quer, false);//without stemming
                             int cat_cnt=yec.GetCatQuerCnt();
                             int ent_cnt=yec.GetEntQuerCnt();
                             int cat_cnt_whole=yec.GetCatQuerCntWhole();
                             int ent_cnt_whole=yec.GetEntQuerCntWhole();
-                            yec.connect(links_total[j],quer, true);
+                            yec.connect(links_total[j],quer, true);//with stemming
                             int cat_cnt_stem=yec.GetCatQuerCnt();
                             int ent_cnt_stem=yec.GetEntQuerCnt();
                             int cat_cnt_whole_stem=yec.GetCatQuerCntWhole();
                             int ent_cnt_whole_stem=yec.GetEntQuerCntWhole();
+                            //get the semantic entities and categories from Dandelion Named entity extraction API
                             DandelionEntities dec = new DandelionEntities();
                             dec.connect(links_total[j], quer,false);//without stemming
                             EntitiesMapDand.put(j, dec.GetEntitiesDand());
@@ -719,12 +673,7 @@ public class Search_analysis {
                             int ent_cnt_dand_stem=dec.getEnt();
                             int cat_cnt_dand_whole_stem=dec.getCatWhole();
                             int ent_cnt_dand_whole_stem=dec.getEntWhole();
-                            /*AylienEntities aye = new AylienEntities();
-                            aye.connect(links_total[j], quer);
-                            int cat_cnt_ay=aye.getCat();
-                            int ent_cnt_ay=aye.getEnt();
-                            int cat_cnt_ay_whole=aye.getCatWhole();
-                            int ent_cnt_ay_whole=aye.getEntWhole();*/
+                            //get the semantic entities and categories from dbpedia spotlight
                             DBpediaSpotlightClient dbpspot = new DBpediaSpotlightClient();
                             dbpspot.countEntCat(links_total[j], quer,false);//false is not stemming
                             EntitiesMapDBP.put(j, dbpspot.getEntities());
@@ -804,12 +753,9 @@ public class Search_analysis {
                             }
                             stmt.setString(28,domain);
                             stmt.executeUpdate();
-                           
-                            
-                            
                             System.out.println("I inserted the semantic entities and categories stats in the DB\n");
                             System.out.println("I will get the html stats for the "+j+" link:"+links_total[j]+"\n"); 
-                            boolean flag_htmlstats=htm.gethtmlstats(links_total[j]);
+                            boolean flag_htmlstats=htm.gethtmlstats(links_total[j]);//get the semantic stats from the html code
                             if(flag_htmlstats){
                                 System.out.println("I got the html stats for the "+j+" link:"+links_total[j]+"\n"); 
                                 int scripts_cnt = htm.scripts_number;
@@ -819,7 +765,6 @@ public class Search_analysis {
                                 int micron1=htm.micron1;
                                 int micron2=htm.micron2;
                                 int microd=htm.microd;
-                                
                                 System.out.println("I will insert webstats in the DB\n");
                                 webstatsStmBuild.setLength(0);
                                 webstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
@@ -884,8 +829,8 @@ public class Search_analysis {
                 if(ContentSemantics.get(3)||ContentSemantics.get(1)){
                 //we perform LDA or TFIDF analysis to the links obtained
                     if(!enginechoice.get(3)){
-                        if(enginechoice.get(2)){
-                            parse_output=ld.perform(links_yahoo, domain, "yahoo", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                        if(enginechoice.get(2)){//Yahoo
+                            parse_output=ld.perform(links_yahoo, domain, "yahoo", directory_save, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),ContentSemantics.get(1),ContentSemantics.get(3), config_path);
                             int j=0;
                             for(String s:parse_output){
                                 parseOutputList.put(j,s);
@@ -893,8 +838,8 @@ public class Search_analysis {
                             }
                             System.gc();
                         }
-                        if(enginechoice.get(1)){
-                            parse_output=ld.perform(links_google, domain, "google", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                        if(enginechoice.get(1)){//Google
+                            parse_output=ld.perform(links_google, domain, "google", directory_save, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),ContentSemantics.get(1),ContentSemantics.get(3), config_path);
                             int j=results_number;
                             for(String s:parse_output){
                                 parseOutputList.put(j, s);
@@ -902,8 +847,8 @@ public class Search_analysis {
                             }
                             System.gc();
                         }
-                        if(enginechoice.get(0)){
-                            parse_output=ld.perform(links_bing, domain, "bing", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                        if(enginechoice.get(0)){//Bing
+                            parse_output=ld.perform(links_bing, domain, "bing", directory_save, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),ContentSemantics.get(1),ContentSemantics.get(3), config_path);
                             int j=results_number*2;
                             for(String s:parse_output){
                                 parseOutputList.put(j, s);
@@ -914,7 +859,7 @@ public class Search_analysis {
                     }
                     /*else{
                         System.gc();//links_total
-                        parse_output=ld.perform(links_total, domain, "merged", example_dir, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"Merged",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                        parse_output=ld.perform(links_total, domain, "merged", directory_save, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"Merged",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
                         Collections.addAll(parseOutputList, parse_output);
                         System.gc();
                     }*/
@@ -922,6 +867,7 @@ public class Search_analysis {
             }
             System.gc();
             List<String> wordList=null;
+            //hashmap for every engine, with topics, words and probability of each word
             HashMap<String,HashMap<Integer,HashMap<String,Double>>> enginetopicwordprobmap = new HashMap<>();
             List<String> lda_output = new ArrayList<>();
             if(ContentSemantics.get(3)){
@@ -930,31 +876,31 @@ public class Search_analysis {
                 wordList=ld.return_topWordsTFIDF();
                 System.out.println("i returned the wordlist to search analysis");
             }
-            else if (ContentSemantics.get(0)){
+            else if (ContentSemantics.get(0)){//get the wordlist from Diffbot
                 Diffbot db=new Diffbot();
-                wordList=db.compute(links_total, example_dir, config_path);
+                wordList=db.compute(links_total, directory_save, config_path);
             }
-            else if (ContentSemantics.get(2)){
+            else if (ContentSemantics.get(2)){//get the wordllist from Sensebot
                 Sensebot sb=new Sensebot();
-                wordList=sb.compute(links_total, example_dir,SensebotConcepts, config_path);
+                wordList=sb.compute(links_total, directory_save,SensebotConcepts, config_path);
             }
             else {
                 //get the top content from LDA
                 System.out.println("i ll try to read the keys");
                 LDAtopicsWords rk = new LDAtopicsWords();
-                enginetopicwordprobmap= rk.readFile(example_dir, LSHrankSettings.get(4),LSHrankSettings.get(3).intValue(), LSHrankSettings.get(1).intValue());
-                // on startup of elastic search
-                //obj.put("query",quer);
-                //obj.put("Domain",domain);
+                enginetopicwordprobmap= rk.readFile(directory_save, LSHrankSettings.get(4),LSHrankSettings.get(3).intValue(), LSHrankSettings.get(1).intValue());
+                
                 JSONArray ArrayEngineLevel = new JSONArray();
                 List<String> ids=new ArrayList<>();
                 Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
                 Client client = node.client();
+                //save in elastic search the produced by LDA distributions of words over topics for every engine
                 for(String engine: enginetopicwordprobmap.keySet()){
                     HashMap<Integer,HashMap<String,Double>> topicwordprobmap = new HashMap<>();
                     topicwordprobmap=enginetopicwordprobmap.get(engine);
                     JSONObject objEngineLevel = new JSONObject();
                     JSONArray ArrayTopicLevel = new JSONArray();
+                    //for every topic get the words and their probability
                     for(Integer topicindex:topicwordprobmap.keySet()){
                         JSONObject objTopicLevel = new JSONObject();
                         objTopicLevel.put("topic",topicindex);
@@ -965,9 +911,9 @@ public class Search_analysis {
                             String word = iterator.next().toString();
                             if(!lda_output.contains(word)){
                                 lda_output.add(word);
-                            }
+                            }//get the words in a separate list
                         }
-                        objTopicLevel.put("wordsmap",objmap);
+                        objTopicLevel.put("wordsmap",objmap);//write the words in elastic search
                         ArrayTopicLevel.add(objTopicLevel);
                     }
                     objEngineLevel.put("engine",engine);
@@ -976,19 +922,20 @@ public class Search_analysis {
                     objEngineLevel.put("iteration",iteration_counter);
                     objEngineLevel.put("TopicsWordMap", ArrayTopicLevel);
                     ArrayEngineLevel.add(objEngineLevel);
-                    String id = domain+"/"+quer+"/"+engine+"/"+iteration_counter;
-                    ids.add(id);
+                    String id = domain+"/"+quer+"/"+engine+"/"+iteration_counter;//create unique id for the elasticsearch document
+                    ids.add(id);//add to the ids list which contains the ids of the current round
                     IndexRequest indexReq=new IndexRequest("lshranklda","content",id);
                     indexReq.source(objEngineLevel);
                     IndexResponse indexRes = client.index(indexReq).actionGet();
                 }
                 node.close();
-                ElasticGetWordList elasticGetwordList=new ElasticGetWordList();
+                ElasticGetWordList elasticGetwordList=new ElasticGetWordList();//get the wordlist from elastic search for the ids from the current round
                 wordList=elasticGetwordList.get(ids);
                 DataManipulation datamanipulation = new  DataManipulation();
                 wordList=datamanipulation.clearListString(wordList);
                 System.out.println("i returned the wordlist to search analysis");
             }
+            //get some stats regarding the entities, categories and parsed content from each link comparing it to the top words produced by lda 
             for(int j=0;j<links_total.length;j++){
                 int rank=-1;
                 int engine=-1;//0 for yahoo,1 for google,2 for bing
@@ -1004,10 +951,11 @@ public class Search_analysis {
                     rank=j-results_number*2;
                     engine=2;
                 }
-                LDAsemStats ldaSemStats = new LDAsemStats();
+                LDAsemStats ldaSemStats = new LDAsemStats();//get the stats by comparing the top words produced by LDA and the parsed content
+                //check the LDAsemStats class for more
                 StringBuilder webstatsStmBuild = new StringBuilder();
                 if(!parseOutputList.get(j).equalsIgnoreCase("")){
-                    ldaSemStats.getTopWordsStats(parseOutputList.get(j), lda_output, false);
+                    ldaSemStats.getTopWordsStats(parseOutputList.get(j), lda_output, false);//without stemming
                     int top_words_lda = ldaSemStats.getTopStats();
                     double top_words_lda_per = ldaSemStats.getTopPercentageStats();
                     webstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
@@ -1022,7 +970,7 @@ public class Search_analysis {
                     stmt.setInt(5,engine);
                     stmt.setString(6,domain);
                     stmt.executeUpdate();
-                    ldaSemStats.getTopWordsStats(parseOutputList.get(j), lda_output, true);
+                    ldaSemStats.getTopWordsStats(parseOutputList.get(j), lda_output, true);//with stemming
                     int top_words_lda_stem = ldaSemStats.getTopStats();
                     double top_words_lda_per_stem = ldaSemStats.getTopPercentageStats();
                     webstatsStmBuild = new StringBuilder();
@@ -1040,6 +988,9 @@ public class Search_analysis {
                     stmt.executeUpdate();
                 }
                 if(EntitiesMapDBP.get(j)!=null && CategoriesMapDBP.get(j) !=null){
+                    //we are going to check if semantic entities and categories recognized exist in the lda words recognized as prominent
+                    //we are going to use DBPEDIA spotligh and Dandelion named Entity Extraction API
+                    //and stemming through Snowball Stemmer
                     ldaSemStats.getEntCatStats(EntitiesMapDBP.get(j), CategoriesMapDBP.get(j), lda_output, false);
                     int ent_cnt_dbpspot_lda = ldaSemStats.getEntStats();
                     int cat_cnt_dbpspot_lda = ldaSemStats.getCategoryStats();

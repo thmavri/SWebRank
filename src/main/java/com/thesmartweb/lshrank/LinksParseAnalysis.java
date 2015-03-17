@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
+import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
@@ -162,7 +163,7 @@ public class LinksParseAnalysis {
                 topWordsTFIDF=tf.compute(parse_output,top_words,example_dir);
             }
             return parse_output;
-        } catch (IOException ex) {
+        } catch (IOException | ElasticsearchException | ArrayIndexOutOfBoundsException ex) {
             Logger.getLogger(LinksParseAnalysis.class.getName()).log(Level.SEVERE, null, ex);
             return parse_output;
         }

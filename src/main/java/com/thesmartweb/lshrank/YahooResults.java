@@ -14,21 +14,22 @@ import org.json.simple.parser.*;
 import java.util.*;
 
 /**
- *
- * @author Themis Mavridis
+ * Class for the Yahoo! Search API
+ * @author Themistoklis Mavridis
  */
 public class YahooResults {
 
     /**
-     *
-     * @param quer
-     * @param yahoo_results_number
-     * @param example_dir
-     * @return
+     * Method to get the links for a specific query
+     * @param quer the query
+     * @param yahoo_results_number the number of results to return
+     * @param example_dir a directory to save the yahoo search engine response
+     * @param config_path the directory with yahoo! api keys
+     * @return an array with the urls of the results
      */
     public String[] Get(String quer,int yahoo_results_number,String example_dir, String config_path){
-     String[] links=new String[yahoo_results_number];
-     try {
+        String[] links=new String[yahoo_results_number];
+        try {
             quer=quer.replace("+","%20"); 
             YahooConn yc=new YahooConn();
             String line=yc.connect(quer, config_path);   
@@ -40,20 +41,20 @@ public class YahooResults {
             JSONparsing gg = new JSONparsing(yahoo_results_number);
             //get the links in an array
             links = gg.YahooJsonParsing(line, yahoo_results_number);
-         }
+            }
             return links;
         } catch (IOException ex) {
             Logger.getLogger(YahooResults.class.getName()).log(Level.SEVERE, null, ex);
-             System.out.print("\n*********fail-yahoo results*********\n");
-                return links;
+            System.out.print("\n*********fail-yahoo results*********\n");
+            return links;
         }
        
 }
  
     /**
-     *
-     * @param quer
-     * @return
+     * Method to get the results number of a specific query from Yahoo! search api
+     * @param quer the query to search for
+     * @return the amount of results
      */
     public Long Get_Results_Number(String quer, String config_path) 
     {   try {
@@ -83,14 +84,14 @@ public class YahooResults {
             String you = entry.getValue().toString();
             json = (Map) parser.parse(you);
             set = json.entrySet();
-             arr = set.toArray();
+            arr = set.toArray();
             entry = (Map.Entry) arr[1];
             you = entry.getValue().toString();
             json = (Map) parser.parse(you);
             set = json.entrySet();
-             arr = set.toArray();
-             entry = (Map.Entry) arr[3];
-             you = entry.getValue().toString();
+            arr = set.toArray();
+            entry = (Map.Entry) arr[3];
+            you = entry.getValue().toString();
             results_number = Long.parseLong(you);}
             return results_number;
         }  catch (ParseException | java.lang.ArrayIndexOutOfBoundsException | java.lang.NullPointerException ex) {

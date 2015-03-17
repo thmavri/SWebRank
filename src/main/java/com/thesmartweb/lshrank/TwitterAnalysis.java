@@ -10,18 +10,17 @@ import java.util.logging.Logger;
 import twitter4j.auth.AccessToken;
 import twitter4j.conf.ConfigurationBuilder;
 
-
-
 /**
- *
- * @author asymeon
+ * Class for using Twitter related info through Twitter4j
+ * @author Themistoklis Mavridis
  */
 public class TwitterAnalysis {
     
     /**
-     *
-     * @param query_string
-     * @return
+     * Method to get tweets regarding a string 
+     * @param query_string the string to search for
+     * @param config_path the directory with the twitter api key
+     * @return the tweets in a string
      */
     public String perform(String query_string, String config_path){    
         try {
@@ -71,6 +70,11 @@ public class TwitterAnalysis {
              return tweet_txt="fail";
         }
     }
+    /**
+     * Method to get the twitter keys
+     * @param config_path the directory with twitter keys
+     * @return the twitter keys in list
+     */
      public List<String> GetKeys(String config_path){
         ReadInput ri = new ReadInput();
         List<String> twitterkeysList = ri.GetKeyFile(config_path, "twitterkeys");

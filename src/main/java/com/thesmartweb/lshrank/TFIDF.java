@@ -13,20 +13,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
 /**
- *
- * @author Administrator
+ * Class for TFIDF analysis
+ * @author Themistoklis Mavridis
  */
 public class TFIDF {
 
     /**
-     *
+     * a list with the top words recognized by TFIDF
      */
     protected List<String> topWordsList;
 
     /**
-     *
-     * @param Doc
-     * @param termToCheck
+     * Method to calculate TF score
+     * @param Doc the document to analyze
+     * @param termToCheck the term to calculate tf for
      * @return
      */
     public double tfCalculator(String Doc, String termToCheck) {
@@ -43,11 +43,11 @@ public class TFIDF {
     }
 
     /**
-     *
-     * @param allwordsList
-     * @param termToCheck
-     * @param NumberOfDocs
-     * @return
+     * Method to calculate idf score
+     * @param allwordsList all the words
+     * @param termToCheck the term to check for
+     * @param NumberOfDocs the number of documents we analyze
+     * @return the idf score
      */
     public double idfCalculator(List<List<String>> allwordsList, String termToCheck, int NumberOfDocs) {
         double count = 0;
@@ -66,24 +66,21 @@ public class TFIDF {
     }
 
     /**
-     *
-     * @param allDocs
-     * @param topWords
-     * @param directory
-     * @return
+     * Method to compute the TFIDF score
+     * @param allDocs all the documents to analyze
+     * @param topWords the amount of top words to get
+     * @param directory the directory to save the output
+     * @return a list with the top words
      */
     public List<String> compute(String[] allDocs,int topWords, String directory){
-         try {
-             
-             List<List<String>> allwordsList = new ArrayList<List<String>>();
-             
-             //String[][] allwordsArray=new String[allDocs.length][];
+        try{
+             List<List<String>> allwordsList = new ArrayList<>();
              int counterwords=0;
              int negtfidf=0;
              for(int i=0;i<allDocs.length;i++){
-                 List<String> allwordsList_single = new ArrayList<String>();
+                 List<String> allwordsList_single = new ArrayList<>();
                  if(!(allDocs[i]==null)){
-                    String stringtosplit = allDocs[i].toString();
+                    String stringtosplit = allDocs[i];
                     if(!(stringtosplit==null)&&(!(stringtosplit.equalsIgnoreCase("")))){       
                         stringtosplit=stringtosplit.replaceAll("[\\W&&[^\\s]]", "");
                         if(!(stringtosplit==null)&&(!(stringtosplit.equalsIgnoreCase("")))){
@@ -100,16 +97,16 @@ public class TFIDF {
                 allwordsList.add(i,allwordsList_single);
              }
             
-             HashMap<String, Double> wordTFIDFscores = new HashMap<String, Double>();
+             HashMap<String, Double> wordTFIDFscores = new HashMap<>();
              List<String> topwordsTFIDF;
-             topwordsTFIDF = new ArrayList<String>();
-             List<String> wordsTFIDF=new ArrayList<String>();
+             topwordsTFIDF = new ArrayList<>();
+             List<String> wordsTFIDF=new ArrayList<>();
              List<Double> TFIDFscoreslist;
-             List<Double> TFIDFscoreslistcopy=new ArrayList<Double>();
-             TFIDFscoreslist = new ArrayList<Double>();
+             List<Double> TFIDFscoreslistcopy=new ArrayList<>();
+             TFIDFscoreslist = new ArrayList<>();
              for(int i=0;i<allDocs.length;i++){
                  if(!(allDocs[i]==null)){
-                    String stringtosplit = allDocs[i].toString();
+                    String stringtosplit = allDocs[i];
                     if(!(stringtosplit==null)&&(!(stringtosplit.equalsIgnoreCase("")))){       
                         stringtosplit=stringtosplit.replaceAll("[\\W&&[^\\s]]", "");
                         if(!(stringtosplit==null)&&(!(stringtosplit.equalsIgnoreCase("")))){
@@ -132,72 +129,8 @@ public class TFIDF {
                     }
                 }
              }
-             //Collections.sort(TFIDFscoreslist);
              DataManipulation shmap=new DataManipulation();
-             //use the code below if you would like to check the max entry of the hashmap
-             /*
-             Map.Entry<String,Double> maxEntry=null;
-             for (Map.Entry<String, Double> entry : wordTFIDFscores.entrySet())
-             {
-                if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)
-                {
-                     maxEntry = entry;
-                }
-             }*/
              topwordsTFIDF=shmap.sortHashmap(wordTFIDFscores).subList(0, topWords);
-             
-             
-             /*String[] topWordsTFIDF=new String[topWords];
-             List<String> topWordsTFIDFlist=new ArrayList<String>();
-             int i=0;
-             while(i<TFIDFscoreslist.size()&&topWordsTFIDFlist.size()<topWords){
-                 Double score = TFIDFscoreslist.get(TFIDFscoreslist.size()-1-i);
-                 int k=0;
-                 int flag_found=0;
-                 searchwhile:
-                 while(k<TFIDFscoreslistcopy.size()&&flag_found==0){
-                     if(TFIDFscoreslistcopy.get(k).doubleValue()==score){
-                         if(!topWordsTFIDFlist.contains(wordsTFIDF.get(k).toString())){
-                            topWordsTFIDFlist.add(wordsTFIDF.get(k).toString());
-                            flag_found++;
-                            System.out.println("Flag:"+flag_found);
-                            break searchwhile;
-                         }
-                     }
-                     //System.out.println("K:"+k);
-                     k++;
-                 }
-                 System.out.println("I:"+i);
-                 i++;
-             }
-             /*for(int i3=0;i3<topWords;i3++){
-                 Double score = TFIDFscoreslist.get(TFIDFscoreslist.size()-1-i3);
-                 int k=0;
-                 int flag_found=0;
-                 while(k<TFIDFscoreslistcopy.size()&&flag_found==0){
-                     flag_found=0;
-                     System.out.println(TFIDFscoreslistcopy.get(k));
-                     if(TFIDFscoreslistcopy.get(k).doubleValue()==score){
-                         topWordsTFIDF[i3]=wordsTFIDF.get(k); 
-                         flag_found=1;
-                     }
-                     k++;
-                 }
-             }*/
-             
-             /*
-             for(int i3=0; i3<topWords; i3++) {
-                 Double score = TFIDFscoreslist.get(TFIDFscoreslist.size()-1-i3);
-                 //Lookup original index efficiently
-                 Set<Map.Entry<String, Double>> wordTFIDFentrySet = wordTFIDFscores.entrySet();
-                 Iterator<Map.Entry<String, Double>> wordTFIDFiterator = wordTFIDFentrySet.iterator();
-                 while(wordTFIDFiterator.hasNext()){
-                     if(wordTFIDFiterator.next().getValue()==score){
-                         topWordsTFIDF[i3]=wordTFIDFiterator.next().getKey();
-                     }
-                 }
-             }*/
-             //topWordsList=Arrays.asList(topWordsTFIDF);
              topWordsList=topwordsTFIDF;        
              File file_words = new File(directory + "words.txt");
              FileUtils.writeLines(file_words,topWordsList);

@@ -1,25 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 package com.thesmartweb.lshrank;
-
-/**
- *
- * @author Themis Mavridis
- */
-/*
- *    Stopwords.java
- *    Copyright (C) 2001 Eibe Frank
- */
-
-
-
-
-
-
-
 /**
  * Class that can test whether a given string is a stop word.
  * Lowercases all words before the test. <p/>
@@ -48,9 +29,9 @@ package com.thesmartweb.lshrank;
 public class Stopwords {
 
     /**
-     *
-     * @param input
-     * @return
+     * Get a string without the stopwords
+     * @param input the string we would like to clean from stopwords
+     * @return the cleaned string
      */
     public String stop(String input){
     String[] stoparr={

@@ -11,17 +11,17 @@ import java.net.*;
 import org.apache.commons.lang.StringUtils;
 
 /**
- *
- * @author asymeon
+ * Class for the various Sindice functionalities
+ * @author Themistoklis Mavridis
  */
 public class Sindice {
-     int triplecount=0;
-     boolean[] namespaces;
+     int triplecount=0;//the amount of semantic triples 
+     boolean[] namespaces;//the semantic namespaces recognized
 
     /**
-     *
-     * @param url
-     * @return
+     * Method that gets the amount of semantic triples and recognizes the semantic namespaces used
+     * @param url the url that we are going to get the stats for
+     * @return the amount of semantic triples
      */
     public int getsindicestats(String url){
         try {
