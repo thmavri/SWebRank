@@ -421,7 +421,7 @@ public class WebParser {
     }  
 
     /**
-     * Method to get all the elements with a specific html feature (not used in LSHrank's current version)
+     * Method to get all the elements with a specific html feature (not used in SWebRank's current version)
      * @param link_html the url to check
      * @param dir the directory to save the file
      * @return a list with the text of all the elements

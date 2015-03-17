@@ -26,7 +26,7 @@ import org.apache.commons.io.IOUtils;
 
 /**
  * Class that contains methods that manipulate different data
- * for LSHrank
+ * for SWebRank
  * @author Themis Mavridis
  */
 public class DataManipulation {

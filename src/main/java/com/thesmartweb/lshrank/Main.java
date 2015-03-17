@@ -1,6 +1,6 @@
 package com.thesmartweb.lshrank;
 /**
- * Main method of LSHrank. 
+ * Main method of SWebRank. 
  * It receives the input in a txt file in a structure format.
  * Passes all the input variables to the total analysis class.
  * It receives the wordlist of every iteration for each query and creates a wordlist for every domain.
@@ -9,21 +9,13 @@ package com.thesmartweb.lshrank;
  * It compares the wordlist of every iteration with the previous one using Normalized Mutual Information
  * @author Themis Mavridis
  */
-import com.snowtide.PDF;
-import com.snowtide.pdf.Document;
-import com.snowtide.pdf.OutputTarget;
+
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 import java.util.List;
 import org.apache.commons.io.FilenameUtils;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.commons.io.FileUtils;
-import org.dbpedia.spotlight.exceptions.AnnotationException;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
@@ -32,7 +24,7 @@ import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 import org.json.simple.JSONObject;
 
 /**
- * Main class of LSHrank that gets the settings and get the results of every iteration.
+ * Main class of SWebRank that gets the settings and get the results of every iteration.
  * It calls the process to create new queries and to check if we converge.
  * @author themis
  */
@@ -75,7 +67,7 @@ public class Main {
         //---------------Semantic Analysis method----------------
         List<Boolean> ContentSemantics=null;
         int SensebotConcepts = 0;//define the amount of concepts that sensebot is going to recognize
-        List<Double> LSHrankSettings=null;
+        List<Double> SWebRankSettings=null;
         //------(string)directory is going to be used later-----
         String output_child_directory;
         //-------we get all the paths of the txt (input) files from the input directory-------
@@ -98,7 +90,7 @@ public class Main {
                 moz_threshold=ri.moz_threshold.doubleValue();
                 //---------------
                 ContentSemantics=ri.ContentSemantics;
-                LSHrankSettings=ri.LSHrankSettings;
+                SWebRankSettings=ri.SWebRankSettings;
             }                 
             int top_visible=0;//option to set the amount of results you can get in the merged search engine
             //------if we choose to use a Moz metric or Visibility score for our ranking, we need to set the results_number for the search engines to its max which is 50 
@@ -154,11 +146,11 @@ public class Main {
                             ids.add(id);
                         }
                         ElasticGetWordList ESget=new ElasticGetWordList();//we call this class to get the wordlist from the Elastic Search
-                        List<String> maxWords = ESget.getMaxWords(ids, LSHrankSettings.get(9).intValue());//we are going to get a max amount of words
+                        List<String> maxWords = ESget.getMaxWords(ids, SWebRankSettings.get(9).intValue());//we are going to get a max amount of words
                         int query_index=queries.indexOf(query);
-                        int size_query_new = LSHrankSettings.get(10).intValue();//the amount of new queries we are willing to create
+                        int size_query_new = SWebRankSettings.get(10).intValue();//the amount of new queries we are willing to create
                         //we create the new queries for every query of the previous round by combining the words produced from this query
-                        List<String> query_new_list = cn.perform(maxWords, LSHrankSettings.get(7), queries, LSHrankSettings.get(6), query_index, size_query_new, config_path);
+                        List<String> query_new_list = cn.perform(maxWords, SWebRankSettings.get(7), queries, SWebRankSettings.get(6), query_index, size_query_new, config_path);
                         //we add the list of new queries to the total list that containas all the new queries
                         query_new_list_total.addAll(query_new_list);
                         System.out.println("query pointer=" + query_index + "");
@@ -173,7 +165,7 @@ public class Main {
                     if(query_new_list_total.size()<1){break;}//if we don't create new queries we end the while loop
                     //total analysis' function is going to do all the work and return back what we need
                     ta = new Total_analysis();
-                    ta.perform(wordList_previous,iteration_counter,output_child_directory,domain,enginechoice, query_new_list_total, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings, config_path);
+                    ta.perform(wordList_previous,iteration_counter,output_child_directory,domain,enginechoice, query_new_list_total, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, SWebRankSettings, config_path);
                     //we get the array of wordlists
                     array_wordLists=ta.getarray_wordLists();
                     //get the wordlist that includes all the new queries
@@ -201,7 +193,7 @@ public class Main {
                     //----------we create a string that is going to be used for the corresponding directory of outputs
                     output_child_directory=output_parent_directory+txt_directory+"_level_"+iteration_counter+"//";
                     //we call total analysis function performOld
-                    ta.perform(wordList_new,iteration_counter,output_child_directory,domain, enginechoice, queries, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, LSHrankSettings, config_path);
+                    ta.perform(wordList_new,iteration_counter,output_child_directory,domain, enginechoice, queries, results_number, top_visible, mozMetrics, moz_threshold_option, moz_threshold.doubleValue(), top_count_moz, ContentSemantics, SensebotConcepts, SWebRankSettings, config_path);
                     //we get the array of wordlists
                     array_wordLists=ta.getarray_wordLists();
                     //get the wordlist that includes all the new queries
@@ -213,7 +205,7 @@ public class Main {
                     //-----------------------------------------
                     iteration_counter++;//increase the iteration_counter that counts the iterations of the algorithm
                 }
-            }while(F1<LSHrankSettings.get(5).doubleValue()&&iteration_counter<LSHrankSettings.get(8).intValue());//while the convergence percentage is below the limit and the iteration_counter below the performance limit
+            }while(F1<SWebRankSettings.get(5).doubleValue()&&iteration_counter<SWebRankSettings.get(8).intValue());//while the convergence percentage is below the limit and the iteration_counter below the performance limit
                 if(iteration_counter==1){ finalList=wordsmanipulation.AddAList(wordList_new, finalList);}
                 //--------------------content List----------------
                 if (!finalList.isEmpty()) {

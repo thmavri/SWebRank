@@ -35,7 +35,7 @@ public class Search_analysis {
      * @param quer the query we search for
      * @param results_number the results number that we are going to get from every search engine
      * @param top_visible the number of results if we use Visibility score
-     * @param LSHrankSettings the settings for LDA and LSHrank in general (check the ReadInput Class)
+     * @param SWebRankSettings the settings for LDA and SwebRank in general (check the ReadInput Class)
      * @param alpha alpha value of LDA
      * @param mozMetrics the metrics of choice if Moz is going to be used
      * @param top_count_moz the amount of results if we use Moz
@@ -46,7 +46,7 @@ public class Search_analysis {
      * @param config_path the configuration path to get all the api keys
      * @return a list with the words recognized as important by the content semantic analysis algorithm we have chosen 
      */
-    public List<String> perform(int iteration_counter,String directory_save, String domain, List<Boolean> enginechoice, String quer, int results_number, int top_visible,List<Double> LSHrankSettings,double alpha, List<Boolean> mozMetrics, int top_count_moz, boolean moz_threshold_option,double moz_threshold, List<Boolean> ContentSemantics, int SensebotConcepts, String config_path){ 
+    public List<String> perform(int iteration_counter,String directory_save, String domain, List<Boolean> enginechoice, String quer, int results_number, int top_visible,List<Double> SWebRankSettings,double alpha, List<Boolean> mozMetrics, int top_count_moz, boolean moz_threshold_option,double moz_threshold, List<Boolean> ContentSemantics, int SensebotConcepts, String config_path){ 
         try {
             //=======connect to mysql=========
             Connection conn = null;
@@ -224,11 +224,11 @@ public class Search_analysis {
                         settingsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
                         
                         stmt = conn.prepareStatement(settingsStmBuild.toString());
-                        stmt.setInt(1,LSHrankSettings.get(1).intValue());
+                        stmt.setInt(1,SWebRankSettings.get(1).intValue());
                         stmt.setDouble(2,alpha);
-                        stmt.setDouble(3,LSHrankSettings.get(0));
-                        stmt.setInt(4,LSHrankSettings.get(2).intValue());
-                        stmt.setDouble(5,LSHrankSettings.get(3));
+                        stmt.setDouble(3,SWebRankSettings.get(0));
+                        stmt.setInt(4,SWebRankSettings.get(2).intValue());
+                        stmt.setDouble(5,SWebRankSettings.get(3));
                         stmt.setBoolean(6,mozMetrics.get(0));
                         stmt.setInt(7,top_count_moz);
                         stmt.setDouble(8,moz_threshold);
@@ -830,7 +830,7 @@ public class Search_analysis {
                 //we perform LDA or TFIDF analysis to the links obtained
                     if(!enginechoice.get(3)){
                         if(enginechoice.get(2)){//Yahoo
-                            parse_output=ld.perform(links_yahoo, domain, "yahoo", directory_save, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                            parse_output=ld.perform(links_yahoo, domain, "yahoo", directory_save, quer, SWebRankSettings.get(1).intValue(), alpha, SWebRankSettings.get(0).doubleValue(), SWebRankSettings.get(2).intValue(), SWebRankSettings.get(3).intValue(),ContentSemantics.get(1),ContentSemantics.get(3), config_path);
                             int j=0;
                             for(String s:parse_output){
                                 parseOutputList.put(j,s);
@@ -839,7 +839,7 @@ public class Search_analysis {
                             System.gc();
                         }
                         if(enginechoice.get(1)){//Google
-                            parse_output=ld.perform(links_google, domain, "google", directory_save, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                            parse_output=ld.perform(links_google, domain, "google", directory_save, quer, SWebRankSettings.get(1).intValue(), alpha, SWebRankSettings.get(0).doubleValue(), SWebRankSettings.get(2).intValue(), SWebRankSettings.get(3).intValue(),ContentSemantics.get(1),ContentSemantics.get(3), config_path);
                             int j=results_number;
                             for(String s:parse_output){
                                 parseOutputList.put(j, s);
@@ -848,7 +848,7 @@ public class Search_analysis {
                             System.gc();
                         }
                         if(enginechoice.get(0)){//Bing
-                            parse_output=ld.perform(links_bing, domain, "bing", directory_save, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                            parse_output=ld.perform(links_bing, domain, "bing", directory_save, quer, SWebRankSettings.get(1).intValue(), alpha, SWebRankSettings.get(0).doubleValue(), SWebRankSettings.get(2).intValue(), SWebRankSettings.get(3).intValue(),ContentSemantics.get(1),ContentSemantics.get(3), config_path);
                             int j=results_number*2;
                             for(String s:parse_output){
                                 parseOutputList.put(j, s);
@@ -859,7 +859,7 @@ public class Search_analysis {
                     }
                     /*else{
                         System.gc();//links_total
-                        parse_output=ld.perform(links_total, domain, "merged", directory_save, quer, LSHrankSettings.get(1).intValue(), alpha, LSHrankSettings.get(0).doubleValue(), LSHrankSettings.get(2).intValue(), LSHrankSettings.get(3).intValue(),"Merged",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
+                        parse_output=ld.perform(links_total, domain, "merged", directory_save, quer, SWebRankSettings.get(1).intValue(), alpha, SWebRankSettings.get(0).doubleValue(), SWebRankSettings.get(2).intValue(), SWebRankSettings.get(3).intValue(),"Merged",ContentSemantics.get(1),ContentSemantics.get(3), config_path);
                         Collections.addAll(parseOutputList, parse_output);
                         System.gc();
                     }*/
@@ -888,7 +888,7 @@ public class Search_analysis {
                 //get the top content from LDA
                 System.out.println("i ll try to read the keys");
                 LDAtopicsWords rk = new LDAtopicsWords();
-                enginetopicwordprobmap= rk.readFile(directory_save, LSHrankSettings.get(4),LSHrankSettings.get(3).intValue(), LSHrankSettings.get(1).intValue());
+                enginetopicwordprobmap= rk.readFile(directory_save, SWebRankSettings.get(4),SWebRankSettings.get(3).intValue(), SWebRankSettings.get(1).intValue());
                 
                 JSONArray ArrayEngineLevel = new JSONArray();
                 List<String> ids=new ArrayList<>();

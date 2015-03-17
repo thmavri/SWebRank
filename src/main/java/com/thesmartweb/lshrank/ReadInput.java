@@ -77,7 +77,7 @@ public class ReadInput {
     protected List<Boolean> ContentSemantics;
 
     /**
-     * List that contains then LSHrank settings
+     * List that contains then SWebRank settings
      * #0 beta
      * #1 number of topics
      * #2 number of iterations
@@ -90,7 +90,7 @@ public class ReadInput {
      * #9 new terms to combine from wordlist per query per round
      * #10 max new queries to generate per previous round query
      */
-    protected List<Double> LSHrankSettings;
+    protected List<Double> SWebRankSettings;
 
     /**
      * Domain of queries
@@ -110,14 +110,14 @@ public class ReadInput {
         this.queries = new LinkedList<String>();//better in add(E element)
         this.enginechoice= new ArrayList<Boolean>();//lower complexity in get
         this.ContentSemantics=new ArrayList<Boolean>();
-        this.LSHrankSettings=new ArrayList<Double>();
+        this.SWebRankSettings=new ArrayList<Double>();
         this.mozMetrics=new ArrayList<Boolean>();
         this.domain="";
         
     }
 
     /**
-     * Method to read LSHrank's settings
+     * Method to read SWebRank's settings
      * @param Input The file that contains the input settings to be read
      * @return True/False if everything was read correctly
      */
@@ -261,37 +261,37 @@ public class ReadInput {
             }
             //-----------------------------
             if (sc.hasNextLine()) {//0beta
-                LSHrankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
+                SWebRankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
             if (sc.hasNextLine()) {//1number of topics
-                LSHrankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
+                SWebRankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
             if (sc.hasNextLine()) {//2number of iterations
-                LSHrankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
+                SWebRankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
             if (sc.hasNextLine()) {//3number of top words
-                LSHrankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
+                SWebRankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
             if (sc.hasNextLine()) {//4number of probability threshold
-                LSHrankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
+                SWebRankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
             if (sc.hasNextLine()) {//5conversion limit
-                LSHrankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
+                SWebRankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
             if (sc.hasNextLine()) {//6ngd threshold
-                LSHrankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
+                SWebRankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
             if (sc.hasNextLine()) {//7combine limit
-                LSHrankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
+                SWebRankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
             if (sc.hasNextLine()) {//8performance limit
-                LSHrankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
+                SWebRankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
             if (sc.hasNextLine()) {//9amount of terms to get from each query from the wordlist of LDA to create the new queries per round
-                LSHrankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
+                SWebRankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
             if (sc.hasNextLine()) {//10amount of queries to create for each query using NWD
-                LSHrankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
+                SWebRankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
             if (sc.ioException() !=null){
                 return false;

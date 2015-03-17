@@ -56,10 +56,10 @@ public class Total_analysis {
      * @param top_count_moz the amount of links to keep if we use Moz for evaluation
      * @param ContentSemantics get the choice of Content Semantic Analysis algorithm that we are going to use
      * @param SensebotConcepts the amount of concepts to be recognized if Sensebot is used
-     * @param LSHrankSettings the settings for LDA and LSHrank in general (check the ReadInput Class)
+     * @param SWebRankSettings the settings for LDA and SwebRank in general (check the ReadInput Class)
      * @param config_path the configuration path to get all the api keys
      */
-    public void perform(List<String> wordList_previous,int iteration_counter,String example_dir,String domain, List<Boolean> enginechoice,List<String> queries,int results_number, int top_visible, List<Boolean> mozMetrics, boolean moz_threshold_option, double moz_threshold, int top_count_moz, List<Boolean> ContentSemantics, int SensebotConcepts, List<Double> LSHrankSettings, String config_path){
+    public void perform(List<String> wordList_previous,int iteration_counter,String example_dir,String domain, List<Boolean> enginechoice,List<String> queries,int results_number, int top_visible, List<Boolean> mozMetrics, boolean moz_threshold_option, double moz_threshold, int top_count_moz, List<Boolean> ContentSemantics, int SensebotConcepts, List<Double> SWebRankSettings, String config_path){
         //for every term of the query String[] it performs the search analysis function
         //which includes sumbission of the term to the search engines, getting the results according to the options selected
         //parsing the websites and getting the content and the running LDA on them and getting the top content
@@ -73,9 +73,9 @@ public class Total_analysis {
             //the following string represents the directory for each query
             String example_directory = example_dir + query + "-query//";
             //we set the alpha variable of the LDA algorithm to the value that is said to be optimal in the paper of LDA, alpha
-            double alpha = 50 / LSHrankSettings.get(1);
+            double alpha = 50 / SWebRankSettings.get(1);
             //we call perform method of search analysis
-            wordList = sa.perform(iteration_counter, example_directory, domain, enginechoice, query, results_number, top_visible, LSHrankSettings, alpha, mozMetrics, top_count_moz, moz_threshold_option, moz_threshold, ContentSemantics, SensebotConcepts, config_path);
+            wordList = sa.perform(iteration_counter, example_directory, domain, enginechoice, query, results_number, top_visible, SWebRankSettings, alpha, mozMetrics, top_count_moz, moz_threshold_option, moz_threshold, ContentSemantics, SensebotConcepts, config_path);
             //we add the wordlist to the vector of word list
             ArrayList<String> wordArrayList=new ArrayList<>(wordList);
             array_wordLists.add(wordArrayList);
