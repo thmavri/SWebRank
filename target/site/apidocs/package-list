@@ -1,0 +1,9 @@
+com.seomoz.api.authentication
+com.seomoz.api.constants
+com.seomoz.api.example
+com.seomoz.api.response
+com.seomoz.api.service
+com.seomoz.api.util
+com.thesmartweb.lshrank
+org.tartarus.snowball
+org.tartarus.snowball.ext
