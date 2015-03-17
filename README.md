@@ -3,7 +3,7 @@
 SWebRank is a Topic modeling mechanism (formerly entitled LSHrank - Latent Semantic Headless rank) that employs Content Semantic Analysis through Latent Dirichlet Allocation (LDA) to generate optimal content analyzing web documents out of search engine result pages. It also evaluates the influence of webpage and semantic characteristics (such as Semantic Entities and Categories, namespaces, semantic triples) on the ranking mechanisms of major search engines always considering the domain of analysis.
 
 ##More details are coming soon....for now check the Javadoc
-<https://github.com/thmavri/SWebRank/blob/master/SWebRank_Javadoc.zip>
+<https://github.com/thmavri/SWebRank/blob/master/SWebRank_Javadoc.zip?raw=true>
 
 ###Publications
 * Exploring the influence of semantic data on the ranking mechanisms of search engines. T. Mavridis, L. Aroyo, A.L. Symeonidis. ACM Transactions on the Web (submitted Feb 15).
