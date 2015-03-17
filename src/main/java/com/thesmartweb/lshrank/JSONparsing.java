@@ -467,7 +467,6 @@ public class JSONparsing {
      * @param input the JSON response by the Yahoo Content Analysis API
      * @param quer the query to count the stats for
      * @param StemFlag flag for stemming
-     * @return 
      */
     public void YahooEntityJsonParsing(String input, String quer,boolean StemFlag){
         try {

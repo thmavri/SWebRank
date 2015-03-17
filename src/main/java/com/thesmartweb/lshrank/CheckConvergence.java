@@ -11,15 +11,15 @@ import java.util.logging.Logger;
 
 /**
  * Class to check the convergence percentage between the words of two rounds
- * @author themis
+ * @author Themistoklis
  */
 public class CheckConvergence {
 
     /**
      * Method to check the convergence by simply comparing the amount of words of the new round that existed in the previous round
      * employing Porter Stemmer
-     * @param wordList_new
-     * @param wordList_previous
+     * @param wordList_new the list of words of the current round
+     * @param wordList_previous the list of words of the previous round
      * @return a number with value in a range 0 - 1 with 1 to that all the words in the new wordlist existed in the old
      */
     public double performOld(List<String> wordList_new,List<String> wordList_previous/*,List<String> finalList*/){
@@ -48,8 +48,8 @@ public class CheckConvergence {
     /**
      * Method to check the convergence using F1 score
      * employing Snowball stemmer
-     * @param wordList_new
-     * @param wordList_previous
+     * @param wordList_new the list of words of the current round
+     * @param wordList_previous the list of words of the previous round
      * @return return the F1 score 0 - 1 with 1 to that all the words in the new wordlist existed in the old
      */
     public double F1Calc(List<String> wordList_new,List<String> wordList_previous){

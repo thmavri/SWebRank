@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 /**
  * Class to deal with the semantic entities and concepts (categories) of Dandelion named Entity Extraction API
- * @see https://dandelion.eu/products/datatxt/nex/demo/?text=The+Mona+Lisa+is+a+16th+century+oil+painting+created+by+Leonardo.+It%27s+held+at+the+Louvre+in+Paris.&lang=auto&min_confidence=0.6&exec=true#results
+ * <a href="https://dandelion.eu/products/datatxt/nex/demo/?text=The+Mona+Lisa+is+a+16th+century+oil+painting+created+by+Leonardo.+It%27s+held+at+the+Louvre+in+Paris.&lang=auto&min_confidence=0.6&exec=true#results">check more</a>
  * @author Themistoklis Mavridis
  */
 public class DandelionEntities {

@@ -54,6 +54,7 @@ public class YahooResults {
     /**
      * Method to get the results number of a specific query from Yahoo! search api
      * @param quer the query to search for
+     * @param config_path the directory to get the api keys
      * @return the amount of results
      */
     public Long Get_Results_Number(String quer, String config_path) 

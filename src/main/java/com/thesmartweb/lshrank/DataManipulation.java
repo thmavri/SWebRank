@@ -32,9 +32,9 @@ import org.apache.commons.io.IOUtils;
 public class DataManipulation {
 
     /**
-     * Method that clears a List<String> from duplicates and null elements
-     * @param wordList It contains the List<String> to be cleared
-     * @return a List<String> cleared from duplicates and null elements
+     * Method that clears a List from duplicates and null elements
+     * @param wordList It contains the List to be cleared
+     * @return a List cleared from duplicates and null elements
      */
     public List<String> clearListString(List<String> wordList){
             //remove all null elements of the wordlist
@@ -53,9 +53,9 @@ public class DataManipulation {
     }
 
     /**
-     * Method that writes a List<String> to a file
-     * @param wordList List<String> to be saved
-     * @param file_wordlist The file in a string format that the List<String> is going to be saved
+     * Method that writes a List to a file
+     * @param wordList List to be saved
+     * @param file_wordlist The file in a string format that the List is going to be saved
      * @return True/False 
      */
     public boolean AppendWordList(List<String> wordList, String file_wordlist){
@@ -88,9 +88,9 @@ public class DataManipulation {
     }
 
     /**
-     * Method that adds a List<String> to another List<String>
-     * @param wordListtoAdd List<String> to be added
-     * @param wordListTotal List<String> in which the elements of wordListtoAdd are going to be added
+     * Method that adds a List to another List
+     * @param wordListtoAdd List to be added
+     * @param wordListTotal List in which the elements of wordListtoAdd are going to be added
      * @return wordListTotal which contains the elements already existent in it along with the elements of wordListtoAdd
      */
     public List<String> AddAList(List<String> wordListtoAdd, List<String> wordListTotal){
@@ -225,9 +225,9 @@ public class DataManipulation {
     }
    
     /**
-     * Method that sorts a HashMap<String,Double> according to their values
-     * @param map the HashMap<String,Double> to be sorted
-     * @return a List<String> that contains the keys in sorted (descending) fashion
+     * Method that sorts a HashMap according to their values
+     * @param map the HashMap to be sorted
+     * @return a List that contains the keys in sorted (descending) fashion
      */
     public List<String> sortHashmap (final HashMap<String,Double> map){
         Set<String> set = map.keySet();

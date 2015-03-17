@@ -171,15 +171,14 @@ public abstract class AnnotationClient {
 
     /**
      * Entity extraction code.
-     * @param text
-     * @return
+     * @param text the text to extracts entities from
+     * @return a list of dbpedia resources
      */
     public abstract List<DBpediaResource> extract(Text text) throws AnnotationException;
     /**
      * Entity extraction code.
      * @param url_check the url to extract entities from
      * @param StemFlag the boolean flag to declare if we are going to use Stemming or not
-     * @return
      */
     public abstract void extract(String url_check,boolean StemFlag) throws AnnotationException;
 }

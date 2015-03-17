@@ -13,7 +13,7 @@ import org.json.simple.JSONArray;
 import java.util.*;
 //
 /**
- *
+ * Class for the Google Search API
  * @author Themistoklis Mavridis
  */
 public class GoogleResults {
@@ -74,6 +74,7 @@ public class GoogleResults {
     /**
      * Method to get the results number for a specific query
      * @param quer the query to search for
+     * @param config_path the directory to get the keys from
      * @return the number of results
      */
     public Long Get_Results_Number(String quer, String config_path){//it gets the results number for a specific query
@@ -132,6 +133,7 @@ public class GoogleResults {
         
     /**
      * Method to get the keys of Google API search
+     * @param config_path the directory to get the keys from
      * @return all the keys of Google
      */
     public String[] GetKeys(String config_path){

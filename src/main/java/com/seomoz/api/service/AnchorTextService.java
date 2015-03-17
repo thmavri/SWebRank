@@ -40,7 +40,7 @@ public class AnchorTextService
 	 * @param col
 	 * @return a set of anchor text terms of phrases aggregated across links to a page or domain. 
 	 * 
-	 * @see #getAnchorText(String, String, String, int, int, int)
+	 * 
 	 */
 	public String getAnchorText(String objectURL, String scope, String sort, long col)
 	{

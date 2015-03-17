@@ -12,13 +12,14 @@ public class Combinations_Engine {//function that calculates all the possible co
 
     /**
      * A method that calculates all the combinations and permutations
-     * @param wordList A List<String> that contains all the words to be combined
+     * @param wordList A List that contains all the words to be combined
      * @param combine_limit The number of words in every combination
-     * @param queries A List<String> that contains the queries of the current round
+     * @param queries A List that contains the queries of the current round
      * @param nwd_threshold It contains the threshold for NWD
      * @param i It denotes the query against which NWD is going to be calculated
      * @param size_quer_new It contains the number of new queries to be calculated
-     * @return A List<> that contains the top new queries for the i query
+     * @param config_path the directory to save the nwd score
+     * @return A List that contains the top new queries for the i query
      */
     public List<String> perform(List<String> wordList,Double combine_limit,List<String> queries,Double nwd_threshold,int i, int size_quer_new, String config_path){
         int[] indices;
@@ -69,7 +70,7 @@ public class Combinations_Engine {//function that calculates all the possible co
                     //get input(words) for ngd
                     String[] ngd_array = ngd_in.toArray(new String[ngd_in.size()]);
                     //NGD call, get the top words and run Search analysis and LDA on them
-                    NGD_total ngt = new NGD_total();
+                    NWD_total ngt = new NWD_total();
                     if(queries.get(i)!=null){
                         int[] origIndex = ngt.call(ngd_array, queries, nwd_threshold, i, config_path);
                         //**** if we have max number of new queries*****
@@ -93,9 +94,9 @@ public class Combinations_Engine {//function that calculates all the possible co
 }
 
     /**
-     * Method that calculates the Permutations of terms in a List<String> and adds a + between them for the search engine queries
-     * @param wordList the List<String> that contains the terms to calculate the permutations
-     * @return all the permutations in a List<String>
+     * Method that calculates the Permutations of terms in a List and adds a + between them for the search engine queries
+     * @param wordList the List that contains the terms to calculate the permutations
+     * @return all the permutations in a List
      */
     public List<String> Calculate_Permutations(List<String> wordList) {
             //this function calculates all the possible permitations of the phrases given in a wordlist

@@ -15,9 +15,9 @@ import oauth.signpost.exception.OAuthMessageSignerException;
   
   
 /** 
- * @author David Hardtke 
- * @author 
  * Simple HTTP Request implementation used for Yahoo! Search API
+ * @author David Hardtke 
+ * 
  */  
 public class StHttpRequest {  
   
@@ -30,23 +30,12 @@ private static final Logger log = Logger.getLogger(StHttpRequest.class);
     /** Default Constructor */  
     public StHttpRequest() { }  
      
-    /**
-     *
-     * @param consumer
-     */
+   
     public StHttpRequest(OAuthConsumer consumer) {  
         this.consumer = consumer;  
     }  
   
-    /**
-     *
-     * @param url
-     * @return
-     * @throws IOException
-     * @throws OAuthMessageSignerException
-     * @throws OAuthExpectationFailedException
-     * @throws OAuthCommunicationException
-     */
+    
     public HttpURLConnection getConnection(String url)   
     throws IOException,  
         OAuthMessageSignerException,  
@@ -84,16 +73,7 @@ private static final Logger log = Logger.getLogger(StHttpRequest.class);
      }  
     }  
       
-    /** 
-     * Sends an HTTP GET request to a url 
-     * 
-     * @param url the url 
-     * @return - HTTP response code 
-     * @throws java.io.IOException 
-     * @throws oauth.signpost.exception.OAuthMessageSignerException 
-     * @throws oauth.signpost.exception.OAuthCommunicationException 
-     * @throws oauth.signpost.exception.OAuthExpectationFailedException 
-     */  
+   
     public int sendGetRequest(String url)   
     throws IOException,  
     OAuthMessageSignerException,  
@@ -126,28 +106,17 @@ private static final Logger log = Logger.getLogger(StHttpRequest.class);
     }  
   
   
-    /** 
-     * Return the Response body 
-     * @return String 
-     */  
     public String getResponseBody() {  
         return responseBody;  
     }  
   
-    /** 
-     * Setter 
-     * @param responseBody 
-     */  
     public void setResponseBody(String responseBody) {  
         if (null != responseBody) {  
             this.responseBody = responseBody;  
         }  
     }  
      
-    /** 
-     * Set the oAuth consumer 
-     * @param consumer 
-     */  
+    
     public void setOAuthConsumer(OAuthConsumer consumer) {  
         this.consumer = consumer;  
     }  

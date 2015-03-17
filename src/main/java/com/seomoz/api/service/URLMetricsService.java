@@ -65,7 +65,6 @@ public class URLMetricsService
 	 * @param objectURL
 	 * @return
 	 * 
-	 * @see URLMetricsService#getUrlMetrics(String, int)
 	 */
 	public String getUrlMetrics(String objectURL)
 	{

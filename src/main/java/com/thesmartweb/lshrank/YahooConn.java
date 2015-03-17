@@ -57,9 +57,9 @@ private static final String callType = "web";
 private static final int HTTP_STATUS_OK = 200;  
   
 /** 
- *  
-     * @param query
- * @return 
+ * Get the response by yahoo! on query
+ * @param query the query to search for
+ * @return the yahoo! response
  */  
 public String returnHttpData(String query){  
     try{
@@ -142,10 +142,10 @@ private boolean isConsumerSecretExists() {
     return true;  
 }  
 /**
-     * @param query
-     * @param config_path
-        * @param args 
-     * @return  
+ * Method to connect to Yahoo! Search API
+* @param query the query to search for
+* @param config_path the path where to find the api keys
+* @return  a string with the response
  */  
 public String connect(String query, String config_path) {  
     BasicConfigurator.configure();  
@@ -160,6 +160,10 @@ public String connect(String query, String config_path) {
         return line;
     }  
 } 
+/**
+ * Gets the keys for Yahoo!
+ * @param config_path  the path to search the api keys
+ */
  public void GetKeys(String config_path){
         ReadInput ri = new ReadInput();
         List<String> apikeysList=ri.GetKeyFile(config_path, "yahookeys");

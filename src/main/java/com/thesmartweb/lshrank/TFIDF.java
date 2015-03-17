@@ -27,7 +27,7 @@ public class TFIDF {
      * Method to calculate TF score
      * @param Doc the document to analyze
      * @param termToCheck the term to calculate tf for
-     * @return
+     * @return th TF score
      */
     public double tfCalculator(String Doc, String termToCheck) {
         double count = 0;  //to count the overall occurrence of the term termToCheck

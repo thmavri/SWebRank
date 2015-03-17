@@ -14,7 +14,7 @@ import org.apache.commons.codec.binary.Base64;
 import javax.net.ssl.HttpsURLConnection;
 /**
  * Class to connect to various APIs, to establish http and https connections
- * @author Themis Mavridis
+ * @author Themistoklis Mavridis
  */
 public class APIconn {
 
@@ -30,7 +30,7 @@ public class APIconn {
 
     /**
      * Connects to an ssl url and GETs the response
-     * @param link_ur
+     * @param link_ur the link to connect to
      * @return the response in a String
      */
     public String sslconnect(URL link_ur) {
@@ -60,7 +60,7 @@ public class APIconn {
     }
     /**
      * Connects to an http url and GETs the response
-     * @param link_ur
+     * @param link_ur the link to connect to
      * @return the response in a string
      */
     public String connect(URL link_ur) {
@@ -91,7 +91,7 @@ public class APIconn {
 
     /**
      * Checks if a connection to a url (http or https) gets response code 200
-     * @param link
+     * @param link the link to connect to
      * @return a string that contains "ok-conn" if we have response code 200, "fail-conn" if sth else
      */
     public String check_conn(String link){

@@ -43,7 +43,6 @@ public class LinksService
 	 * @param col specifies data about the source of the link is included
 	 * @return
 	 * 
-	 * @see #getLinks(String, String, String, String, int, int, int)
 	 */
 	public String getLinks(String objectURL, String scope, String filters, String sort, long col)
 	{

@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import java.util.*;
 
 /**
- * Class
+ * Class for LDA's results manipulation
  * @author themis
  */
 public class LDAtopicsWords {

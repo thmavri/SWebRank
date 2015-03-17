@@ -56,11 +56,7 @@ public class DBpediaSpotlightClient extends AnnotationClient {
         private int cat_cnt_dbpspot=0;
         private int ent_cnt_dbpspot_whole=0;
         private int cat_cnt_dbpspot_whole=0;
-        /**
-        * Method that recognizes the entities through DBpedia spotlight a given text
-        * @param Text the text to be annotated
-        * @return a list with the dbpedia resources
-        */
+        
 	@Override
 	public List<DBpediaResource> extract(Text text) throws AnnotationException {
 
@@ -107,7 +103,6 @@ public class DBpediaSpotlightClient extends AnnotationClient {
         * Method that recognizes the entities through DBpedia spotlight the content of a given URL
         * @param url_check the url to be annotated
         * @param StemFlag a flag to determine if we want to use stemming
-        * @return a list with the dbpedia resources
         */
         @Override
 	public void extract(String url_check,boolean StemFlag) throws AnnotationException {
@@ -193,7 +188,6 @@ public class DBpediaSpotlightClient extends AnnotationClient {
      * @param url_check the url to count the statistics for
      * @param query the query term that which the url was a result of
      * @param StemFlag flag to use stemming or not
-     * @return 
      */
     public void countEntCat(String url_check,String query,boolean StemFlag) {
         

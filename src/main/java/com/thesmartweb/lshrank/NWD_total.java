@@ -4,34 +4,29 @@
  */
 
 package com.thesmartweb.lshrank;
-/**
- *
- * @author Themis Mavridis
- */
-import java.util.*;
 
+import java.util.*;
 /**
- *
- * @author themis
+ * Class for Normalized Web Distance calculation
+ * @author Themistoklis Mavridis
  */
-public class NGD_total {
+public class NWD_total {
 
     /**
-     *
-     * @param ngd_arr
-     * @param queries
-     * @param ngd_threshold
-     * @param i
-     * @return
+     * Method to get the NWD score
+     * @param ngd_arr the array of terms combinations to compare to the original query
+     * @param queries the original queries list
+     * @param ngd_threshold the nwd threshold
+     * @param i the index of the current query
+     * @param config_path the directory where all the configuration files are stored
+     * @return the NWD scores
      */
     public int[] call(String[] ngd_arr,List<String> queries,Double ngd_threshold,int i, String config_path) {
-        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ NGD @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        //get all ngd scores for all the words comparing to the current query term
+        //get all nwd scores for all the words comparing to the current query term
         NWD_Analysis ngd=new NWD_Analysis();
         Double[] ngd_scores=new Double[ngd_arr.length];
         System.out.println("into ngd total");
-        for(int j=0;j<ngd_scores.length;j++)
-        {
+        for(int j=0;j<ngd_scores.length;j++){
           int flag=0;
           //if a word is in the first keywords do not calculate a ngd score for it
           for(int k=0;k<queries.size();k++){
@@ -43,7 +38,7 @@ public class NGD_total {
         //get the scores to a list
         List<Double> ngd_scores_list=Arrays.asList(ngd_scores);
         //create a hashmap in order to map the scores with the indexes
-        IdentityHashMap<Double, Integer> originalIndices = new IdentityHashMap<Double, Integer>();
+        IdentityHashMap<Double, Integer> originalIndices = new IdentityHashMap<>();
         //copy the original scores list
         for(int j=0; j<ngd_scores_list.size(); j++) {
             originalIndices.put(ngd_scores_list.get(j), j);
@@ -67,23 +62,19 @@ public class NGD_total {
         int y=0;
         int counter=0;
         while(y<sorted_ngd_scores.size()){
-        if(sorted_ngd_scores.get(y).compareTo(ngd_threshold)<=0){
-             counter++;
-        }
-
-             y++;
+            if(sorted_ngd_scores.get(y).compareTo(ngd_threshold)<=0){
+                 counter++;
+            }
+            y++;
         }
         //we get the indexes and from them we get the terms of ngd_arr that are below the threshold
         //we submit every term to the search engines and we get the keys that LDA analysis returns
         int[] origIndex=new int[counter];
-        for(int j=0;j<origIndex.length-1;j++)
-        {   
-                Double score = sorted_ngd_scores.get(j);
-                origIndex[j] = originalIndices.get(score);
-                
-            
+        for(int j=0;j<origIndex.length-1;j++){   
+            Double score = sorted_ngd_scores.get(j);
+            origIndex[j] = originalIndices.get(score);   
         }
         return origIndex;
-        }
+    }
 }
 

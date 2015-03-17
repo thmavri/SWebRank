@@ -68,8 +68,6 @@ private Authenticator authenticator;
 	 * @param objectURL
 	 * @param col
 	 * @return
-	 * 
-	 * @see #getTopPages(String, int, int, int)
 	 */
 	public String getTopPages(String objectURL, long col)
 	{
@@ -81,7 +79,6 @@ private Authenticator authenticator;
 	 * @param objectURL
 	 * @return
 	 * 
-	 * @see #getTopPages(String, int, int, int)
 	 */
 	public String getTopPages(String objectURL)
 	{

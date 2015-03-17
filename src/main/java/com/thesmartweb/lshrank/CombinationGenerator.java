@@ -4,15 +4,17 @@
  */
 
 package com.thesmartweb.lshrank;
-/**
- * @author Michael Gilleland - http://www.merriampark.com/comb.htm
- * http://www.ccs.neu.edu/home/lieber/courses/csu670/f08/sdg-players/winning-player/src/logic/CombinationGenerator.java
- * 
- * Method to Systematically generate combinations.
- */
+
 
 import java.math.BigInteger;
 
+/**
+ * Method to Systematically generate combinations.
+ * @author Michael Gilleland - http://www.merriampark.com/comb.htm
+ * <a href ="http://www.ccs.neu.edu/home/lieber/courses/csu670/f08/sdg-players/winning-player/src/logic/CombinationGenerator.java">http://www.ccs.neu.edu/home/lieber/courses/csu670/f08/sdg-players/winning-player/src/logic/CombinationGenerator.java</a>
+ * 
+ * 
+ */
 public class CombinationGenerator {
 
   private int[] a;
@@ -26,9 +28,9 @@ public class CombinationGenerator {
   //------------
 
     /**
-     *
-     * @param n
-     * @param r
+     * Generator of the combinations
+     * @param n number 1
+     * @param r number 2
      */
     
   public CombinationGenerator (int n, int r) {
@@ -65,8 +67,8 @@ public class CombinationGenerator {
   //------------------------------------------------
 
     /**
-     *
-     * @return
+     * Getter of the number left
+     * @return number left
      */
     
   public BigInteger getNumLeft () {
@@ -78,8 +80,8 @@ public class CombinationGenerator {
   //-----------------------------
 
     /**
-     *
-     * @return
+     * Getter of the flag if more is left
+     * @return get if more numbers are left
      */
     
   public boolean hasMore () {
@@ -91,8 +93,8 @@ public class CombinationGenerator {
   //------------------------------------
 
     /**
-     *
-     * @return
+     * Getter of the total number of combinations
+     * @return the total number of combinations
      */
     
   public BigInteger getTotal () {
@@ -116,8 +118,8 @@ public class CombinationGenerator {
   //--------------------------------------------------------
 
     /**
-     *
-     * @return
+     * Get the next combination (algorithm from Rosen p. 286)
+     * @return next combination (algorithm from Rosen p. 286)
      */
     
   public int[] getNext () {

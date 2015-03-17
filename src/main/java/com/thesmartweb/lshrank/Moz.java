@@ -19,13 +19,14 @@ public class Moz {
 
     /**
      * Method that captures the various Moz metrics for the provided urls (with help of the sample here https://github.com/seomoz/SEOmozAPISamples
+     * and ranks them accordingly
      * @param links the urls to analyze
      * @param top_count the amount of results to keep when we rerank the results according to their value of a specific Moz metric
      * @param moz_threshold the threshold to the Moz value to use
      * @param moz_threshold_option flag if we are going to use threshold in the Moz value or not
      * @param mozMetrics list that contains which metric to use for Moz //1st place is Page Authority,2nd external mozRank, 3rd, mozTrust, 4th DomainAuthority and 5th MozRank (it is the default)
      * @param config_path path that has the config files with the api keys and secret for Moz
-     * @return
+     * @return an array with the links sorted according to their moz values
      */
     public String[] perform(String[] links,int top_count,Double moz_threshold,Boolean moz_threshold_option,List<Boolean> mozMetrics, String config_path){
         //=====short codes for the metrics 
@@ -193,8 +194,9 @@ public class Moz {
 }
 
     /**
-     *
-     * @return
+     * Method to check if Moz API works
+     * @param config_path the directory to get the Moz keys from
+     * @return flag if the API works
      */
     public boolean check(String config_path){
         boolean moz=false;
@@ -210,9 +212,9 @@ public class Moz {
     }
 
     /**
-     *
-     * @param config_path
-     * @return
+     * Method to authenticate in Moz API
+     * @param config_path the directory to get the API keys from
+     * @return a URLMetricsService to get the Moz metrics 
      */
     public URLMetricsService authenticate(String config_path){
         List<String> apikeys = GetKeys(config_path);

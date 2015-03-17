@@ -42,7 +42,7 @@ public class ElasticGetWordList {
     /**
      * Method gets all the words of all the documents regardless of topic for the ids passed as input
      * @param ids It contains all the ids for which the words are going to be captured
-     * @return All the words in a List<String>
+     * @return All the words in a List
      */
     public List<String> get(List<String> ids) {
         try {
@@ -94,7 +94,7 @@ public class ElasticGetWordList {
      * Method gets all the top N max words for each topic of all the documents with their IDs (of the documents) passed as input.
      * @param ids It contains all the ids for which the words are going to be captured
      * @param top It contains the number of max words to be returned
-     * @return All the words in a List<String>
+     * @return All the words in a List
      */
     public List<String> getMaxWords(List<String> ids, int top) {
        try {
@@ -181,12 +181,15 @@ public class ElasticGetWordList {
         }
         
     }
+    
+    
     /**
      * Method that sorts a Map
+     * @param <K> any primitive
+     * @param <V> any primitive
      * @param map the map to be sorted
      * @return The map sorted in ascending fashion
      */
-    
     public static <K, V extends Comparable<? super V>> Map<K, V> 
     sortByValue( Map<K, V> map )
     {

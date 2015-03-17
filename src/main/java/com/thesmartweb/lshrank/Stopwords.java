@@ -3,21 +3,21 @@
 package com.thesmartweb.lshrank;
 /**
  * Class that can test whether a given string is a stop word.
- * Lowercases all words before the test. <p/>
+ * Lowercases all words before the test. 
  * The format for reading and writing is one word per line, lines starting
- * with '#' are interpreted as comments and therefore skipped. <p/>
- * The default Stopwords are based on <a href="http://www.cs.cmu.edu/~mccallum/bow/rainbow/" target="_blank">Rainbow</a>. <p/>
+ * with '#' are interpreted as comments and therefore skipped. 
+ * The default Stopwords are based on <a href="http://www.cs.cmu.edu/~mccallum/bow/rainbow/" target="_blank">Rainbow</a>.
  *
- * Accepts the following parameter: <p/>
+ * Accepts the following parameter: 
  *
- * -i file <br/>
- * loads the Stopwords from the given file <p/>
+ * -i file 
+ * loads the Stopwords from the given file 
  *
- * -o file <br/>
- * saves the Stopwords to the given file <p/>
+ * -o file 
+ * saves the Stopwords to the given file 
  *
- * -p <br/>
- * outputs the current Stopwords on stdout <p/>
+ * -p 
+ * outputs the current Stopwords on stdout 
  *
  * Any additional parameters are interpreted as words to test as Stopwords.
  *
