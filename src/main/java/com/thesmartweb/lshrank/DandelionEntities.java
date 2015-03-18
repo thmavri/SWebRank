@@ -42,7 +42,7 @@ public class DandelionEntities {
      * @param quer the query term that which the url was a result of
      * @param StemFlag a flag to determine if we want to use stemming
      */
-    public void connect(String urlcheck, String quer, boolean StemFlag) {  
+    public void connect(String urlcheck, String quer, boolean StemFlag, String config_path) {  
   
         try {  
             ent_query_cnt=0;
@@ -50,7 +50,8 @@ public class DandelionEntities {
             String line="";
             String baseUrl = "https://api.dandelion.eu/datatxt/nex/v1?url=";
             String fullUrlStr = baseUrl + URLEncoder.encode(urlcheck, "UTF-8")+"&min_confidence=0.10&include=types%2Ccategories%2Clod";
-            fullUrlStr =fullUrlStr +"&$app_id=59b43f94&$app_key=4374ae537a099afdca598c85a5cdaae7";
+            String[] apiCreds = GetKeys(config_path);
+            fullUrlStr =fullUrlStr +"&$app_id="+apiCreds[0]+"&$app_key="+apiCreds[1];
             URL link_ur = new URL(fullUrlStr);
             //we connect and then check the connection
             APIconn apicon = new APIconn();
@@ -100,4 +101,15 @@ public class DandelionEntities {
      * @return categories List
      */
     public List<String> GetCategoriesDand(){return categories;}
+    /**
+     * Method to get the keys of Dandelion API 
+     * @param config_path the directory to get the keys from
+     * @return all the keys of Dandelion API
+     */
+    public String[] GetKeys(String config_path){
+        ReadInput ri = new ReadInput();
+        List<String> dandKeysList = ri.GetKeyFile(config_path, "dandelionkeys");
+        String[] keys=new String[dandKeysList.size()];
+        return keys;
+    }
 }

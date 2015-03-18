@@ -671,14 +671,14 @@ public class Search_analysis {
                             int ent_cnt_whole_stem=yec.GetEntQuerCntWhole();
                             //get the semantic entities and categories from Dandelion Named entity extraction API
                             DandelionEntities dec = new DandelionEntities();
-                            dec.connect(links_total[j], quer,false);//without stemming
+                            dec.connect(links_total[j], quer,false,config_path);//without stemming
                             EntitiesMapDand.put(j, dec.GetEntitiesDand());
                             CategoriesMapDand.put(j, dec.GetCategoriesDand());
                             int cat_cnt_dand=dec.getCat();
                             int ent_cnt_dand=dec.getEnt();
                             int cat_cnt_dand_whole=dec.getCatWhole();
                             int ent_cnt_dand_whole=dec.getEntWhole();
-                            dec.connect(links_total[j], quer,true);//with stemming
+                            dec.connect(links_total[j], quer,true,config_path);//with stemming
                             int cat_cnt_dand_stem=dec.getCat();
                             int ent_cnt_dand_stem=dec.getEnt();
                             int cat_cnt_dand_whole_stem=dec.getCatWhole();
