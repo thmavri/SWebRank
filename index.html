@@ -43,6 +43,18 @@
 <p><a href="https://github.com/thmavri/SWebRank/blob/master/SWebRank_Javadoc.zip?raw=true">https://github.com/thmavri/SWebRank/blob/master/SWebRank_Javadoc.zip?raw=true</a></p>
 
 <h2>
+<a id="necessary-databases" class="anchor" href="#necessary-databases" aria-hidden="true"><span class="octicon octicon-link"></span></a>Necessary databases</h2>
+
+<hr>
+
+<ul>
+<li>MySQL database using the statements in the configuration files (you could possibly need to create the tables without the foreign keys first and then add them to work)</li>
+<li>Elasticsearch to store the various content. The name used for the cluster in the project is "lshrankldacluster". You can use whatever you want as long as you change it in the project in the necessary files. For Elasticsearch all you have to do is to install it and set the cluster name in the Elasticsearch config files. The indexes are built automatically through the source code.</li>
+<li>Elasticsearch guide : <a href="http://www.elastic.co/guide/en/elasticsearch/reference/current/index.html">http://www.elastic.co/guide/en/elasticsearch/reference/current/index.html</a>
+</li>
+</ul>
+
+<h2>
 <a id="important-library-file" class="anchor" href="#important-library-file" aria-hidden="true"><span class="octicon octicon-link"></span></a>Important Library File</h2>
 
 <hr>
