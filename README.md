@@ -7,7 +7,8 @@ SWebRank is a Topic modeling mechanism (formerly entitled LSHrank - Latent Seman
 
 ##Necessary databases
 * MySQL database using the statements in the configuration files (you could possibly need to create the tables without the foreign keys first and then add them to work)
-* Elasticsearch to store the various content. The name used for the cluster in the project is "lshrankldacluster". You can use whatever you want as long as you change it in the project in the necessary files. For Elasticsearch all you have to do is to install it and set the cluster name. The indexes are built automatically through the source code.
+* Elasticsearch to store the various content. The name used for the cluster in the project is "lshrankldacluster". You can use whatever you want as long as you change it in the project in the necessary files. For Elasticsearch all you have to do is to install it and set the cluster name in the Elasticsearch config files. The indexes are built automatically through the source code.
+*Elasticsearch guide : <http://www.elastic.co/guide/en/elasticsearch/reference/current/index.html>
 
 ##Important Library File
 DBpedia Spotlight jar is not in maven repository.
