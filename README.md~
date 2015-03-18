@@ -12,7 +12,6 @@ Download it from here: <http://bit.ly/DBpediaSpotlight>
 ##Sample Input and Configuration
 * Sample files can be find in the respective folders
 * The files should be .txt for the API credentials and the input.
-* The SQL commands are in order to setup the MySQL database. You may want to configure the tables without the foreign keys first.
 
 ##Important Library File
 DBpedia Spotlight jar is not in maven repository.
