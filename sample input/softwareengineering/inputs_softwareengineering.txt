@@ -1,0 +1,52 @@
+Domain:Software+Engineering
+Queries:15
+query:software+engineer
+query:software+engineering+maintenance
+query:software+engineering+requirements
+query:software+engineering+management
+query:software+development
+query:software+maintenance
+query:software+acquisition+support
+query:software+quality
+query:software+engineering
+query:software+engineering+deployment
+query:software+engineering+tools
+query:software+design
+query:software+testing
+query:software+configuration+management
+query:software+development+process
+results number:50
+bing:true
+google:true
+yahoo:false
+merged_engine:false
+moz:false
+domain_authority:false
+external_mozrank:false
+mozrank:false
+moztrust:false
+page_authority:false
+subdomain_mozrank:false
+moz_threshold_option:false
+moz_threshold:4.5
+Diffbotflag:false
+LDAflag:true
+Sensebotflag:false
+TFIDFflag:false
+SensebotConcepts:4
+beta:0.1
+number of topics:10
+number of iterations:2000
+number of top words:10
+propability threshold:0.04
+convergence limit:0.7
+ngd threshold:0.1
+combine limit:2
+performance limit:3
+new terms to combine from wordlist per query in each round:20
+max new queries to generate per previous round query:4
+
+
+
+
+

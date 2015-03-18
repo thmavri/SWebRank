@@ -1,0 +1,52 @@
+Domain:nba
+Queries:15
+query:nba
+query:nba+basketball
+query:nba+blog
+query:nba+games
+query:nba+news
+query:nba+playoffs
+query:nba+analytics
+query:nba+standings
+query:nba+scores
+query:nba+champions
+query:nba+mvp
+query:nba+rookies
+query:nba+best
+query:nba+conferences
+query:nba+stats
+results number:50
+bing:true
+google:true
+yahoo:false
+merged_engine:false
+moz:false
+domain_authority:false
+external_mozrank:false
+mozrank:false
+moztrust:false
+page_authority:false
+subdomain_mozrank:false
+moz_threshold_option:false
+moz_threshold:4.5
+Diffbotflag:false
+LDAflag:true
+Sensebotflag:false
+TFIDFflag:false
+SensebotConcepts:4
+beta:0.1
+number of topics:10
+number of iterations:2000
+number of top words:10
+propability threshold:0.04
+convergence limit:0.9
+ngd threshold:0.1
+combine limit:2
+performance limit:3
+new terms to combine from wordlist per query in each round:200
+max new queries to generate per previous round query:10
+
+
+
+
+
