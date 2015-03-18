@@ -1,5 +1,10 @@
 Copyright 2015
-Themistoklis Mavridis <themis.mavridis@issel.ee.auth.gr>.
+
+Themistoklis Mavridis 
+
+<themis.mavridis@issel.ee.auth.gr>.
+
+<themismavridis@gmail.com>
 
 <http://thesmartweb.eu>
 
