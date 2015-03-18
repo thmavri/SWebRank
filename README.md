@@ -41,6 +41,7 @@ SWebRank is a Topic modeling mechanism (formerly entitled LSHrank - Latent Seman
 * Sample files can be find in the respective folders
 * The files should be .txt for the API credentials and the input.
 * The SQL commands are in order to setup the MySQL database. You may want to configure the tables without the foreign keys first.
+* The bare minimum for one to use SWebRank is the creation of an API key for one search API out of following search engines : Google, Bing, Yahoo!
 
 ##Important Library File
 DBpedia Spotlight jar is not in maven repository.
