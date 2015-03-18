@@ -6,7 +6,7 @@ SWebRank is a Topic modeling mechanism (formerly entitled LSHrank - Latent Seman
 <https://github.com/thmavri/SWebRank/blob/master/SWebRank_Javadoc.zip?raw=true>
 
 ##Important Library File
-DBpedia Spotlight jar is not in maven repository
+DBpedia Spotlight jar is not in maven repository.
 Download it from here: <http://bit.ly/DBpediaSpotlight>
 
 ###Publications
