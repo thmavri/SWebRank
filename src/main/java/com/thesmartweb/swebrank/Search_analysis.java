@@ -964,38 +964,40 @@ public class Search_analysis {
                 LDAsemStats ldaSemStats = new LDAsemStats();//get the stats by comparing the top words produced by LDA and the parsed content
                 //check the LDAsemStats class for more
                 StringBuilder webstatsStmBuild = new StringBuilder();
-                if(!parseOutputList.get(j).equalsIgnoreCase("")){
-                    ldaSemStats.getTopWordsStats(parseOutputList.get(j), lda_output, false);//without stemming
-                    int top_words_lda = ldaSemStats.getTopStats();
-                    double top_words_lda_per = ldaSemStats.getTopPercentageStats();
-                    webstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
-                    webstatsStmBuild.append("`top_words_lda`=? , ");
-                    webstatsStmBuild.append("`top_words_lda_per`=? ");
-                    webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
-                    stmt = conn.prepareStatement(webstatsStmBuild.toString());
-                    stmt.setInt(1,top_words_lda);
-                    stmt.setDouble(2,top_words_lda_per);
-                    stmt.setString(3,links_total[j]);
-                    stmt.setString(4,quer);
-                    stmt.setInt(5,engine);
-                    stmt.setString(6,domain);
-                    stmt.executeUpdate();
-                    ldaSemStats.getTopWordsStats(parseOutputList.get(j), lda_output, true);//with stemming
-                    int top_words_lda_stem = ldaSemStats.getTopStats();
-                    double top_words_lda_per_stem = ldaSemStats.getTopPercentageStats();
-                    webstatsStmBuild = new StringBuilder();
-                    webstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
-                    webstatsStmBuild.append("`top_words_lda_stem`=? , ");
-                    webstatsStmBuild.append("`top_words_lda_per_stem`=? ");
-                    webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
-                    stmt = conn.prepareStatement(webstatsStmBuild.toString());
-                    stmt.setInt(1,top_words_lda_stem);
-                    stmt.setDouble(2,top_words_lda_per_stem);
-                    stmt.setString(3,links_total[j]);
-                    stmt.setString(4,quer);
-                    stmt.setInt(5,engine);
-                    stmt.setString(6,domain);
-                    stmt.executeUpdate();
+                if(!parseOutputList.isEmpty()){
+                    if(!parseOutputList.get(j).equalsIgnoreCase("")){
+                        ldaSemStats.getTopWordsStats(parseOutputList.get(j), lda_output, false);//without stemming
+                        int top_words_lda = ldaSemStats.getTopStats();
+                        double top_words_lda_per = ldaSemStats.getTopPercentageStats();
+                        webstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
+                        webstatsStmBuild.append("`top_words_lda`=? , ");
+                        webstatsStmBuild.append("`top_words_lda_per`=? ");
+                        webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                        stmt = conn.prepareStatement(webstatsStmBuild.toString());
+                        stmt.setInt(1,top_words_lda);
+                        stmt.setDouble(2,top_words_lda_per);
+                        stmt.setString(3,links_total[j]);
+                        stmt.setString(4,quer);
+                        stmt.setInt(5,engine);
+                        stmt.setString(6,domain);
+                        stmt.executeUpdate();
+                        ldaSemStats.getTopWordsStats(parseOutputList.get(j), lda_output, true);//with stemming
+                        int top_words_lda_stem = ldaSemStats.getTopStats();
+                        double top_words_lda_per_stem = ldaSemStats.getTopPercentageStats();
+                        webstatsStmBuild = new StringBuilder();
+                        webstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
+                        webstatsStmBuild.append("`top_words_lda_stem`=? , ");
+                        webstatsStmBuild.append("`top_words_lda_per_stem`=? ");
+                        webstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                        stmt = conn.prepareStatement(webstatsStmBuild.toString());
+                        stmt.setInt(1,top_words_lda_stem);
+                        stmt.setDouble(2,top_words_lda_per_stem);
+                        stmt.setString(3,links_total[j]);
+                        stmt.setString(4,quer);
+                        stmt.setInt(5,engine);
+                        stmt.setString(6,domain);
+                        stmt.executeUpdate();
+                    }
                 }
                 if(EntitiesMapDBP.get(j)!=null && CategoriesMapDBP.get(j) !=null){
                     //we are going to check if semantic entities and categories recognized exist in the lda words recognized as prominent

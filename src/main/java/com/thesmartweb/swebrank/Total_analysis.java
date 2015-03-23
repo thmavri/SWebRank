@@ -95,7 +95,7 @@ public class Total_analysis {
         //we are going to check the convergence rate
         CheckConvergence cc = new CheckConvergence(); // here we check the convergence between the two wordLists, the new and the previous
         //the concergence percentage of this iteration, we save it in Elastic Search
-        F1 = cc.F1Calc(wordList_total, wordList_previous);
+        F1 = cc.ConvergenceCalc(wordList_total, wordList_previous);
         Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
         Client client = node.client();
         JSONObject objEngineLevel = new JSONObject();

@@ -56,29 +56,25 @@ public class CheckConvergence {
     
     }
     /**
-     * Method to check the convergence using F1 score
+     * Method to check the convergence 
      * employing Snowball stemmer
      * @param wordList_new the list of words of the current round
      * @param wordList_previous the list of words of the previous round
-     * @return return the F1 score 0 - 1 with 1 to that all the words in the new wordlist existed in the old
+     * @return return the convergence score 0 - 1 with 1 to be perfect convergence
      */
-    public double F1Calc(List<String> wordList_new,List<String> wordList_previous){
+    public double ConvergenceCalc(List<String> wordList_new,List<String> wordList_previous){
         
             StemmerSnow sm = new StemmerSnow();//employ stemming
             wordList_new = sm.stem(wordList_new);
-            double F1;
-            double precision=0;
+            double convergence=0;
             for(String s:wordList_previous){
                 if(wordList_new.contains(s)){
-                    precision++;
+                    convergence++;
                 }
             }
-            if(precision==0){return 0;}
-            double recall=precision;
-            precision=precision/wordList_new.size();
-            recall=recall/wordList_previous.size();
-            F1=2*(precision*recall)/(precision+recall);
-            return F1;
+            if(convergence==0){return 0;}
+            convergence=convergence/wordList_new.size();
+            return convergence;
         
     }
 }
