@@ -47,9 +47,9 @@ public class Total_analysis {
 
     
     /**
-     * the f1 score
+     * the convergence score
      */
-    protected double F1;
+    protected double convergence;
     /**
      * Method to call search analysis for every query and to save the wordlists
      * @param wordList_previous the previous wordlist to check convergence
@@ -95,13 +95,13 @@ public class Total_analysis {
         //we are going to check the convergence rate
         CheckConvergence cc = new CheckConvergence(); // here we check the convergence between the two wordLists, the new and the previous
         //the concergence percentage of this iteration, we save it in Elastic Search
-        F1 = cc.ConvergenceCalc(wordList_total, wordList_previous);
+        convergence = cc.ConvergenceCalc(wordList_total, wordList_previous);
         Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
         Client client = node.client();
         JSONObject objEngineLevel = new JSONObject();
         objEngineLevel.put("RoundContent", wordList_total);
         objEngineLevel.put("Round", iteration_counter);
-        objEngineLevel.put("ConvergenceF1", F1);
+        objEngineLevel.put("Convergence", convergence);
         String id=domain+"/"+iteration_counter;
         IndexRequest indexReq=new IndexRequest("lshrankgeneratedcontentperround","content",id);
         indexReq.source(objEngineLevel);
@@ -110,12 +110,12 @@ public class Total_analysis {
      }
     
     /**
-     * Getter of F1 score
-     * @return f1 score
+     * Getter of convergence score
+     * @return convergence score
      */
-    public double getF1()
+    public double getConvergence()
     {
-        return F1;
+        return convergence;
     }
     
     /**

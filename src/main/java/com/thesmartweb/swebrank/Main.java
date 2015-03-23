@@ -135,7 +135,7 @@ public class Main {
             List<ArrayList<String>> array_wordLists = new ArrayList<>();
             List<String> wordList_previous=new ArrayList<>();
             List<String> wordList_new=new ArrayList<>();
-            double F1=0;//we create the convergence percentage and initialize it
+            double convergence=0;//we create the convergence percentage and initialize it
             String conv_percentages="";//string that contains all the convergence percentages
             DataManipulation wordsmanipulation=new DataManipulation();//method to manipulate various word data (String, list<String>, etc)
             do{ //if we run the algorithm for the 1st time we already have the query so we skip the loop below that produces the new array of query
@@ -190,9 +190,9 @@ public class Main {
                     //----------------append the wordlist to a file--------------------
                     wordsmanipulation.AppendWordList(wordList_new, output_child_directory+ "wordList.txt");
                     //the concergence percentage of this iteration
-                    F1 = ta.getF1();//we are going to use F1 score to check the convergence
+                    convergence = ta.getConvergence();//we are going to use convergence score to check the convergence
                     //a string that contains all the convergence percentage for each round separated by \n character
-                    conv_percentages = conv_percentages + "\n" + F1;
+                    conv_percentages = conv_percentages + "\n" + convergence;
                     //a file that is going to include the convergence percentages
                     wordsmanipulation.AppendString(conv_percentages, output_child_directory+ "convergence_percentage.txt");
                     //we add the new wordList to the finalList
@@ -220,7 +220,7 @@ public class Main {
                     //-----------------------------------------
                     iteration_counter++;//increase the iteration_counter that counts the iterations of the algorithm
                 }
-            }while(F1<SWebRankSettings.get(5).doubleValue()&&iteration_counter<SWebRankSettings.get(8).intValue());//while the convergence percentage is below the limit and the iteration_counter below the performance limit
+            }while(convergence<SWebRankSettings.get(5).doubleValue()&&iteration_counter<SWebRankSettings.get(8).intValue());//while the convergence percentage is below the limit and the iteration_counter below the performance limit
                 if(iteration_counter==1){ finalList=wordsmanipulation.AddAList(wordList_new, finalList);}
                 //--------------------content List----------------
                 if (!finalList.isEmpty()) {
