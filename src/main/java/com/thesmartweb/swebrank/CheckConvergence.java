@@ -66,6 +66,7 @@ public class CheckConvergence {
         
             StemmerSnow sm = new StemmerSnow();//employ stemming
             wordList_new = sm.stem(wordList_new);
+            wordList_previous = sm.stem(wordList_previous);
             double convergence=0;
             for(String s:wordList_previous){
                 if(wordList_new.contains(s)){

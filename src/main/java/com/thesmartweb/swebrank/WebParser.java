@@ -17,6 +17,7 @@ package com.thesmartweb.swebrank;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.IllegalCharsetNameException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -247,7 +248,7 @@ public class WebParser {
                 if (link.attr("abs:href").contains(link_html)) {nlinks[1]++;}
             }
             return nlinks;
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(com.thesmartweb.swebrank.WebParser.class.getName()).log(Level.SEVERE, null, ex);
             return nlinks;
         }
@@ -423,7 +424,7 @@ public class WebParser {
             total_micron=micron1+micron2;
             microd=microdata.size();
             return true;
-        } catch (IOException ex) {
+        } catch (IOException | IllegalCharsetNameException ex) {
             Logger.getLogger(com.thesmartweb.swebrank.WebParser.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }

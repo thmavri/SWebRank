@@ -702,66 +702,236 @@ public class Search_analysis {
                             entitiesStatementBuilder.append("UPDATE SEMANTICSTATS SET ");
                             entitiesStatementBuilder.append("`Categories_Contained_Query_Y`=?,");
                             entitiesStatementBuilder.append("`Entities_Contained_Query_Y`=?,");
-                            entitiesStatementBuilder.append("`Categories_Contained_Query_Y_W`=?,");
-                            entitiesStatementBuilder.append("`Entities_Contained_Query_Y_W`=?,");
-                            entitiesStatementBuilder.append("`Categories_Contained_Query_D`=?,");
-                            entitiesStatementBuilder.append("`Entities_Contained_Query_D`=?,");
-                            entitiesStatementBuilder.append("`Categories_Contained_Query_D_W`=?,");
-                            entitiesStatementBuilder.append("`Entities_Contained_Query_D_W`=?,");
-                            entitiesStatementBuilder.append("`Categories_Contained_Query_DBPspot`=?,");
-                            entitiesStatementBuilder.append("`Entities_Contained_Query_DBPspot`=?,");
-                            entitiesStatementBuilder.append("`Categories_Contained_Query_DBPspot_W`=?,");
-                            entitiesStatementBuilder.append("`Entities_Contained_Query_DBPspot_W`=?,");
-                            entitiesStatementBuilder.append("`Categories_Contained_Query_Y_Stem`=?,");
-                            entitiesStatementBuilder.append("`Entities_Contained_Query_Y_Stem`=?,");
-                            entitiesStatementBuilder.append("`Categories_Contained_Query_Y_W_Stem`=?,");
-                            entitiesStatementBuilder.append("`Entities_Contained_Query_Y_W_Stem`=?,");
-                            entitiesStatementBuilder.append("`Categories_Contained_Query_D_Stem`=?,");
-                            entitiesStatementBuilder.append("`Entities_Contained_Query_D_Stem`=?,");
-                            entitiesStatementBuilder.append("`Categories_Contained_Query_D_W_Stem`=?,");
-                            entitiesStatementBuilder.append("`Entities_Contained_Query_D_W_Stem`=?,");
-                            entitiesStatementBuilder.append("`Categories_Contained_Query_DBPspot_Stem`=?,");
-                            entitiesStatementBuilder.append("`Entities_Contained_Query_DBPspot_Stem`=?,");
-                            entitiesStatementBuilder.append("`Categories_Contained_Query_DBPspot_W_Stem`=?,");
-                            entitiesStatementBuilder.append("`Entities_Contained_Query_DBPspot_W_Stem`=? ");
+                            entitiesStatementBuilder.append("`Categories_Contained_Query_Y_W`=? ");
                             entitiesStatementBuilder.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
                             stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
                             stmt.setInt(1,cat_cnt);
                             stmt.setInt(2,ent_cnt);
                             stmt.setInt(3,cat_cnt_whole);
-                            stmt.setInt(4,ent_cnt_whole);
-                            stmt.setInt(5,cat_cnt_dand);
-                            stmt.setInt(6,ent_cnt_dand);
-                            stmt.setInt(7,cat_cnt_dand_whole);
-                            stmt.setInt(8,ent_cnt_dand_whole);
-                            stmt.setInt(9,cat_cnt_dbpspot);
-                            stmt.setInt(10,ent_cnt_dbpspot);
-                            stmt.setInt(11,cat_cnt_dbpspot_whole);
-                            stmt.setInt(12,ent_cnt_dbpspot_whole);
-                            stmt.setInt(13,cat_cnt_stem);
-                            stmt.setInt(14,ent_cnt_stem);
-                            stmt.setInt(15,cat_cnt_whole_stem);
-                            stmt.setInt(16,ent_cnt_whole_stem);
-                            stmt.setInt(17,cat_cnt_dand_stem);
-                            stmt.setInt(18,ent_cnt_dand_stem);
-                            stmt.setInt(19,cat_cnt_dand_whole_stem);
-                            stmt.setInt(20,ent_cnt_dand_whole_stem);
-                            stmt.setInt(21,cat_cnt_dbpspot_stem);
-                            stmt.setInt(22,ent_cnt_dbpspot_stem);
-                            stmt.setInt(23,cat_cnt_dbpspot_whole_stem);
-                            stmt.setInt(24,ent_cnt_dbpspot_whole_stem);
-                            stmt.setString(25,links_total[j]);
-                            stmt.setString(26,quer);
+                            stmt.setString(4,links_total[j]);
+                            stmt.setString(5,quer);
                             if(j<results_number){
-                                stmt.setInt(27,0);//0 for yahoo
+                                stmt.setInt(6,0);//0 for yahoo
                             }
                             else if(j<results_number*2){
-                                stmt.setInt(27,1);//1 for google
+                                stmt.setInt(6,1);//1 for google
                             }
                             else if(j<results_number*3){
-                                stmt.setInt(27,2);//2 for bing
+                                stmt.setInt(6,2);//2 for bing
                             }
-                            stmt.setString(28,domain);
+                            stmt.setString(7,domain);
+                            stmt.executeUpdate();
+                            entitiesStatementBuilder = new StringBuilder();
+                            entitiesStatementBuilder.append("UPDATE SEMANTICSTATS SET ");
+                            entitiesStatementBuilder.append("`Entities_Contained_Query_Y_W`=?,");
+                            entitiesStatementBuilder.append("`Categories_Contained_Query_D`=?,");
+                            entitiesStatementBuilder.append("`Entities_Contained_Query_D`=? ");
+                            entitiesStatementBuilder.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                            stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
+                            stmt.setInt(1,ent_cnt_whole);
+                            stmt.setInt(2,cat_cnt_dand);
+                            stmt.setInt(3,ent_cnt_dand);
+                            stmt.setString(4,links_total[j]);
+                            stmt.setString(5,quer);
+                            if(j<results_number){
+                                stmt.setInt(6,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(6,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(6,2);//2 for bing
+                            }
+                            stmt.setString(7,domain);
+                            stmt.executeUpdate();
+                            entitiesStatementBuilder = new StringBuilder();
+                            entitiesStatementBuilder.append("UPDATE SEMANTICSTATS SET ");
+                            entitiesStatementBuilder.append("`Categories_Contained_Query_D_W`=?,");
+                            entitiesStatementBuilder.append("`Entities_Contained_Query_D_W`=? ");
+                            entitiesStatementBuilder.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                            stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
+                            stmt.setInt(1,cat_cnt_dand_whole);
+                            stmt.setInt(2,ent_cnt_dand_whole);
+                            stmt.setString(3,links_total[j]);
+                            stmt.setString(4,quer);
+                            if(j<results_number){
+                                stmt.setInt(5,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(5,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(5,2);//2 for bing
+                            }
+                            stmt.setString(6,domain);
+                            stmt.executeUpdate();
+                            entitiesStatementBuilder = new StringBuilder();
+                            entitiesStatementBuilder.append("UPDATE SEMANTICSTATS SET ");
+                            entitiesStatementBuilder.append("`Categories_Contained_Query_DBPspot`=?,");
+                            entitiesStatementBuilder.append("`Entities_Contained_Query_DBPspot`=? ");
+                            entitiesStatementBuilder.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                            stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
+                            stmt.setInt(1,cat_cnt_dbpspot);
+                            stmt.setInt(2,ent_cnt_dbpspot);
+                            stmt.setString(3,links_total[j]);
+                            stmt.setString(4,quer);
+                            if(j<results_number){
+                                stmt.setInt(5,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(5,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(5,2);//2 for bing
+                            }
+                            stmt.setString(6,domain);
+                            stmt.executeUpdate();
+                            entitiesStatementBuilder = new StringBuilder();
+                            entitiesStatementBuilder.append("UPDATE SEMANTICSTATS SET ");
+                            entitiesStatementBuilder.append("`Categories_Contained_Query_DBPspot_W`=?,");
+                            entitiesStatementBuilder.append("`Entities_Contained_Query_DBPspot_W`=? ");
+                            entitiesStatementBuilder.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                            stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
+                            stmt.setInt(1,cat_cnt_dbpspot_whole);
+                            stmt.setInt(2,ent_cnt_dbpspot_whole);
+                            stmt.setString(3,links_total[j]);
+                            stmt.setString(4,quer);
+                            if(j<results_number){
+                                stmt.setInt(5,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(5,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(5,2);//2 for bing
+                            }
+                            stmt.setString(6,domain);
+                            stmt.executeUpdate();
+                            entitiesStatementBuilder = new StringBuilder();
+                            entitiesStatementBuilder.append("UPDATE SEMANTICSTATS SET ");
+                            entitiesStatementBuilder.append("`Categories_Contained_Query_Y_Stem`=?,");
+                            entitiesStatementBuilder.append("`Entities_Contained_Query_Y_Stem`=? ");
+                            entitiesStatementBuilder.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                            stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
+                            stmt.setInt(1,cat_cnt_stem);
+                            stmt.setInt(2,ent_cnt_stem);
+                            stmt.setString(3,links_total[j]);
+                            stmt.setString(4,quer);
+                            if(j<results_number){
+                                stmt.setInt(5,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(5,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(5,2);//2 for bing
+                            }
+                            stmt.setString(6,domain);
+                            stmt.executeUpdate();
+                            entitiesStatementBuilder = new StringBuilder();
+                            entitiesStatementBuilder.append("UPDATE SEMANTICSTATS SET ");
+                            entitiesStatementBuilder.append("`Categories_Contained_Query_Y_W_Stem`=?,");
+                            entitiesStatementBuilder.append("`Entities_Contained_Query_Y_W_Stem`=? ");
+                            entitiesStatementBuilder.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                            stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
+                            stmt.setInt(1,cat_cnt_whole_stem);
+                            stmt.setInt(2,ent_cnt_whole_stem);
+                            stmt.setString(3,links_total[j]);
+                            stmt.setString(4,quer);
+                            if(j<results_number){
+                                stmt.setInt(5,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(5,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(5,2);//2 for bing
+                            }
+                            stmt.setString(6,domain);
+                            stmt.executeUpdate();
+                            entitiesStatementBuilder = new StringBuilder();
+                            entitiesStatementBuilder.append("UPDATE SEMANTICSTATS SET ");
+                            entitiesStatementBuilder.append("`Categories_Contained_Query_D_Stem`=?,");
+                            entitiesStatementBuilder.append("`Entities_Contained_Query_D_Stem`=? ");
+                            entitiesStatementBuilder.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                            stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
+                            stmt.setInt(1,cat_cnt_dand_stem);
+                            stmt.setInt(2,ent_cnt_dand_stem);
+                            stmt.setString(3,links_total[j]);
+                            stmt.setString(4,quer);
+                            if(j<results_number){
+                                stmt.setInt(5,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(5,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(5,2);//2 for bing
+                            }
+                            stmt.setString(6,domain);
+                            stmt.executeUpdate();
+                            entitiesStatementBuilder = new StringBuilder();
+                            entitiesStatementBuilder.append("UPDATE SEMANTICSTATS SET ");
+                            entitiesStatementBuilder.append("`Categories_Contained_Query_D_W_Stem`=?,");
+                            entitiesStatementBuilder.append("`Entities_Contained_Query_D_W_Stem`=? ");
+                            entitiesStatementBuilder.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                            stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
+                            stmt.setInt(1,cat_cnt_dand_whole_stem);
+                            stmt.setInt(2,ent_cnt_dand_whole_stem);
+                            stmt.setString(3,links_total[j]);
+                            stmt.setString(4,quer);
+                            if(j<results_number){
+                                stmt.setInt(5,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(5,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(5,2);//2 for bing
+                            }
+                            stmt.setString(6,domain);
+                            stmt.executeUpdate();
+                            entitiesStatementBuilder = new StringBuilder();
+                            entitiesStatementBuilder.append("UPDATE SEMANTICSTATS SET ");                            
+                            entitiesStatementBuilder.append("`Categories_Contained_Query_DBPspot_Stem`=?,");
+                            entitiesStatementBuilder.append("`Entities_Contained_Query_DBPspot_Stem`=? ");
+                            entitiesStatementBuilder.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                            stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
+                            stmt.setInt(1,cat_cnt_dbpspot_stem);
+                            stmt.setInt(2,ent_cnt_dbpspot_stem);
+                            stmt.setString(3,links_total[j]);
+                            stmt.setString(4,quer);
+                            if(j<results_number){
+                                stmt.setInt(5,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(5,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(5,2);//2 for bing
+                            }
+                            stmt.setString(6,domain);
+                            stmt.executeUpdate();
+                            entitiesStatementBuilder = new StringBuilder();
+                            entitiesStatementBuilder.append("UPDATE SEMANTICSTATS SET ");
+                            entitiesStatementBuilder.append("`Categories_Contained_Query_DBPspot_W_Stem`=?,");
+                            entitiesStatementBuilder.append("`Entities_Contained_Query_DBPspot_W_Stem`=? ");
+                            entitiesStatementBuilder.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                            stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
+                            stmt.setInt(1,cat_cnt_dbpspot_whole_stem);
+                            stmt.setInt(2,ent_cnt_dbpspot_whole_stem);
+                            stmt.setString(3,links_total[j]);
+                            stmt.setString(4,quer);
+                            if(j<results_number){
+                                stmt.setInt(5,0);//0 for yahoo
+                            }
+                            else if(j<results_number*2){
+                                stmt.setInt(5,1);//1 for google
+                            }
+                            else if(j<results_number*3){
+                                stmt.setInt(5,2);//2 for bing
+                            }
+                            stmt.setString(6,domain);
                             stmt.executeUpdate();
                             System.out.println("I inserted the semantic entities and categories stats in the DB\n");
                             System.out.println("I will get the html stats for the "+j+" link:"+links_total[j]+"\n"); 
@@ -801,33 +971,67 @@ public class Search_analysis {
                                 StringBuilder semanticstatsStmBuild = new StringBuilder();
                                 semanticstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
                                 semanticstatsStmBuild.append("`schema.org_entities`=? , ");
-                                semanticstatsStmBuild.append("`hreltags`=? , ");
+                                semanticstatsStmBuild.append("`hreltags`=? ");
+                                semanticstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                                stmt = conn.prepareStatement(semanticstatsStmBuild.toString());
+                                stmt.setInt(1,nschem);
+                                stmt.setInt(2,hreln);
+                                stmt.setString(3,links_total[j]);
+                                stmt.setString(4,quer);
+                                if(j<results_number){
+                                    stmt.setInt(5,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(5,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(5,2);//2 for bing
+                                }
+                                stmt.setString(6,domain);
+                                stmt.executeUpdate();
+                                semanticstatsStmBuild = new StringBuilder();
+                                semanticstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
                                 semanticstatsStmBuild.append("`total_microformats`=? , ");
-                                semanticstatsStmBuild.append("`Microformats-1`=? , ");
+                                semanticstatsStmBuild.append("`Microformats-1`=? ");
+                                semanticstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                                stmt = conn.prepareStatement(semanticstatsStmBuild.toString());
+                                stmt.setInt(1,total_micron);
+                                stmt.setInt(2,micron1);
+                                 stmt.setString(3,links_total[j]);
+                                stmt.setString(4,quer);
+                                if(j<results_number){
+                                    stmt.setInt(5,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(5,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(5,2);//2 for bing
+                                }
+                                stmt.setString(6,domain);
+                                stmt.executeUpdate();
+                                semanticstatsStmBuild = new StringBuilder();
+                                semanticstatsStmBuild.append("UPDATE SEMANTICSTATS SET ");
                                 semanticstatsStmBuild.append("`Microformats-2`=? , ");
                                 semanticstatsStmBuild.append("`Microdata`=?  , ");
                                 semanticstatsStmBuild.append("`FOAF_HTML`=? ");
                                 semanticstatsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
                                 stmt = conn.prepareStatement(semanticstatsStmBuild.toString());
-                                stmt.setInt(1,nschem);
-                                stmt.setInt(2,hreln);
-                                stmt.setInt(3,total_micron);
-                                stmt.setInt(4,micron1);
-                                stmt.setInt(5,micron2); 
-                                stmt.setInt(6,microd);
-                                stmt.setInt(7,htm.foaf);
-                                stmt.setString(8,links_total[j]);
-                                stmt.setString(9,quer);
+                                stmt.setInt(1,micron2); 
+                                stmt.setInt(2,microd);
+                                stmt.setInt(3,htm.foaf);
+                                stmt.setString(4,links_total[j]);
+                                stmt.setString(5,quer);
                                 if(j<results_number){
-                                    stmt.setInt(10,0);//0 for yahoo
+                                    stmt.setInt(6,0);//0 for yahoo
                                 }
                                 else if(j<results_number*2){
-                                    stmt.setInt(10,1);//1 for google
+                                    stmt.setInt(6,1);//1 for google
                                 }
                                 else if(j<results_number*3){
-                                    stmt.setInt(10,2);//2 for bing
+                                    stmt.setInt(6,2);//2 for bing
                                 }
-                                stmt.setString(11,domain);
+                                stmt.setString(7,domain);
                                 stmt.executeUpdate();
                                 System.out.println("I inserted semantic stats in the DB\n");
                             }
