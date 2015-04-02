@@ -118,13 +118,13 @@ public class DataManipulation {
      * @return True/False
      */
     public boolean StructuredFileCheck(String input){
-        List<String> structuredFileTypes=new ArrayList<String>();
+        List<String> structuredFileTypes=new ArrayList<>();
         structuredFileTypes.add(".pdf");
         structuredFileTypes.add(".ppt");
         structuredFileTypes.add(".doc");
         Iterator filesiterator=structuredFileTypes.iterator();
         boolean flag_found=false;
-        while(filesiterator.hasNext()&&flag_found){
+        while(filesiterator.hasNext()&&!flag_found){
             if(filesiterator.next().toString().contains(input)){
                 flag_found=true;
                 return flag_found;
