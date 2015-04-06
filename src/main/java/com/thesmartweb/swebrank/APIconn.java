@@ -112,13 +112,14 @@ public class APIconn {
                 URL link_ur=new URL(link);
                 line="DNS-error";
                 if(link.startsWith("http:")){
-                    httpCon = (HttpURLConnection) link_ur.openConnection();
-                    httpCon.setDefaultUseCaches(false);
-                    httpCon.setReadTimeout(20000);
-                    httpCon.setDoInput(true);
-                    httpCon.connect();
-                    line="fail-conn";
                     try{
+                        httpCon = (HttpURLConnection) link_ur.openConnection();
+                        httpCon.setDefaultUseCaches(false);
+                        httpCon.setReadTimeout(20000);
+                        httpCon.setDoInput(true);
+                        httpCon.connect();
+                        line="fail-conn";
+                    
                         int responseCode=httpCon.getResponseCode();
                         if (responseCode==200){line="ok-conn";}
                     }
@@ -133,14 +134,14 @@ public class APIconn {
                     }
                 }
                 else if (link.startsWith("https")){
-                    httpsCon = (HttpsURLConnection) link_ur.openConnection();
-                    httpsCon.setDefaultUseCaches(false);
-                    httpsCon.setReadTimeout(20000);
-                    httpsCon.setDoInput(true);
-                    httpsCon.connect();
-                    //httpCon.connect();
-                    line="fail-conn";
                     try{
+                        httpsCon = (HttpsURLConnection) link_ur.openConnection();
+                        httpsCon.setDefaultUseCaches(false);
+                        httpsCon.setReadTimeout(20000);
+                        httpsCon.setDoInput(true);
+                        httpsCon.connect();
+                        //httpCon.connect();
+                        line="fail-conn";
                         int responseCode=httpsCon.getResponseCode();
                         if (responseCode==200){line="ok-conn";}
                     }
