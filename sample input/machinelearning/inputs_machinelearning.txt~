@@ -1,20 +1,20 @@
-Domain:RESTful
+Domain:machine+learning
 Queries:15
-query:RESTful
-query:RESTful+web+services
-query:RESTful+services
-query:Representational+State
-query:RESTful+JSON
-query:RESTful+XML
-query:RESTful+HTTP
-query:RESTful+resources
-query:RESTful+api
-query:RESTful+web
-query:RESTful+client
-query:RESTful+design
-query:RESTful+query
-query:RESTful+tutorial
-query:RESTful+url
+query:machine+learning
+query:machine+learning+algorithms
+query:machine+learning+rankings
+query:machine+learning+linear+regression
+query:machine+learning+logistic+regression
+query:machine+learning+models
+query:machine+learning+python
+query:machine+learning+scikit
+query:machine+learning+svm
+query:machine+learning+classify
+query:machine+learning+cluster
+query:machine+learning+jobs
+query:machine+learning+papers
+query:machine+learning+tools
+query:machine+learning+lda
 results number:50
 bing:true
 google:true
@@ -43,7 +43,7 @@ convergence limit:0.9
 ngd threshold:0.1
 combine limit:2
 performance limit:3
-new terms to combine from wordlist per query in each round:100
+new terms to combine from wordlist per query in each round:20
 max new queries to generate per previous round query:4
 
 

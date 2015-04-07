@@ -16,7 +16,7 @@ query:software+testing
 query:software+configuration+management
 query:software+development+process
 results number:10
-bing:true
+bing:false
 google:true
 yahoo:false
 merged_engine:false

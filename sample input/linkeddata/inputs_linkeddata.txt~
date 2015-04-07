@@ -1,20 +1,20 @@
-Domain:RESTful
+Domain:linked+data
 Queries:15
-query:RESTful
-query:RESTful+web+services
-query:RESTful+services
-query:Representational+State
-query:RESTful+JSON
-query:RESTful+XML
-query:RESTful+HTTP
-query:RESTful+resources
-query:RESTful+api
-query:RESTful+web
-query:RESTful+client
-query:RESTful+design
-query:RESTful+query
-query:RESTful+tutorial
-query:RESTful+url
+query:linked+data
+query:linked+data+platform
+query:linked+data+tools
+query:linked+data+wiki
+query:linked+data+structure
+query:linked+data+browser
+query:linked+data+principles
+query:linked+data+cloud
+query:linked+data+api
+query:linked+data+repository
+query:linked+data+fragments
+query:linked+data+model
+query:linked+data+web
+query:linked+data+ontology
+query:linked+data+technologies
 results number:50
 bing:true
 google:true
@@ -43,8 +43,8 @@ convergence limit:0.9
 ngd threshold:0.1
 combine limit:2
 performance limit:3
-new terms to combine from wordlist per query in each round:100
-max new queries to generate per previous round query:4
+new terms to combine from wordlist per query in each round:150
+max new queries to generate per previous round query:10
 
 
 

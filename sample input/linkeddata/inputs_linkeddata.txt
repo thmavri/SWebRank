@@ -38,13 +38,13 @@ beta:0.1
 number of topics:10
 number of iterations:2000
 number of top words:10
-propability threshold:0.04
+propability threshold:0.08
 convergence limit:0.9
 ngd threshold:0.1
 combine limit:2
 performance limit:3
-new terms to combine from wordlist per query in each round:20
-max new queries to generate per previous round query:4
+new terms to combine from wordlist per query in each round:150
+max new queries to generate per previous round query:10
 
 
 

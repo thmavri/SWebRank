@@ -1,21 +1,21 @@
-Domain:RESTful
+Domain:basketball
 Queries:15
-query:RESTful
-query:RESTful+web+services
-query:RESTful+services
-query:Representational+State
-query:RESTful+JSON
-query:RESTful+XML
-query:RESTful+HTTP
-query:RESTful+resources
-query:RESTful+api
-query:RESTful+web
-query:RESTful+client
-query:RESTful+design
-query:RESTful+query
-query:RESTful+tutorial
-query:RESTful+url
-results number:50
+query:nba
+query:nba+basketball
+query:nba+blog
+query:basketball+blog
+query:euroleague
+query:euroleague+basketball
+query:euroleague+blog
+query:nba+standings
+query:nba+scores
+query:basketball+games
+query:basketball+reference
+query:basketball+plays
+query:euroleague+live
+query:euroleague+stats
+query:nba+stats
+results number:10
 bing:true
 google:true
 yahoo:false
@@ -43,8 +43,8 @@ convergence limit:0.9
 ngd threshold:0.1
 combine limit:2
 performance limit:3
-new terms to combine from wordlist per query in each round:100
-max new queries to generate per previous round query:4
+new terms to combine from wordlist per query in each round:200
+max new queries to generate per previous round query:10
 
 
 
