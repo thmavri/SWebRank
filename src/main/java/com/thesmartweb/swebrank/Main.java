@@ -50,7 +50,7 @@ public class Main {
      */
     public static void main(String[] args){
         Path input_path=Paths.get("//mnt//var//DBs//inputs//linkeddata//");//input directory
-        String output_parent_directory="//mnt//var//DBs//outputs//linkeddata//";//output directory
+        String output_parent_directory="//mnt//var//DBs//outputsConfH//linkeddata//";//output directory
         String config_path="//mnt//var//DBs//config//";//input directory
         //---Disable apache log manually----
         //System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");

@@ -19,6 +19,7 @@ package com.thesmartweb.swebrank;
  * @author Themis Mavridis
  */
 import java.io.IOException;
+import static java.lang.String.valueOf;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
@@ -478,12 +479,15 @@ public class JSONparsing {
      * @param quer the query to count the stats for
      * @param StemFlag flag for stemming
      */
+    private List<String> entities;//the list to contain all the semantic entities
+    private List<String> categories;//the list to contain all the semantic categories 
     public void YahooEntityJsonParsing(String input, String quer,boolean StemFlag){
         try {
+            double threshold = 0.7;
             ent_query_cnt=0;
             cat_query_cnt=0;
-            List<String> entities = new ArrayList<>();//it is going to contain all the entities
-            List<String> categories = new ArrayList<>();//it is going to contain all the categories
+            entities = new ArrayList<>();//it is going to contain all the entities
+            categories = new ArrayList<>();//it is going to contain all the categories
             
             //Create a parser
             JSONParser parser = new JSONParser();
@@ -584,9 +588,13 @@ public class JSONparsing {
                                         json = (Map) json_arr.get(ka);
                                         set = json.entrySet();
                                         arr_ent = set.toArray();
+                                        double score=0.0;
                                         for(int kj=0;kj<arr_ent.length;kj++){
                                             entry = (Map.Entry) arr_ent[kj];
-                                            if(entry.getKey().toString().contains("text")){
+                                            if(entry.getKey().toString().contains("score")){
+                                                score = Double.parseDouble(entry.getValue().toString());
+                                            }
+                                            if(entry.getKey().toString().contains("text")&&score>threshold){
                                                 you = entry.getValue().toString();
                                                 json = (Map) parser.parse(you);
                                                 set = json.entrySet();
@@ -714,7 +722,17 @@ public class JSONparsing {
     return cat_query_cnt_whole;
     
 }
-
+    /**
+     * Method to get the entities List
+     * @return entities List
+     */
+    public List<String> GetEntitiesYahoo(){return entities;}
+    /**
+     * Method to get the categories List
+     * @return categories List
+     */
+    public List<String> GetCategoriesYahoo(){return categories;}
+    
     /**
      * Get meta info for a Youtube link
      * @param ventry the id of the Youtube video

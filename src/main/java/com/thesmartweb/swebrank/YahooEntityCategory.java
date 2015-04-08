@@ -19,6 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;  
+import java.util.List;
  
 /** 
  *  Class related to the Yahoo! entities and categories
@@ -44,7 +45,14 @@ public class YahooEntityCategory {
      * the amount of queries that occurred in a category recognized
      */
     public static int cat_query_cnt_whole=0;
-  
+    /**
+     * the list to contain all the semantic entities
+     */
+    private List<String> entities;
+    /**
+     * the list to contain all the semantic categories
+     */
+    private List<String> categories; 
     /**
      * Method to get the entities and categories counts from Yahoo!
      * @param urlcheck the url to analyze
@@ -76,6 +84,9 @@ public class YahooEntityCategory {
                 cat_query_cnt=yejson.GetCatQuerCnt();
                 ent_query_cnt_whole=yejson.GetEntQuerCntWhole();
                 cat_query_cnt_whole=yejson.GetCatQuerCntWhole();
+                entities=yejson.GetEntitiesYahoo();
+                categories=yejson.GetCategoriesYahoo();
+                        
             }
         } catch (UnsupportedEncodingException | MalformedURLException e) {  
                 
@@ -111,6 +122,17 @@ public class YahooEntityCategory {
      */
     public int GetCatQuerCntWhole(){
     return cat_query_cnt_whole;
-}
+    }
+    
+    /**
+     * Method to get the entities List
+     * @return entities List
+     */
+    public List<String> GetEntitiesYahoo(){return entities;}
+    /**
+     * Method to get the categories List
+     * @return categories List
+     */
+    public List<String> GetCategoriesYahoo(){return categories;}
   
 } 

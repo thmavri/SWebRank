@@ -49,7 +49,7 @@ public class DandelionEntities {
             cat_query_cnt=0;
             String line="";
             String baseUrl = "https://api.dandelion.eu/datatxt/nex/v1?url=";
-            String fullUrlStr = baseUrl + URLEncoder.encode(urlcheck, "UTF-8")+"&min_confidence=0.30&include=types%2Ccategories%2Clod";
+            String fullUrlStr = baseUrl + URLEncoder.encode(urlcheck, "UTF-8")+"&min_confidence=0.70&include=types%2Ccategories%2Clod";
             String[] apiCreds = GetKeys(config_path);
             fullUrlStr =fullUrlStr +"&$app_id="+apiCreds[0]+"&$app_key="+apiCreds[1];
             URL link_ur = new URL(fullUrlStr);
