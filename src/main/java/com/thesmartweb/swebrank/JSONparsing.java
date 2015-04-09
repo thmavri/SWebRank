@@ -542,9 +542,11 @@ public class JSONparsing {
                                             double score=0.0;
                                             for(int kj=0;kj<arr_cat.length;kj++){
                                                 entry = (Map.Entry) arr_cat[kj];
-                                                if(entry.getKey().toString().contains("score")&&score>threshold){
+                                                if(entry.getKey().toString().contains("score")){
                                                     score = Double.parseDouble(entry.getValue().toString());
-                                                    cat_avg_yahoo_score=cat_avg_yahoo_score+score;
+                                                    if(score>threshold){
+                                                        cat_avg_yahoo_score=cat_avg_yahoo_score+score;
+                                                    }
                                                 }
                                                 if(entry.getKey().toString().contains("content")&&score>threshold){
                                                     categories.add(entry.getValue().toString().toLowerCase());
@@ -560,9 +562,11 @@ public class JSONparsing {
                                     double score=0.0;
                                     for(int ka=0;ka<arr_cat.length;ka++){
                                         entry = (Map.Entry) arr_cat[ka];
-                                        if(entry.getKey().toString().contains("score")&&score>threshold){
+                                        if(entry.getKey().toString().contains("score")){
                                             score = Double.parseDouble(entry.getValue().toString());
-                                            cat_avg_yahoo_score=cat_avg_yahoo_score+score;
+                                            if(score>threshold){
+                                                cat_avg_yahoo_score=cat_avg_yahoo_score+score;
+                                            }
                                         }
                                         if(entry.getKey().toString().contains("content")&&score>threshold){
                                             String categoryString=entry.getValue().toString().toLowerCase();
@@ -604,9 +608,11 @@ public class JSONparsing {
                                         double score=0.0;
                                         for(int kj=0;kj<arr_ent.length;kj++){
                                             entry = (Map.Entry) arr_ent[kj];
-                                            if(entry.getKey().toString().contains("score")&&score>threshold){
+                                            if(entry.getKey().toString().contains("score")){
                                                 score = Double.parseDouble(entry.getValue().toString());
-                                                ent_avg_yahoo_score=ent_avg_yahoo_score+score;
+                                                if(score>threshold){
+                                                    ent_avg_yahoo_score=ent_avg_yahoo_score+score;
+                                                }
                                             }
                                             if(entry.getKey().toString().contains("text")&&score>threshold){
                                                 you = entry.getValue().toString();
@@ -630,9 +636,11 @@ public class JSONparsing {
                                     double score=0.0;
                                     for(int ka=0;ka<arr_ent.length;ka++){
                                         entry = (Map.Entry) arr_ent[ka];
-                                        if(entry.getKey().toString().contains("score")&&score>threshold){
+                                        if(entry.getKey().toString().contains("score")){
                                             score = Double.parseDouble(entry.getValue().toString());
-                                            ent_avg_yahoo_score=ent_avg_yahoo_score+score;
+                                            if(score>threshold){
+                                                ent_avg_yahoo_score=ent_avg_yahoo_score+score;
+                                            }
                                         }
                                         if(entry.getKey().toString().contains("text")&&score>threshold){
                                             you = entry.getValue().toString();
