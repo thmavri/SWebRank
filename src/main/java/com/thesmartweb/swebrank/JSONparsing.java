@@ -483,7 +483,7 @@ public class JSONparsing {
     private List<String> categories;//the list to contain all the semantic categories 
     public void YahooEntityJsonParsing(String input, String quer,boolean StemFlag){
         try {
-            double threshold = 0.1;
+            double threshold = 0.9;//threshold for the scores of entities in yahoo
             ent_query_cnt=0;
             cat_query_cnt=0;
             entities = new ArrayList<>();//it is going to contain all the entities

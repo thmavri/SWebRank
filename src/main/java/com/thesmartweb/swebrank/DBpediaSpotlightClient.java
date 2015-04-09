@@ -58,7 +58,7 @@ public class DBpediaSpotlightClient extends AnnotationClient {
         */
 	//private final static String API_URL = "http://jodaiber.dyndns.org:2222/";
         private final static String API_URL = "http://spotlight.dbpedia.org/";
-	private static final double CONFIDENCE = 0.10;
+	private static final double CONFIDENCE = 0.90;
 	private static final int SUPPORT = 5;
         private List<String> typesDBspot; 
         private List<String> entitiesString;
