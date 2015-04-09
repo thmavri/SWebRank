@@ -26,6 +26,10 @@ import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.node.Node;
 import static org.elasticsearch.node.NodeBuilder.*;
 import org.json.simple.JSONArray;
@@ -1767,8 +1771,14 @@ public class Search_analysis {
                 
                 JSONArray ArrayEngineLevel = new JSONArray();
                 List<String> ids=new ArrayList<>();
-                Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
-                Client client = node.client();
+                //Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
+                //Client client = node.client();
+                Settings settings = ImmutableSettings.settingsBuilder()
+                    .put("cluster.name","lshrankldacluster").build();
+                Client client = new TransportClient(settings)
+                    .addTransportAddress(new
+                            InetSocketTransportAddress("localhost", 9300)
+                );
                 //save in elastic search the produced by LDA distributions of words over topics for every engine
                 for(String engine: enginetopicwordprobmap.keySet()){
                     HashMap<Integer,HashMap<String,Double>> topicwordprobmap = new HashMap<>();
@@ -1803,7 +1813,8 @@ public class Search_analysis {
                     indexReq.source(objEngineLevel);
                     IndexResponse indexRes = client.index(indexReq).actionGet();
                 }
-                node.close();
+                //node.close();
+                client.close();
                 ElasticGetWordList elasticGetwordList=new ElasticGetWordList();//get the wordlist from elastic search for the ids from the current round
                 wordList=elasticGetwordList.get(ids);
                 DataManipulation datamanipulation = new  DataManipulation();

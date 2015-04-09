@@ -58,7 +58,7 @@ public class DBpediaSpotlightClient extends AnnotationClient {
         */
 	//private final static String API_URL = "http://jodaiber.dyndns.org:2222/";
         private final static String API_URL = "http://spotlight.dbpedia.org/";
-	private static final double CONFIDENCE = 0.70;
+	private static final double CONFIDENCE = 0.10;
 	private static final int SUPPORT = 5;
         private List<String> typesDBspot; 
         private List<String> entitiesString;
@@ -135,59 +135,62 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                     
                     JSONObject resultJSON = null;
                     JSONArray entities = null;
-                    resultJSON = new JSONObject(spotlightResponse);
-                    entities = resultJSON.getJSONArray("Resources");
-                    for(int i = 0; i < entities.length(); i++) {
-                        try {
-                            JSONObject entity = entities.getJSONObject(i);
-                            //get the entity string by getting the last part of the URI
-                            String entityString = entity.getString("@URI").substring(28).toLowerCase().replaceAll("[\\_,\\%28,\\%29]", " ");
-                            if(StemFlag){//if we use stemming, we use Snowball stemmr of both entities and queries
-                                String[] splitEntity = entityString.split(" ");
-                                entityString="";
-                                StemmerSnow stemmer = new StemmerSnow();
-                                List<String> splitEntityList=stemmer.stem(Arrays.asList(splitEntity));
-                                StringBuilder sb = new StringBuilder();
-                                for(String s:splitEntityList){
-                                    sb.append(s.trim());
-                                    sb.append(" ");
-                                }
-                                entityString = sb.toString().trim();
-                            }
-                            if(!entitiesString.contains(entityString)){
-                                entitiesString.add(entityString);//if we have found a unique entity we include it in the list
-                            }
-                            String typesString = entity.getString("@types");//we get the semantic types
-                            String[] types = typesString.split("\\,");
-                            String delimiter="";//the delimiter is different according to the type
-                            for(String type :types){
-                                if(type.contains("DBpedia")||type.contains("Schema")){ //if it is DBpedia or Schema
-                                    delimiter = "\\:";
-                                }
-                                if(type.contains("Freebase")){//if it is Freebase
-                                    delimiter = "\\/";
-                                }
-                                String[] typeStrings = type.split(delimiter);
-                                String typeString = typeStrings[typeStrings.length-1].toLowerCase().replaceAll("[\\_,\\%28,\\%29]", " ");
-                                if(StemFlag){//if we choose to use stemming
-                                    String[] splitType = typeString.split(" ");
-                                    typeString="";
+                    if(spotlightResponse.startsWith("{")){
+                        resultJSON = new JSONObject(spotlightResponse);
+                    
+                        entities = resultJSON.getJSONArray("Resources");
+                        for(int i = 0; i < entities.length(); i++) {
+                            try {
+                                JSONObject entity = entities.getJSONObject(i);
+                                //get the entity string by getting the last part of the URI
+                                String entityString = entity.getString("@URI").substring(28).toLowerCase().replaceAll("[\\_,\\%28,\\%29]", " ");
+                                if(StemFlag){//if we use stemming, we use Snowball stemmr of both entities and queries
+                                    String[] splitEntity = entityString.split(" ");
+                                    entityString="";
                                     StemmerSnow stemmer = new StemmerSnow();
-                                    List<String> splitTypeList=stemmer.stem(Arrays.asList(splitType));
+                                    List<String> splitEntityList=stemmer.stem(Arrays.asList(splitEntity));
                                     StringBuilder sb = new StringBuilder();
-                                    for(String s:splitTypeList){
+                                    for(String s:splitEntityList){
                                         sb.append(s.trim());
                                         sb.append(" ");
                                     }
-                                    typeString = sb.toString().trim();
+                                    entityString = sb.toString().trim();
                                 }
-                                if(!typesDBspot.contains(typeString)){
-                                    typesDBspot.add(typeString);
+                                if(!entitiesString.contains(entityString)){
+                                    entitiesString.add(entityString);//if we have found a unique entity we include it in the list
                                 }
+                                String typesString = entity.getString("@types");//we get the semantic types
+                                String[] types = typesString.split("\\,");
+                                String delimiter="";//the delimiter is different according to the type
+                                for(String type :types){
+                                    if(type.contains("DBpedia")||type.contains("Schema")){ //if it is DBpedia or Schema
+                                        delimiter = "\\:";
+                                    }
+                                    if(type.contains("Freebase")){//if it is Freebase
+                                        delimiter = "\\/";
+                                    }
+                                    String[] typeStrings = type.split(delimiter);
+                                    String typeString = typeStrings[typeStrings.length-1].toLowerCase().replaceAll("[\\_,\\%28,\\%29]", " ");
+                                    if(StemFlag){//if we choose to use stemming
+                                        String[] splitType = typeString.split(" ");
+                                        typeString="";
+                                        StemmerSnow stemmer = new StemmerSnow();
+                                        List<String> splitTypeList=stemmer.stem(Arrays.asList(splitType));
+                                        StringBuilder sb = new StringBuilder();
+                                        for(String s:splitTypeList){
+                                            sb.append(s.trim());
+                                            sb.append(" ");
+                                        }
+                                        typeString = sb.toString().trim();
+                                    }
+                                    if(!typesDBspot.contains(typeString)){
+                                        typesDBspot.add(typeString);
+                                    }
+                                }
+                                //resources.add(new DBpediaResource(entity.getString("@URI"),Integer.parseInt(entity.getString("@support"))));
+                            } catch (JSONException e) {
+                                LOG.error("JSON exception "+e);
                             }
-                            //resources.add(new DBpediaResource(entity.getString("@URI"),Integer.parseInt(entity.getString("@support"))));
-                        } catch (JSONException e) {
-                            LOG.error("JSON exception "+e);
                         }
                     }
                 } catch (UnsupportedEncodingException | JSONException ex) {

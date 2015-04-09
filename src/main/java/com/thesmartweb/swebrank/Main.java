@@ -34,6 +34,10 @@ import java.nio.file.Paths;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.node.Node;
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 import org.json.simple.JSONObject;
@@ -234,15 +238,22 @@ public class Main {
                     }
                 }
                 //we are going to save the total content with its convergence on the ElasticSearch cluster in a separated index
-                Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
-                Client client = node.client();
+                //Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
+                //Client client = node.client();
+                Settings settings = ImmutableSettings.settingsBuilder()
+                    .put("cluster.name","lshrankldacluster").build();
+                Client client = new TransportClient(settings)
+                    .addTransportAddress(new
+                            InetSocketTransportAddress("localhost", 9300)
+                    );
                 JSONObject objEngineLevel = new JSONObject();
                 objEngineLevel.put("TotalContent", finalList);//we save the total content
                 objEngineLevel.put("Convergences", conv_percentages);//we save the convergence percentages
                 IndexRequest indexReq=new IndexRequest("lshrankgeneratedcontent","content",domain);//we save also the domain 
                 indexReq.source(objEngineLevel);
                 IndexResponse indexRes = client.index(indexReq).actionGet();
-                node.close();
+                //node.close();
+                client.close();
                 //----------------------convergence percentages writing to file---------------
                 //use the conv_percentages string
                 if(conv_percentages.length()!=0){

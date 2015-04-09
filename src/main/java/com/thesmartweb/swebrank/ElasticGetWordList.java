@@ -42,6 +42,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
 /**
@@ -56,8 +60,14 @@ public class ElasticGetWordList {
      */
     public List<String> get(List<String> ids) {
         try {
-            Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
-            Client client = node.client();
+            //Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
+            //Client client = node.client();
+            Settings settings = ImmutableSettings.settingsBuilder()
+                    .put("cluster.name","lshrankldacluster").build();
+            Client client = new TransportClient(settings)
+                    .addTransportAddress(new
+                            InetSocketTransportAddress("localhost", 9300)
+                    );
             List<String> wordList=new ArrayList<>();
             for(String id:ids){
                 SearchResponse responseSearch = client.prepareSearch("lshranklda")
@@ -91,7 +101,8 @@ public class ElasticGetWordList {
                     }
                 }
             }
-            node.close();
+            //node.close();
+            client.close();
             return wordList;
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,8 +119,14 @@ public class ElasticGetWordList {
      */
     public List<String> getMaxWords(List<String> ids, int top) {
        try {
-            Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
-            Client client = node.client();
+            Settings settings = ImmutableSettings.settingsBuilder()
+                    .put("cluster.name","lshrankldacluster").build();
+            Client client = new TransportClient(settings)
+                    .addTransportAddress(new
+                            InetSocketTransportAddress("localhost", 9300)
+                    );
+            //Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
+            //Client client = node.client();
             List<String> MaxwordList=new ArrayList<>();
             HashMap<String,Double> wordsMap=new HashMap<>();
             SortedSetMultimap<Double,String> wordsMultisorted=TreeMultimap.create();
@@ -182,7 +199,8 @@ public class ElasticGetWordList {
                 MaxwordList.add(word);
                 
             }
-            node.close();
+            client.close();
+            //node.close();
             return MaxwordList;
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

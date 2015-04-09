@@ -25,6 +25,10 @@ import java.util.List;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.node.Node;
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 import org.json.simple.JSONObject;
@@ -96,8 +100,14 @@ public class Total_analysis {
         CheckConvergence cc = new CheckConvergence(); // here we check the convergence between the two wordLists, the new and the previous
         //the concergence percentage of this iteration, we save it in Elastic Search
         convergence = cc.ConvergenceCalc(wordList_total, wordList_previous);
-        Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
-        Client client = node.client();
+        //Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
+        //Client client = node.client();
+        Settings settings = ImmutableSettings.settingsBuilder()
+                    .put("cluster.name","lshrankldacluster").build();
+        Client client = new TransportClient(settings)
+                .addTransportAddress(new
+                        InetSocketTransportAddress("localhost", 9300)
+                );
         JSONObject objEngineLevel = new JSONObject();
         objEngineLevel.put("RoundContent", wordList_total);
         objEngineLevel.put("Round", iteration_counter);
@@ -106,7 +116,8 @@ public class Total_analysis {
         IndexRequest indexReq=new IndexRequest("lshrankgeneratedcontentperround","content",id);
         indexReq.source(objEngineLevel);
         IndexResponse indexRes = client.index(indexReq).actionGet();
-        node.close();
+        client.close();
+        //node.close();
      }
     
     /**

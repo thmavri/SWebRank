@@ -483,7 +483,7 @@ public class JSONparsing {
     private List<String> categories;//the list to contain all the semantic categories 
     public void YahooEntityJsonParsing(String input, String quer,boolean StemFlag){
         try {
-            double threshold = 0.7;
+            double threshold = 0.1;
             ent_query_cnt=0;
             cat_query_cnt=0;
             entities = new ArrayList<>();//it is going to contain all the entities
@@ -536,9 +536,13 @@ public class JSONparsing {
                                             json = (Map) json_arr.get(ka);
                                             set = json.entrySet();
                                             arr_cat = set.toArray();
+                                            double score=0.0;
                                             for(int kj=0;kj<arr_cat.length;kj++){
                                                 entry = (Map.Entry) arr_cat[kj];
-                                                if(entry.getKey().toString().contains("content")){
+                                                if(entry.getKey().toString().contains("score")){
+                                                    score = Double.parseDouble(entry.getValue().toString());
+                                                }
+                                                if(entry.getKey().toString().contains("content")&&score>threshold){
                                                     categories.add(entry.getValue().toString().toLowerCase());
 
                                                 }
@@ -549,9 +553,13 @@ public class JSONparsing {
                                     json = (Map) parser.parse(you);
                                     set = json.entrySet();
                                     arr_cat = set.toArray();
+                                    double score=0.0;
                                     for(int ka=0;ka<arr_cat.length;ka++){
                                         entry = (Map.Entry) arr_cat[ka];
-                                        if(entry.getKey().toString().contains("content")){
+                                        if(entry.getKey().toString().contains("score")){
+                                            score = Double.parseDouble(entry.getValue().toString());
+                                        }
+                                        if(entry.getKey().toString().contains("content")&&score>threshold){
                                             String categoryString=entry.getValue().toString().toLowerCase();
                                             if(StemFlag){
                                                 String[] splitEntity = categoryString.split(" ");

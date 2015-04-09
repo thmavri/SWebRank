@@ -29,6 +29,10 @@ import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.node.Node;
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 import org.json.simple.JSONObject;
@@ -77,8 +81,15 @@ public class LinksParseAnalysis {
             WebParser web = new WebParser();//our web parser
             APIconn apicon = new APIconn();//our instance to check the connection to a url
             int counter_LDA_documents = 0;
-            Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();//our elasticsearch node builder
-            Client client = node.client();//the client for elasticsearch node
+            Settings settings = ImmutableSettings.settingsBuilder()
+                    .put("cluster.name","lshrankldacluster").build();
+            Client client = new TransportClient(settings)
+                    .addTransportAddress(new
+                            InetSocketTransportAddress("localhost", 9300)
+                    );
+            
+            //Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();//our elasticsearch node builder
+           //Client client = node.client();//the client for elasticsearch node
             for (int i = 0; i < (total_links.length); i++) {
                 parse_output[i]="";
                 if (total_links[i] != null) {
@@ -152,7 +163,8 @@ public class LinksParseAnalysis {
                     IndexResponse indexRes = client.index(indexReq).actionGet();
                 }
             }
-            node.close();
+            //node.close();
+            client.close();
             String output_string_content = Integer.toString(counter_LDA_documents);
             TwitterAnalysis tw=new TwitterAnalysis();//we are going gather info from Twitter using Twitter4j
             String twitter_txt=tw.perform(quer,config_path);
