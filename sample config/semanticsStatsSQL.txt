@@ -49,10 +49,14 @@ CREATE TABLE `SEMANTICSTATS` (
   `ent_cnt_dand_lda_stem` int(11) DEFAULT NULL,
   `cat_cnt_dand_lda_stem` int(11) DEFAULT NULL,
   `top_words_lda_stem` int(11) DEFAULT NULL,
-  `top_words_lda_stem_per` int(11) DEFAULT NULL,
+  `top_words_lda_per_stem` double(10,9) DEFAULT NULL,
   `top_words_lda` int(11) DEFAULT NULL,
-  `top_words_lda_per` int(11) DEFAULT NULL,
+  `top_words_lda_per` double(10,9) DEFAULT NULL,
+  `ent_cnt_y_lda` int(11) DEFAULT NULL,
+  `ent_cnt_y_lda_stem` int(11) DEFAULT NULL,
+  `cat_cnt_y_lda_stem` int(11) DEFAULT NULL,
+  `cat_cnt_y_lda` int(11) DEFAULT NULL,
   PRIMARY KEY (`url`,`search_engine`,`query`,`domain`),
   CONSTRAINT `fk_SEMANTICSTATS_SETTINGS` FOREIGN KEY (`url`, `search_engine`, `query`) REFERENCES `SETTINGS` (`url`, `search_engine`, `query`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-;
+
