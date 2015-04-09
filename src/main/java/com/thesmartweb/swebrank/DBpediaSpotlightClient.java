@@ -66,7 +66,8 @@ public class DBpediaSpotlightClient extends AnnotationClient {
         private int cat_cnt_dbpspot=0;
         private int ent_cnt_dbpspot_whole=0;
         private int cat_cnt_dbpspot_whole=0;
-        
+        private double ent_avg_score=0.0;
+        private double cat_avg_score=0.0;
 	@Override
 	public List<DBpediaResource> extract(Text text) throws AnnotationException {
 
@@ -119,6 +120,7 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                 LinkedList<DBpediaResource> resources = new LinkedList<DBpediaResource>();
                 entitiesString = new ArrayList<>();
                 typesDBspot = new ArrayList<>();
+                ent_avg_score=0.0;
 		try {
                     
                     LOG.info("Querying API.");
@@ -156,10 +158,12 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                                     }
                                     entityString = sb.toString().trim();
                                 }
+                                boolean flag_new_entity=false;
                                 if(!entitiesString.contains(entityString)){
+                                    flag_new_entity=true;
                                     entitiesString.add(entityString);//if we have found a unique entity we include it in the list
                                 }
-                                String typesString = entity.getString("@types");//we get the semantic types
+                                String typesString = entity.getString("@types");//we get the semantic types/categories
                                 String[] types = typesString.split("\\,");
                                 String delimiter="";//the delimiter is different according to the type
                                 for(String type :types){
@@ -187,11 +191,15 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                                         typesDBspot.add(typeString);
                                     }
                                 }
+                                if(flag_new_entity){
+                                    ent_avg_score = ent_avg_score+Double.valueOf(entity.getString("@similarityScore"));
+                                }
                                 //resources.add(new DBpediaResource(entity.getString("@URI"),Integer.parseInt(entity.getString("@support"))));
                             } catch (JSONException e) {
                                 LOG.error("JSON exception "+e);
                             }
                         }
+                        ent_avg_score = ent_avg_score / (double) entities.length();
                     }
                 } catch (UnsupportedEncodingException | JSONException ex) {
                     Logger.getLogger(DBpediaSpotlightClient.class.getName()).log(Level.SEVERE, null, ex);
@@ -210,6 +218,7 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                 cat_cnt_dbpspot=0;
                 ent_cnt_dbpspot_whole=0;
                 cat_cnt_dbpspot_whole=0;
+                ent_avg_score=0.0;
                 extract(url_check,StemFlag);//we get the entities and categoriss
                 query = query.toLowerCase();
                 String[] splitQuery = query.split("\\+");//we split the query with + because the queries to the Search APIs have + between the terms
@@ -280,5 +289,10 @@ public class DBpediaSpotlightClient extends AnnotationClient {
      */
     public List<String> getCategories(){return typesDBspot;}
     
+    /**
+     * Method to get the entities average score
+     * @return entities average score
+     */
+    public double getEntitiesScore(){return ent_avg_score;}
 
 }

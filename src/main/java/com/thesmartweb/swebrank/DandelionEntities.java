@@ -36,6 +36,7 @@ public class DandelionEntities {
     public static int cat_query_cnt_whole=0;//the number of categories that contained  the query as a whole
     private List<String> entities;//the list to contain all the semantic entities
     private List<String> categories;//the list to contain all the semantic categories 
+    private double ent_avg_dand_score=0.0;
     /**
      * Method that recognizes the entities through Dandelion named Entity Extraction API of the content of a given URL
      * @param urlcheck the url to be annotated
@@ -49,7 +50,7 @@ public class DandelionEntities {
             cat_query_cnt=0;
             String line="";
             String baseUrl = "https://api.dandelion.eu/datatxt/nex/v1?url=";
-            String fullUrlStr = baseUrl + URLEncoder.encode(urlcheck, "UTF-8")+"&min_confidence=0.90&include=types%2Ccategories%2Clod";
+            String fullUrlStr = baseUrl + URLEncoder.encode(urlcheck, "UTF-8")+"&min_confidence=0.0&include=types%2Ccategories%2Clod";
             String[] apiCreds = GetKeys(config_path);
             fullUrlStr =fullUrlStr +"&$app_id="+apiCreds[0]+"&$app_key="+apiCreds[1];
             URL link_ur = new URL(fullUrlStr);
@@ -66,6 +67,7 @@ public class DandelionEntities {
                 cat_query_cnt_whole=jsonParser.GetCatQuerCntDandWhole();
                 entities = jsonParser.GetEntitiesDand();
                 categories = jsonParser.GetCategoriesDand();
+                ent_avg_dand_score = jsonParser.GetEntitiesScoreDand();
             }
         } catch (MalformedURLException | UnsupportedEncodingException ex) {
             Logger.getLogger(DandelionEntities.class.getName()).log(Level.SEVERE, null, ex);
@@ -96,6 +98,11 @@ public class DandelionEntities {
      * @return entities List
      */
     public List<String> GetEntitiesDand(){return entities;}
+    /**
+     * Method to get the entities average score
+     * @return entities score of entities recognized
+     */
+    public double GetEntitiesScoreDand(){return ent_avg_dand_score;}
     /**
      * Method to get the categories List
      * @return categories List

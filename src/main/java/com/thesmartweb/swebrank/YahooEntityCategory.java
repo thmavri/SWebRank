@@ -52,7 +52,9 @@ public class YahooEntityCategory {
     /**
      * the list to contain all the semantic categories
      */
-    private List<String> categories; 
+    private List<String> categories;
+    private double ent_avg_yahoo_score;//the average score of the entities recognized
+    private double cat_avg_yahoo_score;//the average score of the categories recognized
     /**
      * Method to get the entities and categories counts from Yahoo!
      * @param urlcheck the url to analyze
@@ -66,6 +68,7 @@ public class YahooEntityCategory {
             ent_query_cnt=0;
             ent_query_cnt_whole=0;
             cat_query_cnt_whole=0;
+            ent_avg_yahoo_score=0.0;
             String line="";
             String baseUrl = "http://query.yahooapis.com/v1/public/yql?q=";
             String query = "select * from contentanalysis.analyze where url='"+urlcheck+"'";
@@ -86,7 +89,8 @@ public class YahooEntityCategory {
                 cat_query_cnt_whole=yejson.GetCatQuerCntWhole();
                 entities=yejson.GetEntitiesYahoo();
                 categories=yejson.GetCategoriesYahoo();
-                        
+                ent_avg_yahoo_score = yejson.GetEntitiesScoreYahoo();
+                cat_avg_yahoo_score = yejson.GetCategoriesScoreYahoo();
             }
         } catch (UnsupportedEncodingException | MalformedURLException e) {  
                 
@@ -134,5 +138,15 @@ public class YahooEntityCategory {
      * @return categories List
      */
     public List<String> GetCategoriesYahoo(){return categories;}
-  
+    
+    /**
+     * Method to get the entities average score
+     * @return entities average score
+     */
+    public double GetEntitiesYahooScore(){return ent_avg_yahoo_score;}
+    /**
+     * Method to get the categories average score
+     * @return categories average score
+     */
+    public double GetCategoriesYahooScore(){return cat_avg_yahoo_score;}
 } 

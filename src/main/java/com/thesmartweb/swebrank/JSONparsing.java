@@ -480,15 +480,18 @@ public class JSONparsing {
      * @param StemFlag flag for stemming
      */
     private List<String> entities;//the list to contain all the semantic entities
-    private List<String> categories;//the list to contain all the semantic categories 
+    private List<String> categories;//the list to contain all the semantic categories
+    private double ent_avg_yahoo_score;//the average score of the entities recognized
+    private double cat_avg_yahoo_score;//the average score of the categories recognized
     public void YahooEntityJsonParsing(String input, String quer,boolean StemFlag){
         try {
-            double threshold = 0.9;//threshold for the scores of entities in yahoo
+            double threshold = 0.0;//threshold for the scores of entities in yahoo
             ent_query_cnt=0;
             cat_query_cnt=0;
             entities = new ArrayList<>();//it is going to contain all the entities
             categories = new ArrayList<>();//it is going to contain all the categories
-            
+            ent_avg_yahoo_score=0.0;
+            cat_avg_yahoo_score=0.0;
             //Create a parser
             JSONParser parser = new JSONParser();
             //Create the map
@@ -541,6 +544,7 @@ public class JSONparsing {
                                                 entry = (Map.Entry) arr_cat[kj];
                                                 if(entry.getKey().toString().contains("score")){
                                                     score = Double.parseDouble(entry.getValue().toString());
+                                                    cat_avg_yahoo_score=cat_avg_yahoo_score+score;
                                                 }
                                                 if(entry.getKey().toString().contains("content")&&score>threshold){
                                                     categories.add(entry.getValue().toString().toLowerCase());
@@ -558,6 +562,7 @@ public class JSONparsing {
                                         entry = (Map.Entry) arr_cat[ka];
                                         if(entry.getKey().toString().contains("score")){
                                             score = Double.parseDouble(entry.getValue().toString());
+                                            cat_avg_yahoo_score=cat_avg_yahoo_score+score;
                                         }
                                         if(entry.getKey().toString().contains("content")&&score>threshold){
                                             String categoryString=entry.getValue().toString().toLowerCase();
@@ -601,6 +606,7 @@ public class JSONparsing {
                                             entry = (Map.Entry) arr_ent[kj];
                                             if(entry.getKey().toString().contains("score")){
                                                 score = Double.parseDouble(entry.getValue().toString());
+                                                ent_avg_yahoo_score=ent_avg_yahoo_score+score;
                                             }
                                             if(entry.getKey().toString().contains("text")&&score>threshold){
                                                 you = entry.getValue().toString();
@@ -621,9 +627,14 @@ public class JSONparsing {
                                     json = (Map) parser.parse(you);
                                     set = json.entrySet();
                                     arr_ent = set.toArray();
+                                    double score=0.0;
                                     for(int ka=0;ka<arr_ent.length;ka++){
                                         entry = (Map.Entry) arr_ent[ka];
-                                        if(entry.getKey().toString().contains("text")){
+                                        if(entry.getKey().toString().contains("score")){
+                                            score = Double.parseDouble(entry.getValue().toString());
+                                            ent_avg_yahoo_score=ent_avg_yahoo_score+score;
+                                        }
+                                        if(entry.getKey().toString().contains("text")&&score>threshold){
                                             you = entry.getValue().toString();
                                             json = (Map) parser.parse(you);
                                             set = json.entrySet();
@@ -693,6 +704,8 @@ public class JSONparsing {
                     cat_query_cnt_whole++;
                 }
             }
+            ent_avg_yahoo_score = ent_avg_yahoo_score/ (double) entities.size();
+            cat_avg_yahoo_score = cat_avg_yahoo_score/ (double) categories.size();
         } catch (ParseException ex) {
             Logger.getLogger(JSONparsing.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -740,6 +753,16 @@ public class JSONparsing {
      * @return categories List
      */
     public List<String> GetCategoriesYahoo(){return categories;}
+    /**
+     * Method to get the entities average score
+     * @return entities score of entities recognized
+     */
+    public double GetEntitiesScoreYahoo(){return ent_avg_yahoo_score;}
+    /**
+     * Method to get the categories average score
+     * @return average score of categories recognized
+     */
+    public double GetCategoriesScoreYahoo(){return cat_avg_yahoo_score;}
     
     /**
      * Get meta info for a Youtube link
@@ -807,8 +830,10 @@ public class JSONparsing {
      */
     private List<String> entitiesDand = new ArrayList<>();//contain all the entities of Dandelion API
     private List<String> categoriesDand = new ArrayList<>();//contain all the categories of Dandelion API
+    private double ent_avg_dand_score=0.0;
     public void DandelionParsing(String input, String query, boolean StemFlag){ 
         try {
+            ent_avg_dand_score=0.0;
             //Create a parser
             JSONParser parser = new JSONParser();
             //Create the map
@@ -868,7 +893,11 @@ public class JSONparsing {
                             categoriesDand.add(categoryString);
                         }
                     }
+                    if(next.containsKey("confidence")){
+                        ent_avg_dand_score = ent_avg_dand_score + Double.parseDouble(next.get("confidence").toString());
+                    }
                 }
+                ent_avg_dand_score = ent_avg_dand_score/(double)entitiesDand.size();
                 ent_query_cnt_dand=0;
                 cat_query_cnt_dand=0;
                 ent_query_cnt_dand_whole=0;
@@ -962,6 +991,13 @@ public class JSONparsing {
      */
       public List<String> GetCategoriesDand(){
     return categoriesDand;
+}
+      /**
+     * Method to return the entities average score by Dandelion API
+     * @return the entities average score by Dandelion API
+     */
+      public double GetEntitiesScoreDand(){
+    return ent_avg_dand_score;
 }
 }
 
