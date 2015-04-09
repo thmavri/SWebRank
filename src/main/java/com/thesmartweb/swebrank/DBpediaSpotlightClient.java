@@ -55,10 +55,11 @@ public class DBpediaSpotlightClient extends AnnotationClient {
         * @param cat_cnt_dbpspot the number of categories that contained a term of the query
         * @param ent_cnt_dbpspot_whole the number of entities that contained the query as a whole
         * @param cat_cnt_dbpspot_whole the number of categories that contained  the query as a whole
+        * @param ent_avg_score the average score of the entities recognized
         */
 	//private final static String API_URL = "http://jodaiber.dyndns.org:2222/";
         private final static String API_URL = "http://spotlight.dbpedia.org/";
-	private static final double CONFIDENCE = 0.90;
+	private static final double CONFIDENCE = 0.20;
 	private static final int SUPPORT = 5;
         private List<String> typesDBspot; 
         private List<String> entitiesString;
@@ -67,7 +68,6 @@ public class DBpediaSpotlightClient extends AnnotationClient {
         private int ent_cnt_dbpspot_whole=0;
         private int cat_cnt_dbpspot_whole=0;
         private double ent_avg_score=0.0;
-        private double cat_avg_score=0.0;
 	@Override
 	public List<DBpediaResource> extract(Text text) throws AnnotationException {
 

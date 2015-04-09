@@ -485,7 +485,7 @@ public class JSONparsing {
     private double cat_avg_yahoo_score;//the average score of the categories recognized
     public void YahooEntityJsonParsing(String input, String quer,boolean StemFlag){
         try {
-            double threshold = 0.0;//threshold for the scores of entities in yahoo
+            double threshold = 0.2;//threshold for the scores of entities in yahoo
             ent_query_cnt=0;
             cat_query_cnt=0;
             entities = new ArrayList<>();//it is going to contain all the entities
@@ -542,7 +542,7 @@ public class JSONparsing {
                                             double score=0.0;
                                             for(int kj=0;kj<arr_cat.length;kj++){
                                                 entry = (Map.Entry) arr_cat[kj];
-                                                if(entry.getKey().toString().contains("score")){
+                                                if(entry.getKey().toString().contains("score")&&score>threshold){
                                                     score = Double.parseDouble(entry.getValue().toString());
                                                     cat_avg_yahoo_score=cat_avg_yahoo_score+score;
                                                 }
@@ -560,7 +560,7 @@ public class JSONparsing {
                                     double score=0.0;
                                     for(int ka=0;ka<arr_cat.length;ka++){
                                         entry = (Map.Entry) arr_cat[ka];
-                                        if(entry.getKey().toString().contains("score")){
+                                        if(entry.getKey().toString().contains("score")&&score>threshold){
                                             score = Double.parseDouble(entry.getValue().toString());
                                             cat_avg_yahoo_score=cat_avg_yahoo_score+score;
                                         }
@@ -604,7 +604,7 @@ public class JSONparsing {
                                         double score=0.0;
                                         for(int kj=0;kj<arr_ent.length;kj++){
                                             entry = (Map.Entry) arr_ent[kj];
-                                            if(entry.getKey().toString().contains("score")){
+                                            if(entry.getKey().toString().contains("score")&&score>threshold){
                                                 score = Double.parseDouble(entry.getValue().toString());
                                                 ent_avg_yahoo_score=ent_avg_yahoo_score+score;
                                             }
@@ -630,7 +630,7 @@ public class JSONparsing {
                                     double score=0.0;
                                     for(int ka=0;ka<arr_ent.length;ka++){
                                         entry = (Map.Entry) arr_ent[ka];
-                                        if(entry.getKey().toString().contains("score")){
+                                        if(entry.getKey().toString().contains("score")&&score>threshold){
                                             score = Double.parseDouble(entry.getValue().toString());
                                             ent_avg_yahoo_score=ent_avg_yahoo_score+score;
                                         }
@@ -833,7 +833,7 @@ public class JSONparsing {
     private double ent_avg_dand_score=0.0;
     public void DandelionParsing(String input, String query, boolean StemFlag){ 
         try {
-            ent_avg_dand_score=0.0;
+            ent_avg_dand_score=0.8;
             //Create a parser
             JSONParser parser = new JSONParser();
             //Create the map

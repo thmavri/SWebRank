@@ -1211,7 +1211,7 @@ public class Search_analysis {
                                 conn = DriverManager.getConnection(url,user,password);
                                 stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
                                 stmt.setDouble(1,ent_avg_yahoo_score);
-                                stmt.setDouble(2,ent_avg_yahoo_score);
+                                stmt.setDouble(2,cat_avg_yahoo_score);
                                 stmt.setString(3,links_total[j]);
                                 stmt.setString(4,quer);
                                 if(j<results_number){
@@ -1225,6 +1225,9 @@ public class Search_analysis {
                                 }
                                 stmt.setString(6,domain);
                                 stmt.executeUpdate();
+                            }
+                            catch (SQLException ex) {
+                                Logger.getLogger(Search_analysis.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             finally{
                                 try {
@@ -1257,6 +1260,9 @@ public class Search_analysis {
                                 }
                                 stmt.setString(6,domain);
                                 stmt.executeUpdate();
+                            }
+                            catch (SQLException ex) {
+                                Logger.getLogger(Search_analysis.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             finally{
                                 try {

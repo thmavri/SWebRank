@@ -69,6 +69,7 @@ public class YahooEntityCategory {
             ent_query_cnt_whole=0;
             cat_query_cnt_whole=0;
             ent_avg_yahoo_score=0.0;
+            cat_avg_yahoo_score=0.0;
             String line="";
             String baseUrl = "http://query.yahooapis.com/v1/public/yql?q=";
             String query = "select * from contentanalysis.analyze where url='"+urlcheck+"'";
