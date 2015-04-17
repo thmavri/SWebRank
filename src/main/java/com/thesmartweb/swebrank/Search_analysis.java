@@ -172,7 +172,10 @@ public class Search_analysis {
                 }
                 for(int j=0;j<links_total.length;j++){
                     if(links_total[j]!=null){
-                        String urlString=links_total[j].substring(0, 198);
+                        String urlString=links_total[j];
+                        if(urlString.length()>199){
+                            urlString=links_total[j].substring(0, 198);
+                        }
                         int rank=-1;
                         int engine=-1;//0 for yahoo,1 for google,2 for bing
                         if(j<results_number){
@@ -1898,7 +1901,10 @@ public class Search_analysis {
             }
             //get some stats regarding the entities, categories and parsed content from each link comparing it to the top words produced by lda 
             for(int j=0;j<links_total.length;j++){
-                String urlString = links_total[j].substring(0,198);
+                String urlString = links_total[j];
+                if(urlString.length()>199){
+                            urlString=links_total[j].substring(0, 198);
+                }
                 int rank=-1;
                 int engine=-1;//0 for yahoo,1 for google,2 for bing
                 if(j<results_number){
