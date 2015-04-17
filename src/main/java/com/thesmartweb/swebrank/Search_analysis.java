@@ -172,6 +172,7 @@ public class Search_analysis {
                 }
                 for(int j=0;j<links_total.length;j++){
                     if(links_total[j]!=null){
+                        String urlString=links_total[j].substring(0, 198);
                         int rank=-1;
                         int engine=-1;//0 for yahoo,1 for google,2 for bing
                         if(j<results_number){
@@ -190,7 +191,7 @@ public class Search_analysis {
                             //we initialize the row in settings table
                             conn = DriverManager.getConnection(url,user,password);
                             stmt = conn.prepareStatement("INSERT INTO SETTINGS (url,query,search_engine,search_engine_rank,domain) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine),domain=VALUES(domain)");
-                            stmt.setString(1,links_total[j]);
+                            stmt.setString(1,urlString);
                             stmt.setString(2,quer);
                             stmt.setInt(3,engine);
                             stmt.setInt(4,rank);
@@ -209,7 +210,7 @@ public class Search_analysis {
                             //we initialize the row in semantic stats table 
                             conn = DriverManager.getConnection(url,user,password);
                             stmt = conn.prepareStatement("INSERT INTO SEMANTICSTATS (url,query,search_engine,search_engine_rank,domain) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine),domain=VALUES(domain)");
-                            stmt.setString(1,links_total[j]);
+                            stmt.setString(1,urlString);
                             stmt.setString(2,quer);
                             stmt.setInt(3,engine);
                             stmt.setInt(4,rank);
@@ -228,7 +229,7 @@ public class Search_analysis {
                             //we initialize the row in namespaces stats table
                             conn = DriverManager.getConnection(url,user,password);
                             stmt = conn.prepareStatement("INSERT INTO NAMESPACESSTATS (url,query,search_engine,search_engine_rank,domain) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE url=VALUES(url),query=VALUES(query),search_engine=VALUES(search_engine),domain=VALUES(domain)");
-                            stmt.setString(1,links_total[j]);
+                            stmt.setString(1,urlString);
                             stmt.setString(2,quer);
                             stmt.setInt(3,engine);
                             stmt.setInt(4,rank);
@@ -297,7 +298,7 @@ public class Search_analysis {
                             stmt.setBoolean(21,ContentSemantics.get(2));
                             stmt.setBoolean(22,ContentSemantics.get(3));
                             stmt.setInt(23,SensebotConcepts);
-                            stmt.setString(24,links_total[j]);
+                            stmt.setString(24,urlString);
                             stmt.setString(25,quer);
                             stmt.setInt(26,engine);
                             stmt.setString(27,domain);
@@ -325,7 +326,7 @@ public class Search_analysis {
                                 stmt.setInt(1,nlinks[0]);//total numbers of links
                                 stmt.setInt(2,nlinks[0]-nlinks[1]);
                                 stmt.setInt(3,nlinks[1]);//internal links
-                                stmt.setString(4,links_total[j]);
+                                stmt.setString(4,urlString);
                                 stmt.setString(5,quer);
                                 stmt.setInt(6,engine);
                                 stmt.setString(7,domain);
@@ -346,7 +347,7 @@ public class Search_analysis {
                                 System.out.println("I am going insert the semantic triples number in the DB\n");
                                 stmt = conn.prepareStatement("UPDATE SEMANTICSTATS SET `total_semantic_triples`=? WHERE `url` =? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setInt(1,ntriples);
-                                stmt.setString(2,links_total[j]);
+                                stmt.setString(2,urlString);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
                                 stmt.setString(5,domain);
@@ -368,7 +369,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/vocab/bio/0.1/` = ?  WHERE `url` = ? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -388,7 +389,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/dc/elements/1.1/` =? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -408,7 +409,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/coo/n` = ? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -428,7 +429,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://web.resource.org/cc/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -448,7 +449,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://diligentarguont.ontoware.org/2005/10/arguonto`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -468,7 +469,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://usefulinc.com/ns/doap`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -488,7 +489,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://xmlns.com/foaf/0.1/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -508,7 +509,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/goodrelations/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -528,7 +529,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/muto/core`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -548,7 +549,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://webns.net/mvcb/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -568,7 +569,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/ontology/mo/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -588,7 +589,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/innovation/ns`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -607,7 +608,7 @@ public class Search_analysis {
                                 try{    
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://openguid.net/rdf`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -627,7 +628,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.slamka.cz/ontologies/diagnostika.owl`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -647,7 +648,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/ontology/po/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -667,7 +668,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/net/provenance/ns`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -687,7 +688,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/rss/1.0/modules/syndication`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -707,7 +708,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://rdfs.org/sioc/ns`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -728,7 +729,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://madskills.com/public/xml/rss/module/trackback/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -749,7 +750,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://rdfs.org/ns/void`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -770,7 +771,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.fzi.de/2008/wise/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -791,7 +792,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://xmlns.com/wot/0.1`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -812,7 +813,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.w3.org/1999/02/22-rdf-syntax-ns`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -833,7 +834,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `rdf-schema`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -854,7 +855,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `XMLschema`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -875,7 +876,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `OWL`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -896,7 +897,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/dc/terms/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -917,7 +918,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `VCARD`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -938,7 +939,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.geonames.org/ontology`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -958,7 +959,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://search.yahoo.com/searchmonkey/commerce/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -978,7 +979,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://search.yahoo.com/searchmonkey/media/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -998,7 +999,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://cb.semsol.org/ns#`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -1018,7 +1019,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://blogs.yandex.ru/schema/foaf/`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -1038,7 +1039,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.w3.org/2003/01/geo/wgs84_pos#`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -1058,7 +1059,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://rdfs.org/sioc/ns#`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -1078,7 +1079,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://rdfs.org/sioc/types#`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -1098,7 +1099,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://smw.ontoware.org/2005/smw#`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -1118,7 +1119,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                 stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://purl.org/rss/1.0/`= ? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                 stmt.setBoolean(1,true);
-                                stmt.setString(2,links_total[j]);
+                                stmt.setString(2,urlString);
                                 stmt.setString(3,quer);
                                 stmt.setInt(4,engine);
                                 stmt.setString(5,domain);
@@ -1138,7 +1139,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement("UPDATE NAMESPACESSTATS SET `http://www.w3.org/2004/12/q/contentlabel#`=? WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?" );
                                     stmt.setBoolean(1,true);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     stmt.setInt(4,engine);
                                     stmt.setString(5,domain);
@@ -1212,7 +1213,7 @@ public class Search_analysis {
                                 stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
                                 stmt.setDouble(1,ent_avg_yahoo_score);
                                 stmt.setDouble(2,cat_avg_yahoo_score);
-                                stmt.setString(3,links_total[j]);
+                                stmt.setString(3,urlString);
                                 stmt.setString(4,quer);
                                 if(j<results_number){
                                     stmt.setInt(5,0);//0 for yahoo
@@ -1247,7 +1248,7 @@ public class Search_analysis {
                                 stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
                                 stmt.setDouble(1,ent_avg_d_score);
                                 stmt.setDouble(2,ent_avg_dbpspot_score);
-                                stmt.setString(3,links_total[j]);
+                                stmt.setString(3,urlString);
                                 stmt.setString(4,quer);
                                 if(j<results_number){
                                     stmt.setInt(5,0);//0 for yahoo
@@ -1284,7 +1285,7 @@ public class Search_analysis {
                                 stmt.setInt(1,cat_cnt);
                                 stmt.setInt(2,ent_cnt);
                                 stmt.setInt(3,cat_cnt_whole);
-                                stmt.setString(4,links_total[j]);
+                                stmt.setString(4,urlString);
                                 stmt.setString(5,quer);
                                 if(j<results_number){
                                     stmt.setInt(6,0);//0 for yahoo
@@ -1318,7 +1319,7 @@ public class Search_analysis {
                                 stmt.setInt(1,ent_cnt_whole);
                                 stmt.setInt(2,cat_cnt_dand);
                                 stmt.setInt(3,ent_cnt_dand);
-                                stmt.setString(4,links_total[j]);
+                                stmt.setString(4,urlString);
                                 stmt.setString(5,quer);
                                 if(j<results_number){
                                     stmt.setInt(6,0);//0 for yahoo
@@ -1350,7 +1351,7 @@ public class Search_analysis {
                                 stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
                                 stmt.setInt(1,cat_cnt_dand_whole);
                                 stmt.setInt(2,ent_cnt_dand_whole);
-                                stmt.setString(3,links_total[j]);
+                                stmt.setString(3,urlString);
                                 stmt.setString(4,quer);
                                 if(j<results_number){
                                     stmt.setInt(5,0);//0 for yahoo
@@ -1382,7 +1383,7 @@ public class Search_analysis {
                                 stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
                                 stmt.setInt(1,cat_cnt_dbpspot);
                                 stmt.setInt(2,ent_cnt_dbpspot);
-                                stmt.setString(3,links_total[j]);
+                                stmt.setString(3,urlString);
                                 stmt.setString(4,quer);
                                 if(j<results_number){
                                     stmt.setInt(5,0);//0 for yahoo
@@ -1414,7 +1415,7 @@ public class Search_analysis {
                                 stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
                                 stmt.setInt(1,cat_cnt_dbpspot_whole);
                                 stmt.setInt(2,ent_cnt_dbpspot_whole);
-                                stmt.setString(3,links_total[j]);
+                                stmt.setString(3,urlString);
                                 stmt.setString(4,quer);
                                 if(j<results_number){
                                     stmt.setInt(5,0);//0 for yahoo
@@ -1446,7 +1447,7 @@ public class Search_analysis {
                                 stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
                                 stmt.setInt(1,cat_cnt_stem);
                                 stmt.setInt(2,ent_cnt_stem);
-                                stmt.setString(3,links_total[j]);
+                                stmt.setString(3,urlString);
                                 stmt.setString(4,quer);
                                 if(j<results_number){
                                     stmt.setInt(5,0);//0 for yahoo
@@ -1478,7 +1479,7 @@ public class Search_analysis {
                                 stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
                                 stmt.setInt(1,cat_cnt_whole_stem);
                                 stmt.setInt(2,ent_cnt_whole_stem);
-                                stmt.setString(3,links_total[j]);
+                                stmt.setString(3,urlString);
                                 stmt.setString(4,quer);
                                 if(j<results_number){
                                     stmt.setInt(5,0);//0 for yahoo
@@ -1510,7 +1511,7 @@ public class Search_analysis {
                                 stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
                                 stmt.setInt(1,cat_cnt_dand_stem);
                                 stmt.setInt(2,ent_cnt_dand_stem);
-                                stmt.setString(3,links_total[j]);
+                                stmt.setString(3,urlString);
                                 stmt.setString(4,quer);
                                 if(j<results_number){
                                     stmt.setInt(5,0);//0 for yahoo
@@ -1542,7 +1543,7 @@ public class Search_analysis {
                                 stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
                                 stmt.setInt(1,cat_cnt_dand_whole_stem);
                                 stmt.setInt(2,ent_cnt_dand_whole_stem);
-                                stmt.setString(3,links_total[j]);
+                                stmt.setString(3,urlString);
                                 stmt.setString(4,quer);
                                 if(j<results_number){
                                     stmt.setInt(5,0);//0 for yahoo
@@ -1574,7 +1575,7 @@ public class Search_analysis {
                                 stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
                                 stmt.setInt(1,cat_cnt_dbpspot_stem);
                                 stmt.setInt(2,ent_cnt_dbpspot_stem);
-                                stmt.setString(3,links_total[j]);
+                                stmt.setString(3,urlString);
                                 stmt.setString(4,quer);
                                 if(j<results_number){
                                     stmt.setInt(5,0);//0 for yahoo
@@ -1606,7 +1607,7 @@ public class Search_analysis {
                                 stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
                                 stmt.setInt(1,cat_cnt_dbpspot_whole_stem);
                                 stmt.setInt(2,ent_cnt_dbpspot_whole_stem);
-                                stmt.setString(3,links_total[j]);
+                                stmt.setString(3,urlString);
                                 stmt.setString(4,quer);
                                 if(j<results_number){
                                     stmt.setInt(5,0);//0 for yahoo
@@ -1649,7 +1650,7 @@ public class Search_analysis {
                                     conn = DriverManager.getConnection(url,user,password);
                                     stmt = conn.prepareStatement(webstatsStmBuild.toString());
                                     stmt.setInt(1,scripts_cnt);
-                                    stmt.setString(2,links_total[j]);
+                                    stmt.setString(2,urlString);
                                     stmt.setString(3,quer);
                                     if(j<results_number){
                                         stmt.setInt(4,0);//0 for yahoo
@@ -1684,7 +1685,7 @@ public class Search_analysis {
                                 stmt = conn.prepareStatement(semanticstatsStmBuild.toString());
                                 stmt.setInt(1,nschem);
                                 stmt.setInt(2,hreln);
-                                stmt.setString(3,links_total[j]);
+                                stmt.setString(3,urlString);
                                 stmt.setString(4,quer);
                                 if(j<results_number){
                                     stmt.setInt(5,0);//0 for yahoo
@@ -1716,7 +1717,7 @@ public class Search_analysis {
                                 stmt = conn.prepareStatement(semanticstatsStmBuild.toString());
                                 stmt.setInt(1,total_micron);
                                 stmt.setInt(2,micron1);
-                                 stmt.setString(3,links_total[j]);
+                                 stmt.setString(3,urlString);
                                 stmt.setString(4,quer);
                                 if(j<results_number){
                                     stmt.setInt(5,0);//0 for yahoo
@@ -1750,7 +1751,7 @@ public class Search_analysis {
                                 stmt.setInt(1,micron2); 
                                 stmt.setInt(2,microd);
                                 stmt.setInt(3,htm.foaf);
-                                stmt.setString(4,links_total[j]);
+                                stmt.setString(4,urlString);
                                 stmt.setString(5,quer);
                                 if(j<results_number){
                                     stmt.setInt(6,0);//0 for yahoo
@@ -1897,6 +1898,7 @@ public class Search_analysis {
             }
             //get some stats regarding the entities, categories and parsed content from each link comparing it to the top words produced by lda 
             for(int j=0;j<links_total.length;j++){
+                String urlString = links_total[j].substring(0,198);
                 int rank=-1;
                 int engine=-1;//0 for yahoo,1 for google,2 for bing
                 if(j<results_number){
@@ -1928,7 +1930,7 @@ public class Search_analysis {
                             stmt = conn.prepareStatement(webstatsStmBuild.toString());
                             stmt.setInt(1,top_words_lda);
                             stmt.setDouble(2,top_words_lda_per);
-                            stmt.setString(3,links_total[j]);
+                            stmt.setString(3,urlString);
                             stmt.setString(4,quer);
                             stmt.setInt(5,engine);
                             stmt.setString(6,domain);
@@ -1955,7 +1957,7 @@ public class Search_analysis {
                             stmt = conn.prepareStatement(webstatsStmBuild.toString());
                             stmt.setInt(1,top_words_lda_stem);
                             stmt.setDouble(2,top_words_lda_per_stem);
-                            stmt.setString(3,links_total[j]);
+                            stmt.setString(3,urlString);
                             stmt.setString(4,quer);
                             stmt.setInt(5,engine);
                             stmt.setString(6,domain);
@@ -1988,7 +1990,7 @@ public class Search_analysis {
                         stmt = conn.prepareStatement(webstatsStmBuild.toString());
                         stmt.setInt(1,ent_cnt_dbpspot_lda);
                         stmt.setInt(2,cat_cnt_dbpspot_lda);
-                        stmt.setString(3,links_total[j]);
+                        stmt.setString(3,urlString);
                         stmt.setString(4,quer);
                         stmt.setInt(5,engine);
                         stmt.setString(6,domain);
@@ -2015,7 +2017,7 @@ public class Search_analysis {
                         stmt = conn.prepareStatement(webstatsStmBuild.toString());
                         stmt.setInt(1,ent_cnt_dbpspot_lda_stem);
                         stmt.setInt(2,cat_cnt_dbpspot_lda_stem);
-                        stmt.setString(3,links_total[j]);
+                        stmt.setString(3,urlString);
                         stmt.setString(4,quer);
                         stmt.setInt(5,engine);
                         stmt.setString(6,domain);
@@ -2044,7 +2046,7 @@ public class Search_analysis {
                         stmt = conn.prepareStatement(webstatsStmBuild.toString());
                         stmt.setInt(1,ent_cnt_dand_lda);
                         stmt.setInt(2,cat_cnt_dand_lda);
-                        stmt.setString(3,links_total[j]);
+                        stmt.setString(3,urlString);
                         stmt.setString(4,quer);
                         stmt.setInt(5,engine);
                         stmt.setString(6,domain);
@@ -2071,7 +2073,7 @@ public class Search_analysis {
                         stmt = conn.prepareStatement(webstatsStmBuild.toString());
                         stmt.setInt(1,ent_cnt_dand_lda_stem);
                         stmt.setInt(2,cat_cnt_dand_lda_stem);
-                        stmt.setString(3,links_total[j]);
+                        stmt.setString(3,urlString);
                         stmt.setString(4,quer);
                         stmt.setInt(5,engine);
                         stmt.setString(6,domain);
@@ -2103,7 +2105,7 @@ public class Search_analysis {
                         stmt = conn.prepareStatement(webstatsStmBuild.toString());
                         stmt.setInt(1,ent_cnt_y_lda);
                         stmt.setInt(2,cat_cnt_y_lda);
-                        stmt.setString(3,links_total[j]);
+                        stmt.setString(3,urlString);
                         stmt.setString(4,quer);
                         stmt.setInt(5,engine);
                         stmt.setString(6,domain);
@@ -2130,7 +2132,7 @@ public class Search_analysis {
                         stmt = conn.prepareStatement(webstatsStmBuild.toString());
                         stmt.setInt(1,ent_cnt_y_lda_stem);
                         stmt.setInt(2,cat_cnt_y_lda_stem);
-                        stmt.setString(3,links_total[j]);
+                        stmt.setString(3,urlString);
                         stmt.setString(4,quer);
                         stmt.setInt(5,engine);
                         stmt.setString(6,domain);
