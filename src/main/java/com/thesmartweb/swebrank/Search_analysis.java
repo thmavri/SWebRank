@@ -1225,7 +1225,7 @@ public class Search_analysis {
                             int ent_cnt_dbpspot_stem = dbpspot.getcountEnt();
                             int cat_cnt_dbpspot_whole_stem = dbpspot.getcountCatWhole();
                             int ent_cnt_dbpspot_whole_stem = dbpspot.getcountEntWhole();
-                             double ent_sup_cnt_dbpspot_stem = dbpspot.getcountSupEnt();
+                            double ent_sup_cnt_dbpspot_stem = dbpspot.getcountSupEnt();
                             double ent_sim_cnt_dbpspot_stem = dbpspot.getcountSimEnt();
                             double ent_dif_cnt_dbpspot_stem = dbpspot.getcountDifEnt();
                             System.out.println("I insert the semantic entities and categories stats in the DB\n");
@@ -1366,6 +1366,7 @@ public class Search_analysis {
                                     stmt.setInt(8,2);//2 for bing
                                 }
                                 stmt.setString(9,domain);
+                                System.out.println("avg db support"+ent_avg_dbpspot_support);
                                 stmt.executeUpdate();
                             }
                             catch (SQLException ex) {
