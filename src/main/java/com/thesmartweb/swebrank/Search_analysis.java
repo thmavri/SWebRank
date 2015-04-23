@@ -1195,16 +1195,39 @@ public class Search_analysis {
                             dbpspot.countEntCat(links_total[j], quer,false);//false is not stemming
                             EntitiesMapDBP.put(j, dbpspot.getEntities());
                             CategoriesMapDBP.put(j, dbpspot.getCategories());
-                            double ent_avg_dbpspot_score = dbpspot.getEntitiesScore();
+                            double ent_avg_dbpspot_score = dbpspot.getEntitiesAvgScore();
+                            double ent_max_dbpspot_score = dbpspot.getEntitiesMaxScore();
+                            double ent_min_dbpspot_score = dbpspot.getEntitiesMinScore();
+                            double ent_median_dbpspot_score = dbpspot.getEntitiesMedianScore();
+                            double ent_std_dbpspot_score = dbpspot.getEntitiesStdScore();
+                            double ent_avg_dbpspot_support = dbpspot.getEntitiesAvgSupport();
+                            double ent_max_dbpspot_support = dbpspot.getEntitiesMaxSupport();
+                            double ent_min_dbpspot_support = dbpspot.getEntitiesMinSupport();
+                            double ent_median_dbpspot_support = dbpspot.getEntitiesMedianSupport();
+                            double ent_std_dbpspot_support = dbpspot.getEntitiesStdSupport();
+                            double ent_avg_dbpspot_dif = dbpspot.getEntitiesAvgDif();
+                            double ent_max_dbpspot_dif = dbpspot.getEntitiesMaxDif();
+                            double ent_min_dbpspot_dif = dbpspot.getEntitiesMinDif();
+                            double ent_median_dbpspot_dif = dbpspot.getEntitiesMedianDif();
+                            double ent_std_dbpspot_dif = dbpspot.getEntitiesStdDif();
+                            double unique_ent_cnt_dbpspot = dbpspot.getUniqueEntCnt();
+                            double unique_ent_scoreSum_dbpspot = dbpspot.getUniqueEntScoreSum();
                             int cat_cnt_dbpspot = dbpspot.getcountCat();
                             int ent_cnt_dbpspot = dbpspot.getcountEnt();
                             int cat_cnt_dbpspot_whole = dbpspot.getcountCatWhole();
                             int ent_cnt_dbpspot_whole = dbpspot.getcountEntWhole();
+                            double ent_sup_cnt_dbpspot = dbpspot.getcountSupEnt();
+                            double ent_sim_cnt_dbpspot = dbpspot.getcountSimEnt();
+                            double ent_dif_cnt_dbpspot = dbpspot.getcountDifEnt();
+                            double high_precision_content_dbpspot = dbpspot.getHighPrecEntities();
                             dbpspot.countEntCat(links_total[j], quer,true);//true is for stemming
                             int cat_cnt_dbpspot_stem = dbpspot.getcountCat();
                             int ent_cnt_dbpspot_stem = dbpspot.getcountEnt();
                             int cat_cnt_dbpspot_whole_stem = dbpspot.getcountCatWhole();
                             int ent_cnt_dbpspot_whole_stem = dbpspot.getcountEntWhole();
+                             double ent_sup_cnt_dbpspot_stem = dbpspot.getcountSupEnt();
+                            double ent_sim_cnt_dbpspot_stem = dbpspot.getcountSimEnt();
+                            double ent_dif_cnt_dbpspot_stem = dbpspot.getcountDifEnt();
                             System.out.println("I insert the semantic entities and categories stats in the DB\n");
                             StringBuilder entitiesStatementBuilder = new StringBuilder();
                             try{
@@ -1267,6 +1290,229 @@ public class Search_analysis {
                             }
                             catch (SQLException ex) {
                                 Logger.getLogger(Search_analysis.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            finally{
+                                try {
+                                    if (stmt != null) stmt.close();
+                                    if (conn != null) conn.close();
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(Search_analysis.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                            try{
+                                entitiesStatementBuilder = new StringBuilder();
+                                entitiesStatementBuilder.append("UPDATE SEMANTICSTATS SET ");
+                                entitiesStatementBuilder.append("`ent_max_dbpspot_score`=?,");
+                                entitiesStatementBuilder.append("`ent_min_dbpspot_score`=?,");
+                                entitiesStatementBuilder.append("`ent_median_dbpspot_score`=?,");
+                                entitiesStatementBuilder.append("`ent_std_dbpspot_score`=? ");
+                                entitiesStatementBuilder.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                                conn = DriverManager.getConnection(url,user,password);
+                                stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
+                                stmt.setDouble(1,ent_max_dbpspot_score);
+                                stmt.setDouble(2,ent_min_dbpspot_score);
+                                stmt.setDouble(3,ent_median_dbpspot_score);
+                                stmt.setDouble(4,ent_std_dbpspot_score);
+                                stmt.setString(5,links_total[j]);
+                                stmt.setString(6,quer);
+                                if(j<results_number){
+                                    stmt.setInt(7,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(7,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(7,2);//2 for bing
+                                }
+                                stmt.setString(8,domain);
+                                stmt.executeUpdate();
+                            }
+                            catch (SQLException ex) {
+                                Logger.getLogger(Search_analysis.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            finally{
+                                try {
+                                    if (stmt != null) stmt.close();
+                                    if (conn != null) conn.close();
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(Search_analysis.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                            try{
+                                entitiesStatementBuilder = new StringBuilder();
+                                entitiesStatementBuilder.append("UPDATE SEMANTICSTATS SET ");
+                                entitiesStatementBuilder.append("`ent_avg_dbpspot_support`=?,");
+                                entitiesStatementBuilder.append("`ent_max_dbpspot_support`=?,");
+                                entitiesStatementBuilder.append("`ent_min_dbpspot_support`=?,");
+                                entitiesStatementBuilder.append("`ent_median_dbpspot_support`=?,");
+                                entitiesStatementBuilder.append("`ent_std_dbpspot_support`=? ");
+                                entitiesStatementBuilder.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                                conn = DriverManager.getConnection(url,user,password);
+                                stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
+                                stmt.setDouble(1,ent_avg_dbpspot_support);
+                                stmt.setDouble(2,ent_max_dbpspot_support);
+                                stmt.setDouble(3,ent_min_dbpspot_support);
+                                stmt.setDouble(4,ent_median_dbpspot_support);
+                                stmt.setDouble(5,ent_std_dbpspot_support);
+                                stmt.setString(6,links_total[j]);
+                                stmt.setString(7,quer);
+                                if(j<results_number){
+                                    stmt.setInt(8,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(8,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(8,2);//2 for bing
+                                }
+                                stmt.setString(9,domain);
+                                stmt.executeUpdate();
+                            }
+                            catch (SQLException ex) {
+                                Logger.getLogger(Search_analysis.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            finally{
+                                try {
+                                    if (stmt != null) stmt.close();
+                                    if (conn != null) conn.close();
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(Search_analysis.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                            try{
+                                entitiesStatementBuilder = new StringBuilder();
+                                entitiesStatementBuilder.append("UPDATE SEMANTICSTATS SET ");
+                                entitiesStatementBuilder.append("`ent_avg_dbpspot_dif`=?,");
+                                entitiesStatementBuilder.append("`ent_max_dbpspot_dif`=?,");
+                                entitiesStatementBuilder.append("`ent_min_dbpspot_dif`=?,");
+                                entitiesStatementBuilder.append("`ent_median_dbpspot_dif`=?,");
+                                entitiesStatementBuilder.append("`ent_std_dbpspot_dif`=? ");
+                                entitiesStatementBuilder.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                                conn = DriverManager.getConnection(url,user,password);
+                                stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
+                                stmt.setDouble(1,ent_avg_dbpspot_dif);
+                                stmt.setDouble(2,ent_max_dbpspot_dif);
+                                stmt.setDouble(3,ent_min_dbpspot_dif);
+                                stmt.setDouble(4,ent_median_dbpspot_dif);
+                                stmt.setDouble(5,ent_std_dbpspot_dif);
+                                stmt.setString(6,links_total[j]);
+                                stmt.setString(7,quer);
+                                if(j<results_number){
+                                    stmt.setInt(8,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(8,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(8,2);//2 for bing
+                                }
+                                stmt.setString(9,domain);
+                                stmt.executeUpdate();
+                            }
+                            catch (SQLException ex) {
+                                Logger.getLogger(Search_analysis.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            finally{
+                                try {
+                                    if (stmt != null) stmt.close();
+                                    if (conn != null) conn.close();
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(Search_analysis.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                            try {
+                                conn = DriverManager.getConnection(url,user,password);
+                                entitiesStatementBuilder = new StringBuilder();
+                                entitiesStatementBuilder.append("UPDATE SEMANTICSTATS SET ");
+                                entitiesStatementBuilder.append("`ent_sup_cnt_dbpspot`=?,");
+                                entitiesStatementBuilder.append("`ent_dif_cnt_dbpspot`=?,");
+                                entitiesStatementBuilder.append("`ent_sim_cnt_dbpspot`=? ");
+                                entitiesStatementBuilder.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                                stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
+                                stmt.setDouble(1,ent_sup_cnt_dbpspot);
+                                stmt.setDouble(2,ent_dif_cnt_dbpspot);
+                                stmt.setDouble(3,ent_sim_cnt_dbpspot);
+                                stmt.setString(4,links_total[j]);
+                                stmt.setString(5,quer);
+                                if(j<results_number){
+                                    stmt.setInt(6,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(6,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(6,2);//2 for bing
+                                }
+                                stmt.setString(7,domain);
+                                stmt.executeUpdate();
+                            }
+                            finally{
+                                try {
+                                    if (stmt != null) stmt.close();
+                                    if (conn != null) conn.close();
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(Search_analysis.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                            try {
+                                conn = DriverManager.getConnection(url,user,password);
+                                entitiesStatementBuilder = new StringBuilder();
+                                entitiesStatementBuilder.append("UPDATE SEMANTICSTATS SET ");
+                                entitiesStatementBuilder.append("`ent_sup_cnt_dbpspot_stem`=?,");
+                                entitiesStatementBuilder.append("`ent_dif_cnt_dbpspot_stem`=?,");
+                                entitiesStatementBuilder.append("`ent_sim_cnt_dbpspot_stem`=? ");
+                                entitiesStatementBuilder.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                                stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
+                                stmt.setDouble(1,ent_sup_cnt_dbpspot_stem);
+                                stmt.setDouble(2,ent_dif_cnt_dbpspot_stem);
+                                stmt.setDouble(3,ent_sim_cnt_dbpspot_stem);
+                                stmt.setString(4,links_total[j]);
+                                stmt.setString(5,quer);
+                                if(j<results_number){
+                                    stmt.setInt(6,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(6,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(6,2);//2 for bing
+                                }
+                                stmt.setString(7,domain);
+                                stmt.executeUpdate();
+                            }
+                            finally{
+                                try {
+                                    if (stmt != null) stmt.close();
+                                    if (conn != null) conn.close();
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(Search_analysis.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                            try {
+                                conn = DriverManager.getConnection(url,user,password);
+                                entitiesStatementBuilder = new StringBuilder();
+                                entitiesStatementBuilder.append("UPDATE SEMANTICSTATS SET ");
+                                entitiesStatementBuilder.append("`unique_ent_cnt_dbpspot`=?,");
+                                entitiesStatementBuilder.append("`unique_ent_scoreSum_dbpspot`=?,");
+                                entitiesStatementBuilder.append("`high_precision_content_dbpspot`=? ");
+                                entitiesStatementBuilder.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
+                                stmt = conn.prepareStatement(entitiesStatementBuilder.toString());
+                                stmt.setDouble(1,unique_ent_cnt_dbpspot);
+                                stmt.setDouble(2,unique_ent_scoreSum_dbpspot);
+                                stmt.setDouble(3,high_precision_content_dbpspot);
+                                stmt.setString(4,links_total[j]);
+                                stmt.setString(5,quer);
+                                if(j<results_number){
+                                    stmt.setInt(6,0);//0 for yahoo
+                                }
+                                else if(j<results_number*2){
+                                    stmt.setInt(6,1);//1 for google
+                                }
+                                else if(j<results_number*3){
+                                    stmt.setInt(6,2);//2 for bing
+                                }
+                                stmt.setString(7,domain);
+                                stmt.executeUpdate();
                             }
                             finally{
                                 try {
