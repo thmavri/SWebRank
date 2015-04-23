@@ -15,7 +15,7 @@ query:software+design
 query:software+testing
 query:software+configuration+management
 query:software+development+process
-results number:10
+results number:50
 bing:true
 google:true
 yahoo:false
@@ -43,7 +43,7 @@ convergence limit:0.7
 ngd threshold:0.1
 combine limit:2
 performance limit:3
-new terms to combine from wordlist per query in each round:100
+new terms to combine from wordlist per query in each round:20
 max new queries to generate per previous round query:4
 
 

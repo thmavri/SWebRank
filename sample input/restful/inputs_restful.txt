@@ -15,9 +15,9 @@ query:RESTful+design
 query:RESTful+query
 query:RESTful+tutorial
 query:RESTful+url
-results number:50
+results number:10
 bing:true
-google:true
+google:false
 yahoo:false
 merged_engine:false
 moz:false
@@ -43,7 +43,7 @@ convergence limit:0.9
 ngd threshold:0.1
 combine limit:2
 performance limit:3
-new terms to combine from wordlist per query in each round:100
+new terms to combine from wordlist per query in each round:20
 max new queries to generate per previous round query:4
 
 
