@@ -391,8 +391,6 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                 Logger.getLogger(DBpediaSpotlightClient.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
-    
-    
     /**
      * Method to get the entities counter (partial query match)
      * @return entities counter
@@ -551,49 +549,52 @@ public class DBpediaSpotlightClient extends AnnotationClient {
     public double getHighPrecEntities() {return high_precision_content;}
     
     /**
-     * The following methods are used to get various statistics
-     * @param list of type double
-     * @return mean,maximum,minimum,median,standard deviation
+     * Calculates the mean of the list of doubles
+     * @param data list of double values to get the mean from
+     * @return the mean from the list given
      */
-    
-    private double getMean(List<Double> data)
-    {
+    private double getMean(List<Double> data){
         if (data.isEmpty()) return -1.0;
-        
         double sum = 0.0;
         for(Double d : data)
             sum += d;
         return sum/data.size();
     }
-    
-    private double getMax(List<Double> data)
-    {
+    /**
+     * Calculates the max of the list of doubles
+     * @param data list of double values to get the max from
+     * @return the max from the list given
+     */
+    private double getMax(List<Double> data){
         if (data.isEmpty()) return -1.0;
-        
         double max=data.get(0);
-        
         for(Double d : data){
             if(d>max)
                 max=d;
         }
         return max;       
     }
-    
+    /**
+     * Calculates the min of the list of doubles
+     * @param data list of double values to get the min from
+     * @return the min from the list given
+     */
     private double getMin(List<Double> data){
         if (data.isEmpty()) return -1.0;
-        
         double min=data.get(0);
-        
         for(Double d : data){
             if(d<min)
                 min=d;
         }
         return min;       
     }
-    
+    /**
+     * Calculates the standard deviation of the list of doubles
+     * @param data list of double values to get the standard deviation from
+     * @return the standard deviation from the list given
+     */
     private double getStd(List<Double> data){
         if (data.isEmpty()) return -1.0;
-        
         double mean = getMean(data);
         double temp = 0;
         for(Double d :data)
@@ -601,29 +602,26 @@ public class DBpediaSpotlightClient extends AnnotationClient {
         temp=temp/data.size();
         return Math.sqrt(temp);
     }
-    
+    /**
+     * Calculates the median of the list of doubles
+     * @param data list of double values to get the standard median from
+     * @return the median from the list given
+     */
     private double getMedian(List<Double> data){
        if (data.isEmpty()) return -1.0;
-       
-       List<Double> sorted=new ArrayList<>();
-       sorted=data;
+       List<Double> sorted=data;
        Collections.sort(sorted);
-
-       if (sorted.size() % 2 == 0) 
-       {
+       if (sorted.size() % 2 == 0){
           return (sorted.get((sorted.size() / 2) - 1) + sorted.get(sorted.size() / 2)) / 2.0;
-       } 
-       else 
-       {
+       }else{
           return sorted.get(sorted.size() / 2);
        }
     }
     
     /**
-     * Method to annotate a url using high precision settings
+     * Method calculate the amount of entities annotated in the content of a url using high precision settings
      * @param url_check the url to be annotated
-     * @return total number of entities 
-     * @throws AnnotationException 
+     * @return total number of entities with high precision settings 
      */
     private int getHighPrecContent(String url_check){
         try {
@@ -645,7 +643,6 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                     return entities.length();
                 }
                 return 0;
-
             } catch (UnsupportedEncodingException | JSONException | AnnotationException ex) {
                 Logger.getLogger(DBpediaSpotlightClient.class.getName()).log(Level.SEVERE, null, ex);
                 return 0;

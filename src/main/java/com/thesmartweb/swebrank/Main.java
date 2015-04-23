@@ -53,8 +53,8 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args){
-        Path input_path=Paths.get("//mnt//var//DBs//inputs//eueconomics//");//input directory
-        String output_parent_directory="//mnt//var//DBs//outputsConfH//eueconomics//";//output directory
+        Path input_path=Paths.get("//mnt//var//DBs//inputs//nba//");//input directory
+        String output_parent_directory="//mnt//var//DBs//outputsConfH//nba//";//output directory
         String config_path="//mnt//var//DBs//config//";//input directory
         //---Disable apache log manually----
         //System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");
