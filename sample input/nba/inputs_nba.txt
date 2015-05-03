@@ -15,9 +15,9 @@ query:nba+rookies
 query:nba+best
 query:nba+conferences
 query:nba+stats
-results number:50
+results number:10
 bing:true
-google:true
+google:false
 yahoo:false
 merged_engine:false
 moz:false
@@ -38,13 +38,16 @@ beta:0.1
 number of topics:10
 number of iterations:2000
 number of top words:10
-propability threshold:0.04
+propability threshold:0.00
 convergence limit:0.9
-ngd threshold:0.1
-combine limit:2
+ngd threshold:0.8
+combine limit:3
 performance limit:3
-new terms to combine from wordlist per query in each round:200
+new terms to combine from wordlist per query in each round:150
 max new queries to generate per previous round query:10
+number of top Topics:10
+dbpedia spotlight confidence/yahoo score threhsold:0.20
+dbpedia spotlight support:5
 
 
 

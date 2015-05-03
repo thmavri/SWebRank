@@ -48,6 +48,14 @@ public class NWD_Analysis {
         }
     }
     
+    /**
+     * Method that calculates the Normalized Web Distance (or former Normalized Google Distance) score given the first terms frequency
+     * @param term1 the first term 
+     * @param term2 the second term
+     * @param config_path the path were to find the api keys of the Search Engine we would like to use
+     * @param freqx the log10 of the amount of results of the first term
+     * @return the NWD or NGD score (closest to zero means closer resemblance)
+     */
     public double NWD_score(String term1, String term2, String config_path, double freqx) {
         System.out.println("into ngd score");
         Long M = 10000000000L; //802080446201L (2007)

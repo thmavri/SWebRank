@@ -27,5 +27,13 @@ CREATE TABLE `SETTINGS` (
   `TFIDFflag` bit(1) DEFAULT NULL,
   `SensebotConcepts` int(11) DEFAULT NULL,
   `domain` varchar(200) NOT NULL,
+  `nTopTopics` int(11) DEFAULT NULL,
+  `combinelimit` int(11) DEFAULT NULL,
+  `newtermstocombine` int(11) DEFAULT NULL,
+  `newqueriesmax` int(11) DEFAULT NULL,
+  `ngdthreshold` float DEFAULT NULL,
+  `entitiesconfi` float DEFAULT NULL,
+  `dbpediasup` float DEFAULT NULL,
   PRIMARY KEY (`url`,`search_engine`,`query`,`domain`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
