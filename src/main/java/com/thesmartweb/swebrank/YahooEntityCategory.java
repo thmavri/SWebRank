@@ -61,7 +61,7 @@ public class YahooEntityCategory {
      * @param quer the query term to check for
      * @param StemFlag flag for stemming
      */
-    public void connect(String urlcheck,String quer, boolean StemFlag) {  
+    public void connect(String urlcheck,String quer, boolean StemFlag, double score_threshold) {  
 
         try {  
             cat_query_cnt=0;
@@ -83,7 +83,7 @@ public class YahooEntityCategory {
             if(!line.equalsIgnoreCase("fail")){
                 JSONparsing yejson= new JSONparsing();
                 //get the links in an array
-                yejson.YahooEntityJsonParsing(line, quer, StemFlag);
+                yejson.YahooEntityJsonParsing(line, quer, StemFlag, score_threshold);
                 ent_query_cnt=yejson.GetEntQuerCnt();
                 cat_query_cnt=yejson.GetCatQuerCnt();
                 ent_query_cnt_whole=yejson.GetEntQuerCntWhole();

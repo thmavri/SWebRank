@@ -307,6 +307,12 @@ public class ReadInput {
             if (sc.hasNextLine()) {//11amount of top topics to choose
                 SWebRankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
+            if (sc.hasNextLine()) {//12dbpedia spotlight confidence
+                SWebRankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
+            }
+            if (sc.hasNextLine()) {//13dbpedia spotlight support
+                SWebRankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
+            }
             if (sc.ioException() !=null){
                 return false;
             } 

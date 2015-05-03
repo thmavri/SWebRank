@@ -255,8 +255,8 @@ public class DataManipulation {
     public HashMap sortHashMapByValuesD(HashMap passedMap) {
         List mapKeys = new ArrayList(passedMap.keySet());
         List mapValues = new ArrayList(passedMap.values());
-        Collections.sort(mapValues,Collections.reverseOrder());
-        Collections.sort(mapKeys,Collections.reverseOrder());
+        Collections.sort(mapValues);
+        Collections.sort(mapKeys);
 
         HashMap sortedMap = new HashMap();
 
@@ -273,7 +273,7 @@ public class DataManipulation {
                 if (comp1.equals(comp2)){
                     passedMap.remove(key);
                     mapKeys.remove(key);
-                    sortedMap.put(key, (Double)val);
+                    sortedMap.put((String)key, (Double)val);
                     break;
                 }
 

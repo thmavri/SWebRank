@@ -85,8 +85,8 @@ public class DBpediaSpotlightClient extends AnnotationClient {
         //percentageOfSecondRank = contextual ambiguity
 	//private final static String API_URL = "http://jodaiber.dyndns.org:2222/";
         private final static String API_URL = "http://spotlight.dbpedia.org/";
-	private static final double CONFIDENCE = 0.20;
-	private static final int SUPPORT = 5;
+	private double CONFIDENCE = 0.20;
+	private int SUPPORT = 5;
         private List<String> typesDBspot; 
         private List<String> entitiesString;
         private List<Double> similarityScores;
@@ -118,7 +118,11 @@ public class DBpediaSpotlightClient extends AnnotationClient {
         private double unique_ent_cnt_dbpspot=0.0;
         private double unique_ent_scoreSum_dbpspot=-1.0;
         private double high_precision_content=0.0;
-       
+        
+        public DBpediaSpotlightClient(double conf,int sup){
+            this.CONFIDENCE=conf;
+            this.SUPPORT=sup;
+        }
 	@Override
 	public List<DBpediaResource> extract(Text text) throws AnnotationException {
 

@@ -34,6 +34,7 @@ public class LDAtopicsWords {
      * @param prob_threshold the probability threshold to use in the selection of top words
      * @param top_words the amount of top words per topic to choose
      * @param nTopics the number of topics of LDA
+     * @param nTopTopics the amount of top topics to pick out of the the corpora of documents analyzed with LDA
      * @return a hashmap with every engine's topics and words per topic
      */
     public HashMap<String,HashMap<Integer,HashMap<String,Double>>> readFile(String example_dir,Double prob_threshold,int top_words,int nTopics,int nTopTopics)  {
@@ -49,7 +50,7 @@ public class LDAtopicsWords {
         String[] line = new String[size];
         File file_words = new File(example_dir + "words.txt");
         int k = 0;
-        HashMap<String,HashMap<Integer,HashMap<String,Double>>> enginetopicwordprobmap=new HashMap<>();
+        HashMap<String,HashMap<Integer,HashMap<String,Double>>> enginetopicwordprobmap=new HashMap<>();//hashmap to contain all the top topics and their top words for each searh engine
         for (int i = 0; i < twordsarray.length; i++) {
             try {
                 String engine="";
@@ -62,7 +63,9 @@ public class LDAtopicsWords {
                 if(twordsarray[i].toLowerCase().contains("yahoo")){
                     engine="yahoo";
                 }
-                Map<Integer,Double> TopicsAvgProb = getTopicsTotalProb(example_dir,nTopics,50,engine);
+                //the topics in descending order according to their sum of probability over the documents analyzed with LDA
+                Map<Integer,Double> TopicsAvgProb = getTopicsTotalProb(example_dir,nTopics,engine);
+                //========we keep a certain amount of top topics=====
                 Set<Map.Entry<Integer, Double>> TopicsAvgProbEntrySet = TopicsAvgProb.entrySet();
                 Iterator it = TopicsAvgProbEntrySet.iterator();
                 int topTopicsCounter=0;
@@ -73,6 +76,7 @@ public class LDAtopicsWords {
                         it.remove();
                     }
                 }
+                //===========================
                 FileInputStream fstream = null;
                 fstream = new FileInputStream(twordsarray[i]);
                 DataInputStream in = new DataInputStream(fstream);
@@ -84,11 +88,13 @@ public class LDAtopicsWords {
                 HashMap<Integer, HashMap<String,Double>> topicwordsmulti = new HashMap<>();
                 HashMap<String,Double> wordprobmap=new HashMap<>();
                 boolean flagfirstline=true;
+                //we read the files containing the top words for all the topics
+                //and keep only the words from the top topics
                 while ((test_line = br.readLine()) != null) {
                     if (test_line.startsWith("Topic")){
                         String li = test_line.trim();
                         String index = li.split(" ")[1].trim();
-                        topicindex = Integer.parseInt(index.split("th")[0].trim());
+                        topicindex = Integer.parseInt(index.split("th")[0].trim());//the index of the topic
                         if(!flagfirstline&&TopicsAvgProb.containsKey(topicindexprev)){
                             topicwordsmulti.put(topicindexprev, wordprobmap);
                         }
@@ -108,7 +114,7 @@ public class LDAtopicsWords {
                         }
                     }
                 }
-                if(TopicsAvgProb.containsKey(topicindex)){
+                if(TopicsAvgProb.containsKey(topicindex)){//this is used in the last topic checked.if it is one of the top topics, its wordmap is added in the total
                     topicwordsmulti.put(topicindex, wordprobmap);
                 }
                 enginetopicwordprobmap.put(engine, topicwordsmulti);
@@ -138,7 +144,7 @@ public class LDAtopicsWords {
 
         return true;
     }
-    public Map<Integer,Double> getTopicsTotalProb(String example_dir, int nTopics,int nDocs,String engine){
+    public Map<Integer,Double> getTopicsTotalProb(String example_dir, int nTopics,String engine){
         Map<Integer,Double> TopicsTotalProb = new HashMap<>();
         DataManipulation datamanipulation=new DataManipulation();
         Collection<File> inputfiles = datamanipulation.getinputfiles(example_dir,"theta");
@@ -172,11 +178,12 @@ public class LDAtopicsWords {
                         }
                         flagfirstline=false;
                     }
+                    /*
                     for(int k=0;k<nTopics;k++){
                         double currentTopicprob = TopicsTotalProb.get(k);
                         currentTopicprob = (double) currentTopicprob / (double) nDocs;
                         TopicsTotalProb.put(k, currentTopicprob);
-                    }
+                    }*/
                     //TopicsTotalProb = datamanipulation.sortHashMapByValuesD(TopicsTotalProb);
                     TopicsTotalProb = sortByValue(TopicsTotalProb);
                     int jasda=0;

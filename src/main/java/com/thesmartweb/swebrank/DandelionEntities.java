@@ -42,15 +42,17 @@ public class DandelionEntities {
      * @param urlcheck the url to be annotated
      * @param quer the query term that which the url was a result of
      * @param StemFlag a flag to determine if we want to use stemming
+     * @param config_path the path to find the keys for dandelion
+     * @param confi the min confidence for dandelion api
      */
-    public void connect(String urlcheck, String quer, boolean StemFlag, String config_path) {  
+    public void connect(String urlcheck, String quer, boolean StemFlag, String config_path, double confi) {  
   
         try {  
             ent_query_cnt=0;
             cat_query_cnt=0;
             String line="";
             String baseUrl = "https://api.dandelion.eu/datatxt/nex/v1?url=";
-            String fullUrlStr = baseUrl + URLEncoder.encode(urlcheck, "UTF-8")+"&min_confidence=0.2&include=types%2Ccategories%2Clod";
+            String fullUrlStr = baseUrl + URLEncoder.encode(urlcheck, "UTF-8")+"&min_confidence="+Double.toString(confi)+"&include=types%2Ccategories%2Clod";
             String[] apiCreds = GetKeys(config_path);
             fullUrlStr =fullUrlStr +"&$app_id="+apiCreds[0]+"&$app_key="+apiCreds[1];
             URL link_ur = new URL(fullUrlStr);

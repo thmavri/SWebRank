@@ -277,9 +277,11 @@ public class Search_analysis {
                             settingsStmBuild.append("`SensebotConcepts`=? , ");
                             settingsStmBuild.append("`nTopTopics`=? , ");
                             settingsStmBuild.append("`combinelimit`=? ,");
-                            settingsStmBuild.append("`newtermstocombine=? ,");
-                            settingsStmBuild.append("`newqueriesmax=? ,");
-                            settingsStmBuild.append("`ngdthreshold=? ");
+                            settingsStmBuild.append("`newtermstocombine`=? ,");
+                            settingsStmBuild.append("`newqueriesmax`=? ,");
+                            settingsStmBuild.append("`ngdthreshold`=? ,");
+                            settingsStmBuild.append("`entitiesconfi`=? ,");
+                            settingsStmBuild.append("`dbpediasup`=? ");
                             settingsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
 
                             stmt = conn.prepareStatement(settingsStmBuild.toString());
@@ -310,11 +312,13 @@ public class Search_analysis {
                             stmt.setInt(25,SWebRankSettings.get(7).intValue());
                             stmt.setInt(26,SWebRankSettings.get(9).intValue());
                             stmt.setInt(27,SWebRankSettings.get(10).intValue());
-                            stmt.setInt(28,SWebRankSettings.get(6).intValue());
-                            stmt.setString(29,urlString);
-                            stmt.setString(30,quer);
-                            stmt.setInt(31,engine);
-                            stmt.setString(32,domain);
+                            stmt.setDouble(28,SWebRankSettings.get(6));
+                            stmt.setDouble(29,SWebRankSettings.get(12));
+                            stmt.setDouble(30,SWebRankSettings.get(13));
+                            stmt.setString(31,urlString);
+                            stmt.setString(32,quer);
+                            stmt.setInt(33,engine);
+                            stmt.setString(34,domain);
                             stmt.executeUpdate();
                         }
                         finally{
@@ -1171,7 +1175,7 @@ public class Search_analysis {
                             System.out.println("I will get the semantic entities and categories\n");
                             //get the semantic entities and categories from Yahoo Content Analysis Service
                             YahooEntityCategory yec=new YahooEntityCategory();
-                            yec.connect(links_total[j],quer, false);//without stemming
+                            yec.connect(links_total[j],quer, false,SWebRankSettings.get(12));//without stemming
                             EntitiesMapYahoo.put(j, yec.GetEntitiesYahoo());
                             CategoriesMapYahoo.put(j, yec.GetCategoriesYahoo());
                             double ent_avg_yahoo_score = yec.GetEntitiesYahooScore();
@@ -1180,14 +1184,14 @@ public class Search_analysis {
                             int ent_cnt=yec.GetEntQuerCnt();
                             int cat_cnt_whole=yec.GetCatQuerCntWhole();
                             int ent_cnt_whole=yec.GetEntQuerCntWhole();
-                            yec.connect(links_total[j],quer, true);//with stemming
+                            yec.connect(links_total[j],quer, true,SWebRankSettings.get(12));//with stemming
                             int cat_cnt_stem=yec.GetCatQuerCnt();
                             int ent_cnt_stem=yec.GetEntQuerCnt();
                             int cat_cnt_whole_stem=yec.GetCatQuerCntWhole();
                             int ent_cnt_whole_stem=yec.GetEntQuerCntWhole();
                             //get the semantic entities and categories from Dandelion Named entity extraction API
                             DandelionEntities dec = new DandelionEntities();
-                            dec.connect(links_total[j], quer,false,config_path);//without stemming
+                            dec.connect(links_total[j], quer,false,config_path,SWebRankSettings.get(12));//without stemming
                             EntitiesMapDand.put(j, dec.GetEntitiesDand());
                             CategoriesMapDand.put(j, dec.GetCategoriesDand());
                             double ent_avg_d_score = dec.GetEntitiesScoreDand();
@@ -1195,13 +1199,13 @@ public class Search_analysis {
                             int ent_cnt_dand=dec.getEnt();
                             int cat_cnt_dand_whole=dec.getCatWhole();
                             int ent_cnt_dand_whole=dec.getEntWhole();
-                            dec.connect(links_total[j], quer,true,config_path);//with stemming
+                            dec.connect(links_total[j], quer,true,config_path,SWebRankSettings.get(12));//with stemming
                             int cat_cnt_dand_stem=dec.getCat();
                             int ent_cnt_dand_stem=dec.getEnt();
                             int cat_cnt_dand_whole_stem=dec.getCatWhole();
                             int ent_cnt_dand_whole_stem=dec.getEntWhole();
                             //get the semantic entities and categories from dbpedia spotlight
-                            DBpediaSpotlightClient dbpspot = new DBpediaSpotlightClient();
+                            DBpediaSpotlightClient dbpspot = new DBpediaSpotlightClient(SWebRankSettings.get(12),SWebRankSettings.get(13).intValue());
                             dbpspot.countEntCat(links_total[j], quer,false);//false is not stemming
                             EntitiesMapDBP.put(j, dbpspot.getEntities());
                             CategoriesMapDBP.put(j, dbpspot.getCategories());

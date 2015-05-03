@@ -472,20 +472,21 @@ public class JSONparsing {
 
 
     }
-
+    private List<String> entities;//the list to contain all the semantic entities
+    private List<String> categories;//the list to contain all the semantic categories
+    private double ent_avg_yahoo_score;//the average score of the entities recognized
+    private double cat_avg_yahoo_score;//the average score of the categories recognized
+    
     /**
      * Method to get all the Entities and Categories (and the corresponding stats) by Yahoo Content Analysis API
      * @param input the JSON response by the Yahoo Content Analysis API
      * @param quer the query to count the stats for
      * @param StemFlag flag for stemming
+     * @param score_threshold threshold for the entities score 
      */
-    private List<String> entities;//the list to contain all the semantic entities
-    private List<String> categories;//the list to contain all the semantic categories
-    private double ent_avg_yahoo_score;//the average score of the entities recognized
-    private double cat_avg_yahoo_score;//the average score of the categories recognized
-    public void YahooEntityJsonParsing(String input, String quer,boolean StemFlag){
+    public void YahooEntityJsonParsing(String input, String quer,boolean StemFlag, double score_threshold){
         try {
-            double threshold = 0.2;//threshold for the scores of entities in yahoo
+            double threshold = score_threshold;//threshold for the scores of entities in yahoo
             ent_query_cnt=0;
             cat_query_cnt=0;
             entities = new ArrayList<>();//it is going to contain all the entities
@@ -841,7 +842,7 @@ public class JSONparsing {
     private double ent_avg_dand_score=0.0;
     public void DandelionParsing(String input, String query, boolean StemFlag){ 
         try {
-            ent_avg_dand_score=0.8;
+            ent_avg_dand_score=0.0;
             //Create a parser
             JSONParser parser = new JSONParser();
             //Create the map
