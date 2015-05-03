@@ -56,9 +56,10 @@ public class ElasticGetWordList {
     /**
      * Method gets all the words of all the documents regardless of topic for the ids passed as input
      * @param ids It contains all the ids for which the words are going to be captured
+     * @param config_path configuration directory to get the names of the elastic search indexes
      * @return All the words in a List
      */
-    public List<String> get(List<String> ids) {
+    public List<String> get(List<String> ids, String config_path) {
         try {
             //Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
             //Client client = node.client();
@@ -68,9 +69,11 @@ public class ElasticGetWordList {
                     .addTransportAddress(new
                             InetSocketTransportAddress("localhost", 9300)
                     );
+            ReadInput ri = new ReadInput();
+            List<String> elasticIndexes=ri.GetKeyFile(config_path, "elasticSearchIndexes");
             List<String> wordList=new ArrayList<>();
             for(String id:ids){
-                SearchResponse responseSearch = client.prepareSearch("lshranklda")
+                SearchResponse responseSearch = client.prepareSearch(elasticIndexes.get(3))
                         .setSearchType(SearchType.QUERY_AND_FETCH)
                         .setQuery(QueryBuilders.idsQuery().ids(id))
                         .execute()

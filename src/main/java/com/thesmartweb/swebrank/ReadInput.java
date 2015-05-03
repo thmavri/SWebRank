@@ -346,21 +346,21 @@ public class ReadInput {
         DataManipulation getfiles=new DataManipulation();//class responsible for the extraction of paths
         Collection<File> inputs_files;//array to include the paths of the txt files
         inputs_files=getfiles.getinputfiles(input_path.toString(),"txt");//method to retrieve all the path of the input documents
-        List<String> apikeysList = new ArrayList<>();
+        List<String> linesList = new ArrayList<>();
         ReadInput ri = new ReadInput();
         for (File input : inputs_files) {
             if(input.getName().contains(name)){
-                apikeysList=ri.GetAPICredentials(input);
+                linesList=ri.readLinesConfig(input);
             }
         }
-        return apikeysList;
+        return linesList;
     }
      /**
       * Get the API credentials from a given file
       * @param Input the file to read
       * @return a List with the credentials in strings
       */
-    public List<String> GetAPICredentials(File Input){
+    public List<String> readLinesConfig(File Input){
     
         FileInputStream inputStream=null;
         Scanner sc=null;

@@ -65,9 +65,11 @@ public class Search_analysis {
         Connection conn = null;
         PreparedStatement stmt = null;
         try {
-            String url = "jdbc:mysql://localhost:3306/LSHrankDBConfH?zeroDateTimeBehavior=convertToNull";
             ReadInput ri = new ReadInput();
-            List<String> mysqlAdminSettings= ri.GetKeyFile(config_path, "mysqlAdmin");//read the admin details
+            List<String> mysqlAdminSettings= ri.GetKeyFile(config_path, "mysqlAdmin");
+            String port = mysqlAdminSettings.get(2);
+            String dbname = mysqlAdminSettings.get(3);
+            String url = "jdbc:mysql://localhost:"+port+"/"+dbname+"?zeroDateTimeBehavior=convertToNull";
             String user = mysqlAdminSettings.get(0);
             String password = mysqlAdminSettings.get(1);
             System.out.println("Connecting to database...");
@@ -2148,14 +2150,15 @@ public class Search_analysis {
                     ArrayEngineLevel.add(objEngineLevel);
                     String id = domain+"/"+quer+"/"+engine+"/"+iteration_counter;//create unique id for the elasticsearch document
                     ids.add(id);//add to the ids list which contains the ids of the current round
-                    IndexRequest indexReq=new IndexRequest("lshranklda","content",id);
+                    List<String> elasticIndexes=ri.GetKeyFile(config_path, "elasticSearchIndexes");
+                    IndexRequest indexReq=new IndexRequest(elasticIndexes.get(3),"content",id);
                     indexReq.source(objEngineLevel);
                     IndexResponse indexRes = client.index(indexReq).actionGet();
                 }
                 //node.close();
                 client.close();
                 ElasticGetWordList elasticGetwordList=new ElasticGetWordList();//get the wordlist from elastic search for the ids from the current round
-                wordList=elasticGetwordList.get(ids);
+                wordList=elasticGetwordList.get(ids,config_path);
                 DataManipulation datamanipulation = new  DataManipulation();
                 wordList=datamanipulation.clearListString(wordList);
                 System.out.println("i returned the wordlist to search analysis");

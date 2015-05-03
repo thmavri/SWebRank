@@ -53,8 +53,8 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args){
-        Path input_path=Paths.get("//mnt//var//DBs//inputs//nbasmall//");//input directory
-        String output_parent_directory="//mnt//var//DBs//outputsConfH//nbasmall//";//output directory
+        Path input_path=Paths.get("//mnt//var//DBs//inputsL//nba//");//input directory
+        String output_parent_directory="//mnt//var//DBs//outputsConfL//nba//";//output directory
         String config_path="//mnt//var//DBs//config//";//input directory
         //---Disable apache log manually----
         //System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");
@@ -240,6 +240,8 @@ public class Main {
                 //we are going to save the total content with its convergence on the ElasticSearch cluster in a separated index
                 //Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
                 //Client client = node.client();
+                //get the elastic search indexes in a list
+                List<String> elasticIndexes=ri.GetKeyFile(config_path, "elasticSearchIndexes");
                 Settings settings = ImmutableSettings.settingsBuilder()
                     .put("cluster.name","lshrankldacluster").build();
                 Client client = new TransportClient(settings)
@@ -249,7 +251,7 @@ public class Main {
                 JSONObject objEngineLevel = new JSONObject();
                 objEngineLevel.put("TotalContent", finalList);//we save the total content
                 objEngineLevel.put("Convergences", conv_percentages);//we save the convergence percentages
-                IndexRequest indexReq=new IndexRequest("lshrankgeneratedcontent","content",domain);//we save also the domain 
+                IndexRequest indexReq=new IndexRequest(elasticIndexes.get(0),"content",domain);//we save also the domain 
                 indexReq.source(objEngineLevel);
                 IndexResponse indexRes = client.index(indexReq).actionGet();
                 //node.close();

@@ -94,7 +94,7 @@ public class Diffbot {
         ReadInput ri = new ReadInput();
         for (File input : inputs_files) {
             if(input.getName().contains("diffbottoken")){
-                tokenList=ri.GetAPICredentials(input);
+                tokenList=ri.readLinesConfig(input);
             }
         }
         if(tokenList.size()>0){

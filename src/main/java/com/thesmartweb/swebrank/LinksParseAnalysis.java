@@ -158,7 +158,9 @@ public class LinksParseAnalysis {
                     JSONObject obj = new JSONObject();//an object to save the parsed content in elasticsearch
                     obj.put("ParsedContent", parse_output[i]);
                     String id=domain+"/"+quer+"/"+engine+"/"+total_links[i];
-                    IndexRequest indexReq=new IndexRequest("lshrankurlcontent","content",id);
+                    ReadInput ri = new ReadInput();
+                    List<String> elasticIndexes=ri.GetKeyFile(config_path, "elasticSearchIndexes");
+                    IndexRequest indexReq=new IndexRequest(elasticIndexes.get(4),"content",id);
                     indexReq.source(obj);
                     IndexResponse indexRes = client.index(indexReq).actionGet();
                 }

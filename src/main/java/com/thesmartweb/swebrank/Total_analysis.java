@@ -102,6 +102,8 @@ public class Total_analysis {
         convergence = cc.ConvergenceCalc(wordList_total, wordList_previous);
         //Node node = nodeBuilder().client(true).clusterName("lshrankldacluster").node();
         //Client client = node.client();
+        ReadInput ri = new ReadInput();
+        List<String> elasticIndexes=ri.GetKeyFile(config_path, "elasticSearchIndexes");
         Settings settings = ImmutableSettings.settingsBuilder()
                     .put("cluster.name","lshrankldacluster").build();
         Client client = new TransportClient(settings)
@@ -113,7 +115,7 @@ public class Total_analysis {
         objEngineLevel.put("Round", iteration_counter);
         objEngineLevel.put("Convergence", convergence);
         String id=domain+"/"+iteration_counter;
-        IndexRequest indexReq=new IndexRequest("lshrankgeneratedcontentperround","content",id);
+        IndexRequest indexReq=new IndexRequest(elasticIndexes.get(1),"content",id);
         indexReq.source(objEngineLevel);
         IndexResponse indexRes = client.index(indexReq).actionGet();
         client.close();

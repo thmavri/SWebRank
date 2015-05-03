@@ -97,27 +97,27 @@ public class DBpediaSpotlightClient extends AnnotationClient {
         private int cat_cnt_dbpspot=0;
         private int ent_cnt_dbpspot_whole=0;
         private int cat_cnt_dbpspot_whole=0;
-        private double ent_avg_score=-1.0;
-        private double ent_max_score=-1.0;
-        private double ent_min_score=-1.0;
-        private double ent_median_score=-1.0;
-        private double ent_std_score=-1.0;
-        private double ent_avg_support=-1.0;
-        private double ent_max_support=-1.0;
-        private double ent_min_support=-1.0;
-        private double ent_median_support=-1.0;
-        private double ent_std_support=-1.0;
-        private double ent_avg_dif=-1.0;
-        private double ent_max_dif=-1.0;
-        private double ent_min_dif=-1.0;
-        private double ent_median_dif=-1.0;
-        private double ent_std_dif=-1.0;
-        private double ent_dif_cnt_dbpspot=-1.0;
-        private double ent_sim_cnt_dbpspot=-1.0;
-        private double ent_sup_cnt_dbpspot=-1.0;
-        private double unique_ent_cnt_dbpspot=0.0;
-        private double unique_ent_scoreSum_dbpspot=-1.0;
-        private double high_precision_content=0.0;
+        private double ent_avg_score;
+        private double ent_max_score;
+        private double ent_min_score;
+        private double ent_median_score;
+        private double ent_std_score;
+        private double ent_avg_support;
+        private double ent_max_support;
+        private double ent_min_support;
+        private double ent_median_support;
+        private double ent_std_support;
+        private double ent_avg_dif;
+        private double ent_max_dif;
+        private double ent_min_dif;
+        private double ent_median_dif;
+        private double ent_std_dif;
+        private double ent_dif_cnt_dbpspot;
+        private double ent_sim_cnt_dbpspot;
+        private double ent_sup_cnt_dbpspot;
+        private double unique_ent_cnt_dbpspot;
+        private double unique_ent_scoreSum_dbpspot;
+        private double high_precision_content;
         
         public DBpediaSpotlightClient(double conf,int sup){
             this.CONFIDENCE=conf;
@@ -369,14 +369,15 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                     ent_sup_cnt_dbpspot /= (double)ent_count_all;
                     ent_sim_cnt_dbpspot /= (double)ent_count_all;
                 }
-                else{
+                /*else{
                     ent_sup_cnt_dbpspot=-1.0;
                     ent_sim_cnt_dbpspot=-1.0;
-                }
-                if (ent_count_dif!=0)
+                }*/
+                if (ent_count_dif!=0){
                     ent_dif_cnt_dbpspot /= (double)ent_count_dif;
-                else
-                    ent_dif_cnt_dbpspot=-1.0;
+                }
+                /*else
+                    ent_dif_cnt_dbpspot=-1.0;*/
                 
                 int cat_count=0;//counter to count if we matched the whole query to a category
                 for(String s:typesDBspot){
