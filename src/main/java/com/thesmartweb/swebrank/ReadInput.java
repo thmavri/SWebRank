@@ -108,6 +108,7 @@ public class ReadInput {
     
     protected String domain;
     
+    
     /**
      * Initialize the values
      */
@@ -301,6 +302,9 @@ public class ReadInput {
                 SWebRankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
             if (sc.hasNextLine()) {//10amount of queries to create for each query using NWD
+                SWebRankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
+            }
+            if (sc.hasNextLine()) {//11amount of top topics to choose
                 SWebRankSettings.add(Double.parseDouble(sc.nextLine().toString().split(":")[1].trim()));
             }
             if (sc.ioException() !=null){

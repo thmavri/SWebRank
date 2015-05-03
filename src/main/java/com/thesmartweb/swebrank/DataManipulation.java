@@ -251,7 +251,37 @@ public class DataManipulation {
         });
         return keys;
     }
+    
+    public HashMap sortHashMapByValuesD(HashMap passedMap) {
+        List mapKeys = new ArrayList(passedMap.keySet());
+        List mapValues = new ArrayList(passedMap.values());
+        Collections.sort(mapValues,Collections.reverseOrder());
+        Collections.sort(mapKeys,Collections.reverseOrder());
 
+        HashMap sortedMap = new HashMap();
+
+        Iterator valueIt = mapValues.iterator();
+        while (valueIt.hasNext()) {
+            Object val = valueIt.next();
+            Iterator keyIt = mapKeys.iterator();
+
+            while (keyIt.hasNext()) {
+                Object key = keyIt.next();
+                String comp1 = passedMap.get(key).toString();
+                String comp2 = val.toString();
+
+                if (comp1.equals(comp2)){
+                    passedMap.remove(key);
+                    mapKeys.remove(key);
+                    sortedMap.put(key, (Double)val);
+                    break;
+                }
+
+            }
+
+        }
+        return sortedMap;
+    }
     /**
      * Method that returns all the files of a certain extension from a directory
      * @param directory_path A String with the directory 

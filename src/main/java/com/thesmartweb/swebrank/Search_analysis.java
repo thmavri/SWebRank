@@ -274,7 +274,12 @@ public class Search_analysis {
                             settingsStmBuild.append("`LDAflag`=? , "); 
                             settingsStmBuild.append("`Sensebotflag`=? , "); 
                             settingsStmBuild.append("`TFIDFflag`=? , "); 
-                            settingsStmBuild.append("`SensebotConcepts`=? "); 
+                            settingsStmBuild.append("`SensebotConcepts`=? , ");
+                            settingsStmBuild.append("`nTopTopics`=? , ");
+                            settingsStmBuild.append("`combinelimit`=? ,");
+                            settingsStmBuild.append("`newtermstocombine=? ,");
+                            settingsStmBuild.append("`newqueriesmax=? ,");
+                            settingsStmBuild.append("`ngdthreshold=? ");
                             settingsStmBuild.append("WHERE `url`=? AND `query`=? AND `search_engine`=? AND `domain`=?");
 
                             stmt = conn.prepareStatement(settingsStmBuild.toString());
@@ -301,10 +306,15 @@ public class Search_analysis {
                             stmt.setBoolean(21,ContentSemantics.get(2));
                             stmt.setBoolean(22,ContentSemantics.get(3));
                             stmt.setInt(23,SensebotConcepts);
-                            stmt.setString(24,urlString);
-                            stmt.setString(25,quer);
-                            stmt.setInt(26,engine);
-                            stmt.setString(27,domain);
+                            stmt.setInt(24,SWebRankSettings.get(11).intValue());
+                            stmt.setInt(25,SWebRankSettings.get(7).intValue());
+                            stmt.setInt(26,SWebRankSettings.get(9).intValue());
+                            stmt.setInt(27,SWebRankSettings.get(10).intValue());
+                            stmt.setInt(28,SWebRankSettings.get(6).intValue());
+                            stmt.setString(29,urlString);
+                            stmt.setString(30,quer);
+                            stmt.setInt(31,engine);
+                            stmt.setString(32,domain);
                             stmt.executeUpdate();
                         }
                         finally{
@@ -2092,7 +2102,7 @@ public class Search_analysis {
                 //get the top content from LDA
                 System.out.println("i ll try to read the keys");
                 LDAtopicsWords rk = new LDAtopicsWords();
-                enginetopicwordprobmap= rk.readFile(directory_save, SWebRankSettings.get(4),SWebRankSettings.get(3).intValue(), SWebRankSettings.get(1).intValue());
+                enginetopicwordprobmap= rk.readFile(directory_save, SWebRankSettings.get(4),SWebRankSettings.get(3).intValue(), SWebRankSettings.get(1).intValue(), SWebRankSettings.get(11).intValue());
                 
                 JSONArray ArrayEngineLevel = new JSONArray();
                 List<String> ids=new ArrayList<>();
