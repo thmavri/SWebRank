@@ -2151,7 +2151,7 @@ public class Search_analysis {
                     String id = domain+"/"+quer+"/"+engine+"/"+iteration_counter;//create unique id for the elasticsearch document
                     ids.add(id);//add to the ids list which contains the ids of the current round
                     List<String> elasticIndexes=ri.GetKeyFile(config_path, "elasticSearchIndexes");
-                    IndexRequest indexReq=new IndexRequest(elasticIndexes.get(3),"content",id);
+                    IndexRequest indexReq=new IndexRequest(elasticIndexes.get(2),"content",id);
                     indexReq.source(objEngineLevel);
                     IndexResponse indexRes = client.index(indexReq).actionGet();
                 }

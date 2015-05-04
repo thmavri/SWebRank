@@ -160,7 +160,7 @@ public class LinksParseAnalysis {
                     String id=domain+"/"+quer+"/"+engine+"/"+total_links[i];
                     ReadInput ri = new ReadInput();
                     List<String> elasticIndexes=ri.GetKeyFile(config_path, "elasticSearchIndexes");
-                    IndexRequest indexReq=new IndexRequest(elasticIndexes.get(4),"content",id);
+                    IndexRequest indexReq=new IndexRequest(elasticIndexes.get(3),"content",id);
                     indexReq.source(obj);
                     IndexResponse indexRes = client.index(indexReq).actionGet();
                 }

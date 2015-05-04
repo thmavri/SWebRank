@@ -73,7 +73,7 @@ public class ElasticGetWordList {
             List<String> elasticIndexes=ri.GetKeyFile(config_path, "elasticSearchIndexes");
             List<String> wordList=new ArrayList<>();
             for(String id:ids){
-                SearchResponse responseSearch = client.prepareSearch(elasticIndexes.get(3))
+                SearchResponse responseSearch = client.prepareSearch(elasticIndexes.get(2))
                         .setSearchType(SearchType.QUERY_AND_FETCH)
                         .setQuery(QueryBuilders.idsQuery().ids(id))
                         .execute()
