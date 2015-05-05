@@ -1,4 +1,6 @@
 [adminName]
 [adminpass]
+[mysqlPort]
+[schemaName]
 ===============================================
 Every line a key (delete this text and the above which do not work)
