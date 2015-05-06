@@ -120,8 +120,10 @@ public class ElasticGetWordList {
      * @param top It contains the number of max words to be returned
      * @return All the words in a List
      */
-    public List<String> getMaxWords(List<String> ids, int top) {
+    public List<String> getMaxWords(List<String> ids, int top, String config_path) {
        try {
+           ReadInput ri = new ReadInput();
+            List<String> elasticIndexes=ri.GetKeyFile(config_path, "elasticSearchIndexes");
             Settings settings = ImmutableSettings.settingsBuilder()
                     .put("cluster.name","lshrankldacluster").build();
             Client client = new TransportClient(settings)
@@ -134,7 +136,7 @@ public class ElasticGetWordList {
             HashMap<String,Double> wordsMap=new HashMap<>();
             SortedSetMultimap<Double,String> wordsMultisorted=TreeMultimap.create();
             for(String id:ids){//for every id loop
-                SearchResponse responseSearch = client.prepareSearch("lshranklda")
+                SearchResponse responseSearch = client.prepareSearch(elasticIndexes.get(2))
                         .setSearchType(SearchType.QUERY_AND_FETCH)
                         .setQuery(QueryBuilders.idsQuery().ids(id))
                         .execute()

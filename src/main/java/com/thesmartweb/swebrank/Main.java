@@ -165,7 +165,7 @@ public class Main {
                             ids.add(id);
                         }
                         ElasticGetWordList ESget=new ElasticGetWordList();//we call this class to get the wordlist from the Elastic Search
-                        List<String> maxWords = ESget.getMaxWords(ids, SWebRankSettings.get(9).intValue());//we are going to get a max amount of words
+                        List<String> maxWords = ESget.getMaxWords(ids, SWebRankSettings.get(9).intValue(),config_path);//we are going to get a max amount of words
                         int query_index=queries.indexOf(query);
                         int size_query_new = SWebRankSettings.get(10).intValue();//the amount of new queries we are willing to create
                         //we create the new queries for every query of the previous round by combining the words produced from this query
