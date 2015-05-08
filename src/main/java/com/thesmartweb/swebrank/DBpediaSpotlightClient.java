@@ -172,6 +172,11 @@ public class DBpediaSpotlightClient extends AnnotationClient {
         */
         @Override
 	public void extract(String url_check,boolean StemFlag) throws AnnotationException {
+                try{
+                    Thread.sleep(1000);
+                }catch(InterruptedException ex){
+                    Thread.currentThread().interrupt();
+                }
                 LinkedList<DBpediaResource> resources = new LinkedList<DBpediaResource>();
                 entitiesString = new ArrayList<>();
                 typesDBspot = new ArrayList<>();
@@ -305,7 +310,10 @@ public class DBpediaSpotlightClient extends AnnotationClient {
                         ent_std_dif=getStd(tempList); 
                         
                         //calculate high precision content
-                        high_precision_content = (double)getHighPrecContent(url_check)/allEntities.size();
+                        if(!StemFlag){
+                            high_precision_content = (double)getHighPrecContent(url_check)/allEntities.size();
+                        }
+                        
                     }
                 } catch (UnsupportedEncodingException | JSONException ex) {
                     Logger.getLogger(DBpediaSpotlightClient.class.getName()).log(Level.SEVERE, null, ex);
