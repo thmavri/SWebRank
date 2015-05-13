@@ -104,7 +104,7 @@ public class LinksParseAnalysis {
                             url_check=total_links[i];
                             File current_url = new File(example_dir+ engine +"/" + i + "/"+ "current_url.txt");
                             FileUtils.writeStringToFile(current_url ,url_check);
-                            parse_output[i] = ypr.GetYoutubeDetails(ventry);
+                            parse_output[i] = ypr.GetYoutubeDetails(ventry).replace("\n","").replace("r","");
                             System.gc();
                             if (parse_output[i]!=null) {
                                 counter_LDA_documents++;
