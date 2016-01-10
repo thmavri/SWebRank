@@ -383,6 +383,8 @@ public class Search_analysis {
                                     Logger.getLogger(Search_analysis.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
+                            boolean flagStriple=false;
+                            if(flagStriple){
                             if(striple.namespaces[0]){
                                 try{
                                     conn = DriverManager.getConnection(url,user,password);
@@ -1172,6 +1174,7 @@ public class Search_analysis {
                                         Logger.getLogger(Search_analysis.class.getName()).log(Level.SEVERE, null, ex);
                                     }
                                 }
+                            }
                             }
                             System.out.println("I inserted the namespaces in the DB\n");
                             System.out.println("I will get the semantic entities and categories\n");

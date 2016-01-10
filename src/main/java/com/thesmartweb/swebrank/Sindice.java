@@ -42,7 +42,8 @@ public class Sindice {
             chk=sind.check_conn(url);
             if(chk.equalsIgnoreCase("ok-conn")){
                 URL link_ur =new URL("http://api.sindice.com/v2/live?url="+url+"&format=json");
-                line=sind.connect(link_ur); 
+                line=sind.connect(link_ur);
+                line="fail";
             }
             if (!line.equalsIgnoreCase("fail")) {
                 JSONparsing gg = new JSONparsing();
